@@ -12,10 +12,6 @@
     <ItemGroup>
         <ProjectReference Include="donet_server/includes/rpi-rgb-led-matrix/bindings/c#/examples/PulsingBrightness/PulsingBrightness.csproj"/>
     </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="includes\" />
-    </ItemGroup>
 
     <ItemGroup>
       <Compile Remove="includes\rpi-rgb-led-matrix\bindings\c#\examples\**" />

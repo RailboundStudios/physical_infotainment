@@ -15,9 +15,8 @@ if [ ! -d "donet_server/includes/rpi-rgb-led-matrix/bindings/c#/bin" ]; then
   printf "${red}building c# bindings done${reset}\n"
 fi
 printf "${red}building c# code${reset}\n"
-$dotnetbin publish -c Release -r linux-arm64 # Compile the server code
+$dotnetbin publish -o ./bin -r linux-arm64 --self-contained true donet_server
 printf "${red}building c# code done${reset}\n"
 
 # Run the c# code
-#dotnet bin/Release/net5.0/linux-arm64/publish/HelloWorld.dll
-$dotnetbin bin/Release/net5.0/linux-arm64/publish/HelloWorld.dll
+$dotnetbin 

@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "ItipzoyjmwXKkYR/F1xNtzhuYBNJ6MERk7ruhnFE6x64KiaeK3dEegdAGa/xX9XlF7OULlu3Kb6ayHUX3pKOwA==",
+  "dgSpecHash": "XlL5hSBGTpvQumU/x+T65BSWJrSjf0LPb+47KxphW6pcRJ5FjZttdbpwryCq97v7N4fXv/Po05dCsQDfe6ebAQ==",
   "success": true,
   "projectFilePath": "C:\\Development\\Repositories\\physical_infotainment\\donet_server\\donet_server\\donet_server.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\ImBenji\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-arm64\\6.0.26\\microsoft.netcore.app.runtime.linux-arm64.6.0.26.nupkg.sha512",
+    "C:\\Users\\ImBenji\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-arm64\\6.0.26\\microsoft.aspnetcore.app.runtime.linux-arm64.6.0.26.nupkg.sha512",
+    "C:\\Users\\ImBenji\\.nuget\\packages\\microsoft.netcore.app.host.linux-arm64\\6.0.26\\microsoft.netcore.app.host.linux-arm64.6.0.26.nupkg.sha512"
+  ],
   "logs": []
 }

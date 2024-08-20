@@ -19,4 +19,4 @@ $dotnetbin publish -o ./bin -r linux-arm64 --self-contained true donet_server
 printf "${red}building c# code done${reset}\n"
 
 # Run the c# code
-$dotnetbin 
+$dotnetbin ./bin/donet_server.dll

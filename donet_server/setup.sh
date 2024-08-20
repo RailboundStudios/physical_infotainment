@@ -1,5 +1,8 @@
 ﻿#!/bin/bash
 
+# Load the PATH environment variable
+dotnetbin=$(dirname $(which dotnet))
+
 # Compile the c# code for arm64
 dotnet publish -c Release -r linux-arm64
 

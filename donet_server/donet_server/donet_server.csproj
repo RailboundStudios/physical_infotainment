@@ -13,16 +13,4 @@
         <ProjectReference Include="donet_server/includes/rpi-rgb-led-matrix/bindings/c#/examples/PulsingBrightness/PulsingBrightness.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Remove="includes\rpi-rgb-led-matrix\bindings\c#\examples\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Remove="includes\rpi-rgb-led-matrix\bindings\c#\examples\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="includes\rpi-rgb-led-matrix\bindings\c#\examples\**" />
-    </ItemGroup>
-
 </Project>

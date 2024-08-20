@@ -27,7 +27,11 @@
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Development\\Repositories\\physical_infotainment\\donet_server\\donet_server\\donet_server\\includes\\rpi-rgb-led-matrix\\bindings\\c#\\examples\\PulsingBrightness\\PulsingBrightness.csproj": {
+                "projectPath": "C:\\Development\\Repositories\\physical_infotainment\\donet_server\\donet_server\\donet_server\\includes\\rpi-rgb-led-matrix\\bindings\\c#\\examples\\PulsingBrightness\\PulsingBrightness.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

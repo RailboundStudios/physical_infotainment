@@ -1,12 +1,23 @@
 {
   "version": 2,
-  "dgSpecHash": "XlL5hSBGTpvQumU/x+T65BSWJrSjf0LPb+47KxphW6pcRJ5FjZttdbpwryCq97v7N4fXv/Po05dCsQDfe6ebAQ==",
-  "success": true,
+  "dgSpecHash": "Gn1b/WWqR/BATaxqXy+8q5xAqKslDWX7eoYsnwgwa0g5kNAUAZ4tVK58huMMxCb63lfh2LTdqPvR7A0Y75BRiA==",
+  "success": false,
   "projectFilePath": "C:\\Development\\Repositories\\physical_infotainment\\donet_server\\donet_server\\donet_server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ImBenji\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-arm64\\6.0.26\\microsoft.netcore.app.runtime.linux-arm64.6.0.26.nupkg.sha512",
     "C:\\Users\\ImBenji\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-arm64\\6.0.26\\microsoft.aspnetcore.app.runtime.linux-arm64.6.0.26.nupkg.sha512",
     "C:\\Users\\ImBenji\\.nuget\\packages\\microsoft.netcore.app.host.linux-arm64\\6.0.26\\microsoft.netcore.app.host.linux-arm64.6.0.26.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1104",
+      "level": "Error",
+      "message": "Unable to find project 'C:\\Development\\Repositories\\physical_infotainment\\donet_server\\donet_server\\donet_server\\includes\\rpi-rgb-led-matrix\\bindings\\c#\\examples\\PulsingBrightness\\PulsingBrightness.csproj'. Check that the project reference is valid and that the project file exists.",
+      "libraryId": "C:\\Development\\Repositories\\physical_infotainment\\donet_server\\donet_server\\donet_server\\includes\\rpi-rgb-led-matrix\\bindings\\c#\\examples\\PulsingBrightness\\PulsingBrightness.csproj",
+      "targetGraphs": [
+        "net6.0",
+        "net6.0/linux-arm64"
+      ]
+    }
+  ]
 }

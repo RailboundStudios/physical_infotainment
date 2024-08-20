@@ -2,12 +2,17 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
         <RuntimeIdentifier>linux-arm64</RuntimeIdentifier>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="donet_server/includes/rpi-rgb-led-matrix/bindings/c#/examples/PulsingBrightness/PulsingBrightness.csproj"/>
+    </ItemGroup>
+    
     <ItemGroup>
       <Folder Include="includes\" />
     </ItemGroup>

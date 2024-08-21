@@ -13,19 +13,26 @@ args = argsList.ToArray();
 Console.WriteLine("Creating matrix");
 using var matrix = new RGBLedMatrix(new RGBLedMatrixOptions
 {
-    Cols = 128,
+    Cols = 96,
     Rows = 16
 });
 Console.WriteLine("Matrix created");
 var canvas = matrix.CreateOffscreenCanvas();
 
 canvas.DrawLine(0,0,canvas.Width,canvas.Height, new Color(255, 0, 0));
+canvas.DrawLine(0,canvas.Height,canvas.Width,0, new Color(0, 255, 0));
 matrix.SwapOnVsync(canvas);
 
-// Hold for 2 seconds
-Task.Delay(2000).Wait();
+// Hold for 5 seconds
+Task.Delay(5000).Wait();
 
 var font = new RGBLedFont("assets/4x6.bdf");
+canvas.Clear();
+canvas.DrawText(font, 1, 6, new Color(0, 255, 0), "Testing font");
+matrix.SwapOnVsync(canvas);
+
+// Hold for 5 seconds
+Task.Delay(5000).Wait();
 
 var color = new Color(255, 0, 0);
 

@@ -28,8 +28,9 @@ Task.Delay(5000).Wait();
 
 using var font = new RGBLedFont("/home/imbenji/physical_infotainment/dotnet_server/dotnet_server/assets/4x6.bdf");
 canvas.Clear();
-canvas.DrawText(font, 1, 6, new Color(0, 255, 0), "Testing font");
+// canvas.DrawText(font, 1, 6, new Color(0, 255, 0), "Testing font");
 canvas.DrawText(font, 10, 10, new Color(0, 255, 0), "Testing font");
+font.DrawText(canvas._canvas, 1, 6, new Color(0, 255, 0), "Testing font");
 matrix.SwapOnVsync(canvas);
 
 // Hold for 5 seconds

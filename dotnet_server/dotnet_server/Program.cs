@@ -11,9 +11,7 @@ if (!argsList.Contains("--led-no-hardware-pulse"))
 args = argsList.ToArray();
 
 Console.WriteLine("Creating matrix");
-var matrix = new RGBLedMatrix(
-    16, 2, 1
-);
+using var matrix = new RGBLedMatrix(new RGBLedMatrixOptions { ChainLength = 2 });
 Console.WriteLine("Matrix created");
 var canvas = matrix.CreateOffscreenCanvas();
 

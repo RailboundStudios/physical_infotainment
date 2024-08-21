@@ -58,7 +58,7 @@ while (running)
     canvas.Clear();
 
     var length = canvas.DrawText(font, pos, 6, color, text);
-    canvas.DrawCircle(pos, 8, 10, color);
+    canvas.DrawCircle(pos, 8, 5, color);
     matrix.SwapOnVsync(canvas);
     pos -= 1;
     
@@ -67,7 +67,7 @@ while (running)
         pos = canvas.Width;
     }
     
-    Task.Delay(100).Wait();
+    Task.Delay(50).Wait();
     
     
     Console.WriteLine("pos = " + pos);

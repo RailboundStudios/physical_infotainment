@@ -87,12 +87,12 @@ def updateDisplay():
         bottomLength = graphics.DrawText(canvas, font, bottomPos, 15, textColor, bottomText)
 
         if topLength > canvas.width:
-            topPos--
+            topPos-=1
             if (topPos + topLength < 0):
                 topPos = canvas.width
 
         if bottomLength > canvas.width:
-            bottomPos--
+            bottomPos-=1
             if (bottomPos + bottomLength < 0):
                 bottomPos = canvas.width
 

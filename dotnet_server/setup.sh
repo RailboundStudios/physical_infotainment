@@ -1,5 +1,11 @@
 ﻿#!/bin/bash
 
+# Ensure the script is not run as root
+if [ "$EUID" -eq 0 ]; then
+  echo "Please do not run as root"
+  exit
+fi
+
 # Load the PATH environment variable
 dotnetbin=/home/imbenji/.dotnet/dotnet
 

@@ -35,6 +35,7 @@ while (running)
     canvas.Clear();
 
     var length = canvas.DrawText(font, pos, 6, color, text);
+    matrix.SwapOnVsync(canvas);
     pos -= 1;
     
     if (pos + length < 0)
@@ -43,7 +44,7 @@ while (running)
     }
     
     Task.Delay(10).Wait();
-    matrix.SwapOnVsync(canvas);
+    
     
     Console.WriteLine("pos = " + pos);
 }

@@ -8,6 +8,10 @@
         
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+        
+        <DebugType>portable</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        
     </PropertyGroup>
 
     <ItemGroup>

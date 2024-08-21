@@ -87,17 +87,27 @@ def updateDisplay():
         topLength = graphics.DrawText(canvas, font, topPos, 7, textColor, topText)
         bottomLength = graphics.DrawText(canvas, font, bottomPos, 15, textColor, bottomText)
 
-        if topLength > canvas.width:
-            topPos-=1
-            if (topPos + topLength < 0):
+        # Center the top text if it is shorter than the canvas width
+        if topLength <= canvas.width:
+            topPos = (canvas.width - topLength) // 2
+        else:
+            topPos -= 1
+            if topPos + topLength < 0:
                 topPos = canvas.width
 
-        if bottomLength > canvas.width:
-            bottomPos-=1
-            if (bottomPos + bottomLength < 0):
+        # Center the bottom text if it is shorter than the canvas width
+        if bottomLength <= canvas.width:
+            bottomPos = (canvas.width - bottomLength) // 2
+        else:
+            bottomPos -= 1
+            if bottomPos + bottomLength < 0:
                 bottomPos = canvas.width
 
-        # Draw a cross
+        # Redraw the text after adjusting positions
+        graphics.DrawText(canvas, font, topPos, 7, textColor, topText)
+        graphics.DrawText(canvas, font, bottomPos, 15, textColor, bottomText)
+
+        # Draw a cross (if needed)
         lineAColor = graphics.Color(20, 0, 0)
         lineBColor = graphics.Color(0, 0, 20)
         # graphics.DrawLine(canvas, 0, 0, matrix.width, 15, lineAColor)
@@ -107,14 +117,11 @@ def updateDisplay():
 
         time.sleep(0.03)
 
-        # matrix.Clear()
-
-        # time.sleep(0.01)
-
         print("=== Updated display ======================")
         print("Top text: ", topText)
         print("Bottom text: ", bottomText)
         print("==========================================")
+
 
 # updateDisplay()
 

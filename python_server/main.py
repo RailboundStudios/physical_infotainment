@@ -13,7 +13,7 @@ bottomText = "World"
 
 options = RGBMatrixOptions()
 options.rows = 16
-options.cols = 64
+options.cols = 96
 options.chain_length = 1
 options.parallel = 1
 options.gpio_slowdown = 4
@@ -38,7 +38,7 @@ class MyServer(BaseHTTPRequestHandler):
             return
 
         isTopText = self.path.startswith("/top")
-        text = self.path[5:]
+        text = self.path.split("=")[1]
 
         if isTopText:
             global topText
@@ -74,14 +74,14 @@ def updateDisplay():
 
     canvas.Clear()
 
-    graphics.DrawText(canvas, font, 0, 6, textColor, topText)
-    graphics.DrawText(canvas, font, 0, 12, textColor, bottomText)
-
     # Draw a cross
     lineAColor = graphics.Color(255, 0, 0)
     lineBColor = graphics.Color(0, 0, 255)
     graphics.DrawLine(canvas, 0, 0, 63, 15, lineAColor)
     graphics.DrawLine(canvas, 0, 15, 63, 0, lineBColor)
+
+    graphics.DrawText(canvas, font, 0, 6, textColor, topText)
+    graphics.DrawText(canvas, font, 0, 12, textColor, bottomText)
 
     canvas = matrix.SwapOnVSync(canvas)
 

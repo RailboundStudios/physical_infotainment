@@ -2,7 +2,7 @@
 
 using RPiRgbLEDMatrix;
 
-RGBLedMatrix Matrix = new RGBLedMatrix(
+var matrix = new RGBLedMatrix(
     new RGBLedMatrixOptions
     {
         Rows = 16,
@@ -10,3 +10,27 @@ RGBLedMatrix Matrix = new RGBLedMatrix(
         ChainLength = 4,
     }    
 );
+var canvas = matrix.CreateOffscreenCanvas();
+var font = new RGBLedFont("assets/4x6.bdf");
+
+var color = new Color(255, 0, 0);
+
+String text = "Hello World!";
+
+int pos = canvas.Width;
+
+while (true)
+{
+    canvas.Clear();
+
+    var length = canvas.DrawText(font, pos, 0, color, text);
+    pos -= 1;
+    
+    if (pos + length < 0)
+    {
+        pos = canvas.Width;
+    }
+    
+    Task.Delay(10).Wait();
+    matrix.SwapOnVsync(canvas);
+}

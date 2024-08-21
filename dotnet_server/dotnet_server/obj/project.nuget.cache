@@ -1,15 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "xj2NDNJGrVcbdnRBP8ErOEP3gAVNFOKgoADyC06BvYLuPNLB8Ep9jIL9yWNkIrqJj5kOSE+GSRtkR7KKVvIzpQ==",
+  "dgSpecHash": "myEXuakDzrpMmCwbITXs9oBNUj/u9uNsh5N6F4R89fWjegYW0rDuyXaprMfoNozQFg5jOH+h9bSZxoJqWg3jhw==",
   "success": false,
   "projectFilePath": "C:\\Development\\Repositories\\physical_infotainment\\dotnet_server\\dotnet_server\\dotnet_server.csproj",
   "expectedPackageFiles": [],
   "logs": [
     {
-      "code": "NU1104",
+      "code": "NU1105",
       "level": "Error",
-      "message": "Unable to find project 'C:\\Development\\Repositories\\physical_infotainment\\dotnet_server\\dotnet_server\\dotnet_server\\includes\\rpi-rgb-led-matrix\\bindings\\c#\\RPiRgbLEDMatrix.csproj'. Check that the project reference is valid and that the project file exists.",
-      "libraryId": "C:\\Development\\Repositories\\physical_infotainment\\dotnet_server\\dotnet_server\\dotnet_server\\includes\\rpi-rgb-led-matrix\\bindings\\c#\\RPiRgbLEDMatrix.csproj",
+      "message": "Unable to find project information for 'C:\\Development\\Repositories\\physical_infotainment\\dotnet_server\\dotnet_server\\includes\\rpi-rgb-led-matrix\\bindings\\c#\\RPiRgbLEDMatrix.csproj'. If you are using Visual Studio, this may be because the project is unloaded or not part of the current solution so run a restore from the command-line. Otherwise, the project file may be invalid or missing targets required for restore.",
+      "libraryId": "C:\\Development\\Repositories\\physical_infotainment\\dotnet_server\\dotnet_server\\includes\\rpi-rgb-led-matrix\\bindings\\c#\\RPiRgbLEDMatrix.csproj",
       "targetGraphs": [
         "net6.0"
       ]

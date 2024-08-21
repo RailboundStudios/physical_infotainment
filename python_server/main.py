@@ -105,7 +105,11 @@ def updateDisplay():
 
         canvas = matrix.SwapOnVSync(canvas)
 
-        time.sleep(0.03)
+        time.sleep(0.02)
+
+        matrix.Clear()
+
+        time.sleep(0.2)
 
         print("=== Updated display ======================")
         print("Top text: ", topText)

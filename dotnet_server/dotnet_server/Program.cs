@@ -32,11 +32,11 @@ bool running = true;
 
 Console.WriteLine("Doign stufffffff");
 
-Console.CancelKeyPress += (s, e) =>
-{
-    running = false;
-    e.Cancel = true; // don't terminate, we need to dispose
-};
+// Console.CancelKeyPress += (s, e) =>
+// {
+//     running = false;
+//     e.Cancel = true; // don't terminate, we need to dispose
+// };
 
 
 while (running)

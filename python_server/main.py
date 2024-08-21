@@ -7,6 +7,9 @@ path.append('C:\\Development\\Repositories\\physical_infotainment\\python_server
 
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
+global topText
+global bottomText
+
 topText = "Hello"
 bottomText = "World"
 

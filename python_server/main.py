@@ -23,7 +23,7 @@ options.show_refresh_rate = True
 options.hardware_mapping = "adafruit-hat"
 
 matrix = RGBMatrix(options = options)
-matrix.brightness = 50
+matrix.brightness = 100
 canvas = matrix.CreateFrameCanvas()
 
 hostName = "0.0.0.0"
@@ -107,9 +107,9 @@ def updateDisplay():
 
         time.sleep(0.02)
 
-        matrix.Clear()
+        # matrix.Clear()
 
-        time.sleep(0.01)
+        # time.sleep(0.01)
 
         print("=== Updated display ======================")
         print("Top text: ", topText)

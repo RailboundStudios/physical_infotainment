@@ -82,9 +82,6 @@ def updateDisplay():
     graphics.DrawLine(canvas, 0, 0, matrix.width, 15, lineAColor)
     graphics.DrawLine(canvas, 0, matrix.height, matrix.width, 0, lineBColor)
 
-    graphics.DrawText(canvas, font, 1, 7, textColor, topText)
-    graphics.DrawText(canvas, font, 0, 15, textColor, bottomText)
-
     canvas = matrix.SwapOnVSync(canvas)
 
     print("=== Updated display ======================")

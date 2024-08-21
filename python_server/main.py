@@ -28,6 +28,8 @@ serverPort = 8080
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
 
+        print("GET request, Path:", self.path)
+
         isTopText = self.path.startswith("/top")
         text = self.path[5:]
 

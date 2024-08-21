@@ -21,6 +21,7 @@ reset="\033[0m"
 #  printf "${red}building c# bindings done${reset}\n"
 #fi
 printf "${red}building c# code${reset}\n"
+$dotnetbin restore dotnet_server
 $dotnetbin publish -o ./bin --self-contained dotnet_server
 printf "${red}building c# code done${reset}\n"
 

@@ -15,7 +15,7 @@ var matrix = new RGBLedMatrix(
     16, 2, 1
 );
 Console.WriteLine("Matrix created");
-var canvas = matrix.CreateOffscreenCanvas();
+// var canvas = matrix.CreateOffscreenCanvas();
 // var font = new RGBLedFont("assets/4x6.bdf");
 
 // var color = new Color(255, 0, 0);

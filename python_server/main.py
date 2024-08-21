@@ -10,6 +10,8 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
 topText = "Walthamstow Central"
 bottomText = "World"
+topPos = 0
+bottomPos = 0
 
 options = RGBMatrixOptions()
 options.rows = 16
@@ -45,6 +47,7 @@ class MyServer(BaseHTTPRequestHandler):
         if isTopText:
             global topText
             topText = text
+            topPos = 1
 
             # Send response status code with html "successfully updated top text"
             self.send_response(200)
@@ -55,6 +58,7 @@ class MyServer(BaseHTTPRequestHandler):
         else:
             global bottomText
             bottomText = text
+            bottomPos = 1
 
             # Send response status code with html "successfully updated bottom text"
             self.send_response(200)
@@ -71,30 +75,39 @@ font.LoadFont("assets/test.bdf")
 def updateDisplay():
     global font
     global canvas
+    global topPos
+    global bottomPos
 
-    canvas.Clear()
+    while True:
+        canvas.Clear()
 
-    textColor = graphics.Color(255,140,0)
+        textColor = graphics.Color(255,140,0)
 
-    graphics.DrawText(canvas, font, 1, 7, textColor, topText)
-    graphics.DrawText(canvas, font, 0, 15, textColor, bottomText)
+        topLength = graphics.DrawText(canvas, font, topPos, 7, textColor, topText)
+        bottomLength = graphics.DrawText(canvas, font, bottomPos, 15, textColor, bottomText)
 
+        if topLength > canvas.width:
+            topPos--
+            if (topPos + topLength < 0):
+                topPos = canvas.width
 
+        if bottomLength > canvas.width:
+            bottomPos--
+            if (bottomPos + bottomLength < 0):
+                bottomPos = canvas.width
 
-    # Draw a cross
-    lineAColor = graphics.Color(20, 0, 0)
-    lineBColor = graphics.Color(0, 0, 20)
-    # graphics.DrawLine(canvas, 0, 0, matrix.width, 15, lineAColor)
-    # graphics.DrawLine(canvas, 0, matrix.height, matrix.width, 0, lineBColor)
+        # Draw a cross
+        lineAColor = graphics.Color(20, 0, 0)
+        lineBColor = graphics.Color(0, 0, 20)
+        # graphics.DrawLine(canvas, 0, 0, matrix.width, 15, lineAColor)
+        # graphics.DrawLine(canvas, 0, matrix.height, matrix.width, 0, lineBColor)
 
+        canvas = matrix.SwapOnVSync(canvas)
 
-
-    canvas = matrix.SwapOnVSync(canvas)
-
-    print("=== Updated display ======================")
-    print("Top text: ", topText)
-    print("Bottom text: ", bottomText)
-    print("==========================================")
+        print("=== Updated display ======================")
+        print("Top text: ", topText)
+        print("Bottom text: ", bottomText)
+        print("==========================================")
 
 updateDisplay()
 

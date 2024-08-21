@@ -12,8 +12,8 @@ bottomText = "World"
 
 options = RGBMatrixOptions()
 options.rows = 16
-options.cols = 96
-options.chain_length = 1
+options.cols = 64
+options.gpio_slowdown = 4
 
 matrix = RGBMatrix(options = options)
 

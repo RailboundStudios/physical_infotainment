@@ -22,7 +22,7 @@ matrix = RGBMatrix(options = options)
 
 matrix.Clear()
 
-hostName = "localhost"
+hostName = "0.0.0.0"
 serverPort = 8080
 
 class MyServer(BaseHTTPRequestHandler):

@@ -71,6 +71,8 @@ def updateDisplay():
         graphics.DrawText(canvas, font, 0, 6, textColor, topText)
         graphics.DrawText(canvas, font, 0, 12, textColor, bottomText)
 
+        canvas = matrix.SwapOnVSync(canvas)
+
         time.sleep(1)
 
 if __name__ == "__main__":

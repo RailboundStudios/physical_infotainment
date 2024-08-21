@@ -17,8 +17,6 @@ options.gpio_slowdown = 4
 
 matrix = RGBMatrix(options = options)
 
-matrix.Clear()
-
 hostName = "0.0.0.0"
 serverPort = 8080
 
@@ -57,6 +55,8 @@ class MyServer(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(bytes("Successfully updated bottom text", "utf-8"))
 
+        updateDisplay()
+
 
 font = graphics.Font()
 font.LoadFont("assets/4x6.bdf")
@@ -67,28 +67,25 @@ def updateDisplay():
     canvas = matrix.CreateFrameCanvas()
     textColor = graphics.Color(255, 255, 255)
 
-    while True:
-        canvas.Clear()
+    canvas.Clear()
 
-        graphics.DrawText(canvas, font, 0, 6, textColor, topText)
-        graphics.DrawText(canvas, font, 0, 12, textColor, bottomText)
+    graphics.DrawText(canvas, font, 0, 6, textColor, topText)
+    graphics.DrawText(canvas, font, 0, 12, textColor, bottomText)
 
-        canvas = matrix.SwapOnVSync(canvas)
+    canvas = matrix.SwapOnVSync(canvas)
 
-        print("=== Updated display ======================")
-        print("Top text: ", topText)
-        print("Bottom text: ", bottomText)
-        print("==========================================")
-
-        time.sleep(1)
+    print("=== Updated display ======================")
+    print("Top text: ", topText)
+    print("Bottom text: ", bottomText)
+    print("==========================================")
 
 if __name__ == "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)
     print("Server started http://%s:%s" % (hostName, serverPort))
 
     # Start a new thread to update the display
-    displayThread = threading.Thread(target=updateDisplay)
-    displayThread.start()
+    # displayThread = threading.Thread(target=updateDisplay)
+    # displayThread.start()
 
     try:
         webServer.serve_forever()

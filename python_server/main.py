@@ -72,12 +72,14 @@ def updateDisplay():
     global font
     global canvas
 
+    canvas.Clear()
+
     textColor = graphics.Color(255,140,0)
 
     graphics.DrawText(canvas, font, 1, 7, textColor, topText)
     graphics.DrawText(canvas, font, 0, 15, textColor, bottomText)
 
-    canvas.Clear()
+
 
     # Draw a cross
     lineAColor = graphics.Color(20, 0, 0)

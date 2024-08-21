@@ -58,11 +58,13 @@ class MyServer(BaseHTTPRequestHandler):
             self.wfile.write(bytes("Successfully updated bottom text", "utf-8"))
 
 
+font = graphics.Font()
+font.LoadFont("/home/imbenji/physical_infotainment/python_server/assets/4x6.bdf")
+
 def updateDisplay():
+    global font
 
     canvas = matrix.CreateFrameCanvas()
-    font = graphics.Font()
-    font.LoadFont("/home/imbenji/physical_infotainment/python_server/assets/4x6.bdf")
     textColor = graphics.Color(255, 255, 255)
 
     while True:

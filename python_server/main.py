@@ -20,6 +20,7 @@ options.gpio_slowdown = 4
 options.hardware_mapping = "adafruit-hat"
 
 matrix = RGBMatrix(options = options)
+matrix.brightness = 50
 canvas = matrix.CreateFrameCanvas()
 
 hostName = "0.0.0.0"
@@ -71,13 +72,13 @@ def updateDisplay():
     global font
     global canvas
 
-    textColor = graphics.Color(255, 255, 255)
+    textColor = graphics.Color(255,140,0)
 
     canvas.Clear()
 
     # Draw a cross
-    lineAColor = graphics.Color(255, 0, 0)
-    lineBColor = graphics.Color(0, 0, 255)
+    lineAColor = graphics.Color(100, 0, 0)
+    lineBColor = graphics.Color(0, 0, 100)
     graphics.DrawLine(canvas, 0, 0, matrix.width, 15, lineAColor)
     graphics.DrawLine(canvas, 0, matrix.height, matrix.width, 0, lineBColor)
 

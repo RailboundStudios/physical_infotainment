@@ -3,12 +3,7 @@
 using RPiRgbLEDMatrix;
 
 var matrix = new RGBLedMatrix(
-    new RGBLedMatrixOptions
-    {
-        Rows = 16,
-        Cols = 32,
-        ChainLength = 4,
-    }    
+    16, 4, 1
 );
 var canvas = matrix.CreateOffscreenCanvas();
 var font = new RGBLedFont("assets/4x6.bdf");

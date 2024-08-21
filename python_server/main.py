@@ -48,7 +48,7 @@ class MyServer(BaseHTTPRequestHandler):
         if isTopText:
             global topText
             topText = text
-            topPos = matrix.width
+            topPos = canvas.width
 
             # Send response status code with html "successfully updated top text"
             self.send_response(200)
@@ -59,7 +59,7 @@ class MyServer(BaseHTTPRequestHandler):
         else:
             global bottomText
             bottomText = text
-            bottomPos = matrix.width
+            bottomPos = canvas.width
 
             # Send response status code with html "successfully updated bottom text"
             self.send_response(200)

@@ -105,7 +105,7 @@ def updateDisplay():
 
         canvas = matrix.SwapOnVSync(canvas)
 
-        time.sleep(0.02)
+        time.sleep(0.03)
 
         # matrix.Clear()
 

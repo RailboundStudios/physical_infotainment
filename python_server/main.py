@@ -68,6 +68,10 @@ class MyServer(BaseHTTPRequestHandler):
             self.wfile.write(bytes("Successfully updated bottom text", "utf-8"))
 
         # updateDisplay()
+        print("=== Updated display ======================")
+        print("Top text: ", topText)
+        print("Bottom text: ", bottomText)
+        print("==========================================")
 
 
 font = graphics.Font()
@@ -116,12 +120,6 @@ def updateDisplay():
         canvas = matrix.SwapOnVSync(canvas)
 
         time.sleep(0.03)
-
-        print("=== Updated display ======================")
-        print("Top text: ", topText)
-        print("Bottom text: ", bottomText)
-        print("==========================================")
-
 
 # updateDisplay()
 

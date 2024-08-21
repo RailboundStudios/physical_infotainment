@@ -74,6 +74,9 @@ def updateDisplay():
 
     textColor = graphics.Color(255,140,0)
 
+    graphics.DrawText(canvas, font, 1, 7, textColor, topText)
+    graphics.DrawText(canvas, font, 0, 15, textColor, bottomText)
+
     canvas.Clear()
 
     # Draw a cross
@@ -81,6 +84,8 @@ def updateDisplay():
     lineBColor = graphics.Color(0, 0, 20)
     graphics.DrawLine(canvas, 0, 0, matrix.width, 15, lineAColor)
     graphics.DrawLine(canvas, 0, matrix.height, matrix.width, 0, lineBColor)
+
+
 
     canvas = matrix.SwapOnVSync(canvas)
 

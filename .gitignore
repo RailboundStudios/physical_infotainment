@@ -2,3 +2,4 @@
 /dotnet_server/dotnet_server/bin/
 /dotnet_server/dotnet_server/obj/
 
+/python_server/includes/rpi-rgb-led-matrix

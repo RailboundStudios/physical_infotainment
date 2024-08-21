@@ -65,7 +65,7 @@ class MyServer(BaseHTTPRequestHandler):
 
 
 font = graphics.Font()
-font.LoadFont("assets/test.bdf")
+font.LoadFont("assets/7x13.bdf")
 
 def updateDisplay():
     global font

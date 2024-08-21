@@ -8,7 +8,7 @@ path.append('/home/imbenji/physical_infotainment/python_server/includes/rpi-rgb-
 
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
-topText = "Hello"
+topText = "Walthamstow Central"
 bottomText = "World"
 
 options = RGBMatrixOptions()

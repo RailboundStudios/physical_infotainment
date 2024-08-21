@@ -70,6 +70,12 @@ def updateDisplay():
     graphics.DrawText(canvas, font, 0, 6, textColor, topText)
     graphics.DrawText(canvas, font, 0, 12, textColor, bottomText)
 
+    # Draw a cross
+    lineAColor = graphics.Color(255, 0, 0)
+    lineBColor = graphics.Color(0, 0, 255)
+    graphics.DrawLine(canvas, 0, 0, 63, 15, lineAColor)
+    graphics.DrawLine(canvas, 0, 15, 63, 0, lineBColor)
+
     canvas = matrix.SwapOnVSync(canvas)
 
     print("=== Updated display ======================")

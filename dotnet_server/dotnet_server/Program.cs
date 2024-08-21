@@ -2,6 +2,14 @@
 
 using RPiRgbLEDMatrix;
 
+var argsList = new List<string>(args);
+if (!argsList.Contains("--led-no-hardware-pulse"))
+{
+    argsList.Add("--led-no-hardware-pulse");
+}
+// Convert the list back to an array
+args = argsList.ToArray();
+
 var matrix = new RGBLedMatrix(
     16, 4, 1
 );

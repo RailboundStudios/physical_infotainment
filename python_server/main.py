@@ -13,8 +13,8 @@ bottomText = "World"
 
 options = RGBMatrixOptions()
 options.rows = 16
-options.cols = 128
-options.chain_length = 1
+options.cols = 32
+options.chain_length = 3
 options.parallel = 1
 options.gpio_slowdown = 4
 options.hardware_mapping = "adafruit-hat"

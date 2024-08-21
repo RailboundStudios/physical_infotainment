@@ -5,7 +5,7 @@ import time
 from sys import path
 path.append('C:\\Development\\Repositories\\physical_infotainment\\python_server\\includes\\rpi-rgb-led-matrix\\bindings\\python\\rgbmatrix')
 
-from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
 global topText
 global bottomText
@@ -34,17 +34,37 @@ class MyServer(BaseHTTPRequestHandler):
         if isTopText:
             global topText
             topText = text
+
+            # Send response status code with html "successfully updated top text"
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.end_headers()
+            self.wfile.write(bytes("Successfully updated top text", "utf-8"))
+
         else:
             global bottomText
             bottomText = text
 
+            # Send response status code with html "successfully updated bottom text"
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.end_headers()
+            self.wfile.write(bytes("Successfully updated bottom text", "utf-8"))
+
+
 def updateDisplay():
+
+    canvas = matrix.CreateFrameCanvas()
+    font = graphics.Font()
+    font.LoadFont("assets/4x6.bdf")
+    textColor = graphics.Color(255, 255, 255)
+
     while True:
-        matrix.Clear()
-        matrix.Fill(255, 0, 0)
-        matrix.brightness = 100
-        matrix.DrawText(0, 0, 255, 255, 255, topText)
-        matrix.DrawText(0, 8, 255, 255, 255, bottomText)
+        canvas.Clear()
+
+        graphics.DrawText(canvas, font, 0, 6, textColor, topText)
+        graphics.DrawText(canvas, font, 0, 12, textColor, bottomText)
+
         time.sleep(1)
 
 if __name__ == "__main__":

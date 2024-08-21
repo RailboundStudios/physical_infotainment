@@ -16,6 +16,10 @@ var matrix = new RGBLedMatrix(
 );
 Console.WriteLine("Matrix created");
 var canvas = matrix.CreateOffscreenCanvas();
+
+canvas.DrawLine(0,0,canvas.Width,canvas.Height, new Color(255, 0, 0));
+matrix.SwapOnVsync(canvas);
+
 var font = new RGBLedFont("assets/4x6.bdf");
 
 var color = new Color(255, 0, 0);

@@ -10,11 +10,12 @@ if (!argsList.Contains("--led-no-hardware-pulse"))
 // Convert the list back to an array
 args = argsList.ToArray();
 
+Console.WriteLine("Creating matrix");
 var matrix = new RGBLedMatrix(
-    16, 4, 1
+    16, 2, 1
 );
 var canvas = matrix.CreateOffscreenCanvas();
-var font = new RGBLedFont("assets/4x6.bdf");
+// var font = new RGBLedFont("assets/4x6.bdf");
 
 // var color = new Color(255, 0, 0);
 //

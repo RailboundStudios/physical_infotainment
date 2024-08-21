@@ -21,6 +21,8 @@ int pos = canvas.Width;
 
 bool running = true;
 
+Console.WriteLine("Doign stufffffff");
+
 Console.CancelKeyPress += (s, e) =>
 {
     running = false;

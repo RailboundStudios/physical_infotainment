@@ -15,7 +15,7 @@ if [ ! -d "dotnet_server/includes/rpi-rgb-led-matrix/bindings/c#/bin" ]; then
   printf "${red}building c# bindings done${reset}\n"
 fi
 printf "${red}building c# code${reset}\n"
-$dotnetbin publish -o ./bin -r linux-arm64 --self-contained true dotnet_server
+$dotnetbin publish -o ./bin -r linux-arm64 --self-contained dotnet_server
 printf "${red}building c# code done${reset}\n"
 
 # Run the c# code

@@ -14,7 +14,10 @@ bottomText = "World"
 options = RGBMatrixOptions()
 options.rows = 16
 options.cols = 64
+options.chain_length = 1
+options.parallel = 1
 options.gpio_slowdown = 4
+options.hardware_mapping = "adafruit-hat"
 
 matrix = RGBMatrix(options = options)
 canvas = matrix.CreateFrameCanvas()

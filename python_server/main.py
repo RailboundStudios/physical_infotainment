@@ -2,6 +2,10 @@ import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
 
+from sys import path
+path.append('/home/imbenji/physical_infotainment/python_server/includes/rpi-rgb-led-matrix/bindings/python/rgbmatrix')
+
+
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
 topText = "Hello"

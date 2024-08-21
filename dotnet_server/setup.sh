@@ -18,5 +18,6 @@ printf "${red}building c# code${reset}\n"
 $dotnetbin publish -o ./bin -r linux-arm64 --self-contained dotnet_server
 printf "${red}building c# code done${reset}\n"
 
-# Run the c# code
-$dotnetbin ./bin/dotnet_server.dll
+# Run the c# code (Not in sudo)
+printf "${red}running c# code${reset}\n"
+$dotnetbin ./bin/dotnet_server.dll --led-no-hardware-pulse

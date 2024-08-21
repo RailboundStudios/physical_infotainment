@@ -84,8 +84,8 @@ def updateDisplay():
     # Draw a cross
     lineAColor = graphics.Color(20, 0, 0)
     lineBColor = graphics.Color(0, 0, 20)
-    graphics.DrawLine(canvas, 0, 0, matrix.width, 15, lineAColor)
-    graphics.DrawLine(canvas, 0, matrix.height, matrix.width, 0, lineBColor)
+    # graphics.DrawLine(canvas, 0, 0, matrix.width, 15, lineAColor)
+    # graphics.DrawLine(canvas, 0, matrix.height, matrix.width, 0, lineBColor)
 
 
 

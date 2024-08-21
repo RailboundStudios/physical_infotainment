@@ -13,6 +13,7 @@ options.cols = 64
 options.gpio_slowdown = 4
 
 matrix = RGBMatrix(options = options)
+canvas = matrix.CreateFrameCanvas()
 
 hostName = "0.0.0.0"
 serverPort = 8080
@@ -60,8 +61,8 @@ font.LoadFont("assets/4x6.bdf")
 
 def updateDisplay():
     global font
+    global canvas
 
-    canvas = matrix.CreateFrameCanvas()
     textColor = graphics.Color(255, 255, 255)
 
     canvas.Clear()
@@ -77,6 +78,8 @@ def updateDisplay():
     print("==========================================")
 
 updateDisplay()
+
+
 
 if __name__ == "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)

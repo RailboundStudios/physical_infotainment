@@ -62,7 +62,7 @@ def updateDisplay():
 
     canvas = matrix.CreateFrameCanvas()
     font = graphics.Font()
-    font.LoadFont("/home/physical_infotainment/python_server/assets/4x6.bdf")
+    font.LoadFont("/home/imbenji/physical_infotainment/python_server/assets/4x6.bdf")
     textColor = graphics.Color(255, 255, 255)
 
     while True:

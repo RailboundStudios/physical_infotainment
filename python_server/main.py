@@ -66,7 +66,7 @@ class MyServer(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(bytes("Successfully updated bottom text", "utf-8"))
 
-        updateDisplay()
+        # updateDisplay()
 
 
 font = graphics.Font()
@@ -104,12 +104,14 @@ def updateDisplay():
 
         canvas = matrix.SwapOnVSync(canvas)
 
+        time.sleep(0.01)
+
         print("=== Updated display ======================")
         print("Top text: ", topText)
         print("Bottom text: ", bottomText)
         print("==========================================")
 
-updateDisplay()
+# updateDisplay()
 
 
 
@@ -117,9 +119,9 @@ if __name__ == "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)
     print("Server started http://%s:%s" % (hostName, serverPort))
 
-    # Start a new thread to update the display
-    # displayThread = threading.Thread(target=updateDisplay)
-    # displayThread.start()
+    Start a new thread to update the display
+    displayThread = threading.Thread(target=updateDisplay)
+    displayThread.start()
 
     try:
         webServer.serve_forever()

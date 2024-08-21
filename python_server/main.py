@@ -7,9 +7,6 @@ path.append('C:\\Development\\Repositories\\physical_infotainment\\python_server
 
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
-global topText
-global bottomText
-
 topText = "Hello"
 bottomText = "World"
 
@@ -29,6 +26,13 @@ class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
 
         print("GET request, Path:", self.path)
+
+        if not (self.path.startswith("/top") or self.path.startswith("/bottom")):
+            self.send_response(400)
+            self.send_header("Content-type", "text/html")
+            self.end_headers()
+            self.wfile.write(bytes("Invalid path", "utf-8"))
+            return
 
         isTopText = self.path.startswith("/top")
         text = self.path[5:]

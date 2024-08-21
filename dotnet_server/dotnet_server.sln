@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "donet_server", "donet_server\donet_server.csproj", "{D8732D5A-2D8A-4363-9045-837E8CCF8654}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet_server", "dotnet_server\dotnet_server.csproj", "{D8732D5A-2D8A-4363-9045-837E8CCF8654}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

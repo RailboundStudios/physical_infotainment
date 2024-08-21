@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "dgSpecHash": "CSMkHTDonKv0h/b84pSPajsSEVCY/uo8V4MHMdSqLqg13m/Nk54AyhJOUGnF8G6sfp7n4AW5xq1ic0vi8NAIPQ==",
+  "success": false,
+  "projectFilePath": "C:\\Development\\Repositories\\physical_infotainment\\dotnet_server\\dotnet_server\\dotnet_server.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1104",
+      "level": "Error",
+      "message": "Unable to find project 'C:\\Development\\Repositories\\physical_infotainment\\dotnet_server\\dotnet_server\\dotnet_server\\includes\\rpi-rgb-led-matrix\\bindings\\c#\\examples\\PulsingBrightness\\PulsingBrightness.csproj'. Check that the project reference is valid and that the project file exists.",
+      "libraryId": "C:\\Development\\Repositories\\physical_infotainment\\dotnet_server\\dotnet_server\\dotnet_server\\includes\\rpi-rgb-led-matrix\\bindings\\c#\\examples\\PulsingBrightness\\PulsingBrightness.csproj",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
+}

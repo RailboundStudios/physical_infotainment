@@ -2,7 +2,7 @@
 
 using RPiRgbLEDMatrix;
 
-var Matrix = new RGBLedMatrix(
+RGBLedMatrix Matrix = new RGBLedMatrix(
     new RGBLedMatrixOptions
     {
         Rows = 16,

@@ -39,6 +39,7 @@ class MyServer(BaseHTTPRequestHandler):
 
         isTopText = self.path.startswith("/top")
         text = self.path.split("=")[1]
+        text = text.replace("%20", " ")
 
         if isTopText:
             global topText

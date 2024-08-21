@@ -18,6 +18,9 @@ var canvas = matrix.CreateOffscreenCanvas();
 canvas.DrawLine(0,0,canvas.Width,canvas.Height, new Color(255, 0, 0));
 matrix.SwapOnVsync(canvas);
 
+// Hold for 2 seconds
+Task.Delay(2000).Wait();
+
 var font = new RGBLedFont("assets/4x6.bdf");
 
 var color = new Color(255, 0, 0);

@@ -19,7 +19,16 @@ String text = "Hello World!";
 
 int pos = canvas.Width;
 
-while (true)
+bool running = true;
+
+Console.CancelKeyPress += (s, e) =>
+{
+    running = false;
+    e.Cancel = true; // don't terminate, we need to dispose
+};
+
+
+while (running)
 {
     canvas.Clear();
 
@@ -33,4 +42,6 @@ while (true)
     
     Task.Delay(10).Wait();
     matrix.SwapOnVsync(canvas);
+    
+    Console.WriteLine("update");
 }

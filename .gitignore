@@ -1,1 +1,4 @@
-dotnet_server\dotnet_server\obj\*
+# Dont include the c# obj and bin folders
+/dotnet_server/dotnet_server/bin/
+/dotnet_server/dotnet_server/obj/
+

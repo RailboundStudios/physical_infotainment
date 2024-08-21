@@ -67,7 +67,7 @@ while (running)
         pos = canvas.Width;
     }
     
-    Task.Delay(50).Wait();
+    Task.Delay(20).Wait();
     
     
     Console.WriteLine("pos = " + pos);

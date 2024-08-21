@@ -109,7 +109,7 @@ def updateDisplay():
 
         matrix.Clear()
 
-        time.sleep(0.005)
+        time.sleep(0.01)
 
         print("=== Updated display ======================")
         print("Top text: ", topText)

@@ -75,6 +75,7 @@ def updateDisplay():
 
         canvas = matrix.SwapOnVSync(canvas)
 
+        print("Updated display")
         time.sleep(1)
 
 if __name__ == "__main__":

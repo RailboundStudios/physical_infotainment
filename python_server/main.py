@@ -59,7 +59,7 @@ class MyServer(BaseHTTPRequestHandler):
 
 
 font = graphics.Font()
-font.LoadFont("/home/imbenji/physical_infotainment/python_server/assets/4x6.bdf")
+font.LoadFont("assets/4x6.bdf")
 
 def updateDisplay():
     global font

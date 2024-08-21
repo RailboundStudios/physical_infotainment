@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="includes/rpi-rgb-led-matrix/bindings/c#/RPiRgbLEDMatrix.csproj"/>
+        <ProjectReference Include="includes\rpi-rgb-led-matrix\bindings\c#\RPiRgbLEDMatrix.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

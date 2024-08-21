@@ -119,7 +119,7 @@ if __name__ == "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)
     print("Server started http://%s:%s" % (hostName, serverPort))
 
-    Start a new thread to update the display
+    # Start a new thread to update the display
     displayThread = threading.Thread(target=updateDisplay)
     displayThread.start()
 

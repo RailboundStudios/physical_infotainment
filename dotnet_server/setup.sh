@@ -9,7 +9,7 @@ reset="\033[0m"
 # Compile the c# code for arm64
 
 # if "donet_server/includes/rpi-rgb-led-matrix/bindings/c#/bin" does not exist, create it
-if [ ! -d "donet_server/includes/rpi-rgb-led-matrix/bindings/c#/bin" ]; then
+if [ ! -d "dotnet_server/includes/rpi-rgb-led-matrix/bindings/c#/bin" ]; then
   printf "${red}building c# bindings${reset}\n"
   $dotnetbin build dotnet_server/includes/rpi-rgb-led-matrix/bindings/c#
   printf "${red}building c# bindings done${reset}\n"

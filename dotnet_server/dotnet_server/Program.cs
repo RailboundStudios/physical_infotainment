@@ -68,8 +68,7 @@ Task.Delay(5000).Wait();
 // var textColor = new Color(255,140,0);
 // textColor = new Color(255,255,255);
 
-
-
+Console.WriteLine("Getting text ready");
 
 String topText = "Crooked Billet / Walthamstow Avenue";
 int topPos = canvas.Width;

@@ -13,7 +13,9 @@ Future<void> main(List<String> arguments) async {
 
   Process matrixServer = await Process.start("$dotnetPath", ["./dotnet_server/bin/dotnet_server.dll"]);
 
-
+  matrixServer.stdout.listen((event) {
+    print("Matrix Server: ${String.fromCharCodes(event)}");
+  });
 
   while (true) {
     matrixServer.stdin.writeln("top=Hello from Dart!");

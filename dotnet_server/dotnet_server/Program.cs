@@ -67,9 +67,9 @@ while (running)
         pos = canvas.Width;
     }
     
-    Task.Delay(20).Wait();
+    Task.Delay(10).Wait();
     
     
-    Console.WriteLine("pos = " + pos);
+    // Console.WriteLine("pos = " + pos);
 }
 Console.WriteLine("Matrix complete");

@@ -4,6 +4,7 @@
 
 ## Colors
 ORANGE='\033[0;33m'
+YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 ## Important directories
@@ -34,6 +35,8 @@ DartDir=$ThirdPartyDir/dart-sdk
 
 if [ ! -d $DartDir ]; then
 
+    echo -e "${YELLOW}Installing Dart...${NC}"
+
     # Example: https://storage.googleapis.com/dart-archive/channels/stable/release/3.5.1/sdk/dartsdk-linux-arm64-release.zip
 
     DartUrl="https://storage.googleapis.com/dart-archive/channels/stable/release/$DartVersion/sdk/dartsdk-linux-arm64-release.zip"
@@ -59,7 +62,7 @@ cd $DartServerDir
 $DartDir/bin/dart pub get
 
 ## Compile dart_server for ARM64
-$DartDir/bin/dart compile exe bin/main.dart -o bin/main
+$DartDir/bin/dart compile exe lib/main.dart -o lib/main
 
 echo -e "${ORANGE}Dart server compiled successfully${NC}"
 

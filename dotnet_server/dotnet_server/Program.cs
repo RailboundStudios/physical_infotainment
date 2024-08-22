@@ -27,6 +27,9 @@ matrix.SwapOnVsync(canvas);
 // Hold for 5 seconds
 Task.Delay(5000).Wait();
 
+String directory = Directory.GetCurrentDirectory();
+Console.WriteLine("Current directory: " + directory);
+
 var font = new RGBLedFont("dotnet_server/assets/test.bdf");
 canvas.Clear();
 

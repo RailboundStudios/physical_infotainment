@@ -12,6 +12,11 @@ dotnetbin=/home/imbenji/.dotnet/dotnet
 red="\033[0;31m"
 reset="\033[0m"
 
+# Important directories
+rootdir=$(pwd)
+
+
+cd $rootdir
 # Compile the c# code for arm64
 
 # if "donet_server/includes/rpi-rgb-led-matrix/bindings/c#/bin" does not exist, create it

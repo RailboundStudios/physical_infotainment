@@ -125,59 +125,82 @@ int bottomPos = canvas.Width;
 
 int numRev = 0;
 
+new Thread(() =>
+{
+    while (true)
+    {
+        canvas.Clear();
+
+        Color textColor = textColors[numRev % textColors.Count];
+
+        int topWidth = font.DrawText(canvas._canvas, topPos, 7, textColor, topText);
+        int bottomWidth = 0;
+
+        if (bottomText == "%time")
+        {
+            DateTime now = DateTime.Now;
+            // HH:mm AM/PM
+            String bottomTextt = now.ToString("hh:mm tt");
+            bottomTextt = bottomTextt.ToUpper();
+
+            bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomTextt);
+        }
+        else
+        {
+            bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomText);
+        }
+
+        if (topWidth <= canvas.Width)
+        {
+            topPos = (canvas.Width - topWidth) / 2;
+        }
+        else
+        {
+            topPos -= 1;
+            if (topPos < -topWidth)
+            {
+                topPos = canvas.Width;
+                numRev++;
+            }
+        }
+
+        if (bottomWidth <= canvas.Width)
+        {
+            bottomPos = (canvas.Width - bottomWidth) / 2;
+        }
+        else
+        {
+            bottomPos -= 1;
+            if (bottomPos < -bottomWidth)
+            {
+                bottomPos = canvas.Width;
+                numRev++;
+            }
+        }
+
+        matrix.SwapOnVsync(canvas);
+
+        Task.Delay(10).Wait();
+    }
+}).Start();
+
+/*
+ *  Allow the user to type Top=... or Bottom=... to change the text in the console
+ */
+
 while (true)
 {
-    canvas.Clear();
-    
-    Color textColor = textColors[numRev % textColors.Count];
-    
-    int topWidth = font.DrawText(canvas._canvas, topPos, 7, textColor, topText);
-    int bottomWidth = 0;
-
-    if (bottomText == "%time")
+    String input = Console.ReadLine();
+    if (input.StartsWith("Top="))
     {
-        DateTime now = DateTime.Now;
-        // HH:mm AM/PM
-        String bottomTextt = now.ToString("hh:mm tt");
-        bottomTextt = bottomTextt.ToUpper();
-        
-        bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomTextt);
+        topText = input.Split("=")[1];
+        topPos = canvas.Width;
     }
-    else
+    else if (input.StartsWith("Bottom="))
     {
-        bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomText);
+        bottomText = input.Split("=")[1];
+        bottomPos = canvas.Width;
     }
-    
-    if (topWidth <= canvas.Width)
-    {
-        topPos = (canvas.Width - topWidth) / 2;
-    }
-    else
-    {
-        topPos -= 1;
-        if (topPos < -topWidth)
-        {
-            topPos = canvas.Width;
-            numRev++;
-        }
-    }
-    
-    if (bottomWidth <= canvas.Width)
-    {
-        bottomPos = (canvas.Width - bottomWidth) / 2;
-    }
-    else
-    {
-        bottomPos -= 1;
-        if (bottomPos < -bottomWidth)
-        {
-            bottomPos = canvas.Width;
-            numRev++;
-        }
-    }
-    
-    matrix.SwapOnVsync(canvas);
-    
-    Task.Delay(10).Wait();
 }
+
 Console.WriteLine("Matrix complete");

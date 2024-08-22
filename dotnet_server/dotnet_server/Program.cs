@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Net;
 using RPiRgbLEDMatrix;
 
 var argsList = new List<string>(args);
@@ -44,13 +45,71 @@ int topPos = canvas.Width;
 String bottomText = "Bus Stopping";
 int bottomPos = canvas.Width;
 
+// Spin up a web server in a separate thread
+Task.Run(() =>
+{
+    using var listener = new HttpListener();
+    listener.Prefixes.Add("http://localhost:8080/");
+    listener.Start();
+    Console.WriteLine("Listening on http://localhost:8080/");
+    while (true)
+    {
+        // Get request
+        var context = listener.GetContext();
+        
+        // get path
+        String path = context.Request.Url.AbsolutePath;
+        
+        if (!(path.StartsWith("/top") || path.StartsWith("/bottom")))
+        {
+            context.Response.StatusCode = 404;
+            context.Response.Close();
+            continue;
+        }
+        
+        bool isTopText = path.StartsWith("/top");
+        String text = path.Split("=")[1];
+        text = WebUtility.UrlDecode(text);
+        
+        if (isTopText)
+        {
+            topText = text;
+            topPos = canvas.Width;
+        }
+        else
+        {
+            bottomText = text;
+            bottomPos = canvas.Width;
+        }
+        
+        context.Response.StatusCode = 200;
+        // Send "Success" message
+        byte[] buffer = System.Text.Encoding.UTF8.GetBytes("Success");
+        context.Response.Close();
+    }
+});
+
 while (true)
 {
     canvas.Clear();
     
     int topWidth = font.DrawText(canvas._canvas, topPos, 7, textColor, topText);
-    int bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomText);
+    int bottomWidth = 0;
 
+    if (bottomText == "%time")
+    {
+        DateTime now = DateTime.Now;
+        // HH:mm AM/PM
+        String bottomTextt = now.ToString("hh:mm tt");
+        bottomTextt = bottomTextt.ToUpper();
+        
+        bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomTextt);
+    }
+    else
+    {
+        bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomText);
+    }
+    
     if (topWidth <= canvas.Width)
     {
         topPos = (canvas.Width - topWidth) / 2;
@@ -80,10 +139,5 @@ while (true)
     matrix.SwapOnVsync(canvas);
     
     Task.Delay(10).Wait();
-    
-    DateTime now = DateTime.Now;
-    // HH:mm AM/PM
-    bottomText = now.ToString("hh:mm tt");
-    bottomText = bottomText.ToUpper();
 }
 Console.WriteLine("Matrix complete");

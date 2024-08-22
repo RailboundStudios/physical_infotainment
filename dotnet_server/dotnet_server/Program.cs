@@ -48,8 +48,8 @@ while (true)
 {
     canvas.Clear();
     
-    int topWidth = font.DrawText(canvas._canvas, topPos, 6, textColor, topText);
-    int bottomWidth = font.DrawText(canvas._canvas, bottomPos, 10, textColor, bottomText);
+    int topWidth = font.DrawText(canvas._canvas, topPos, 7, textColor, topText);
+    int bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomText);
 
     if (topWidth <= canvas.Width)
     {

@@ -36,40 +36,52 @@ matrix.SwapOnVsync(canvas);
 // Hold for 5 seconds
 Task.Delay(5000).Wait();
 
-var color = new Color(255, 0, 0);
+var textColor = new Color(255,140,0);
 
-String text = "Hello World!";
+String topText = "Forest Road / Bell Corner";
+int topPos = canvas.Width;
 
-int pos = canvas.Width;
+String bottomText = "Bus Stopping";
+int bottomPos = canvas.Width;
 
-bool running = true;
-
-Console.WriteLine("Doign stufffffff");
-
-// Console.CancelKeyPress += (s, e) =>
-// {
-//     running = false;
-//     e.Cancel = true; // don't terminate, we need to dispose
-// };
-
-
-while (running)
+while (true)
 {
     canvas.Clear();
-
-    var length = canvas.DrawText(font, pos, 6, color, text);
-    // canvas.DrawCircle(pos, 8, 5, color);
-    matrix.SwapOnVsync(canvas);
-    pos -= 1;
     
-    if (pos + length < 0)
+    int topWidth = font.DrawText(canvas._canvas, topPos, 6, textColor, topText);
+    int bottomWidth = font.DrawText(canvas._canvas, bottomPos, 10, textColor, bottomText);
+
+    if (topWidth <= canvas.Width)
     {
-        pos = canvas.Width;
+        topPos = (canvas.Width - topWidth) / 2;
     }
+    else
+    {
+        topPos -= 1;
+        if (topPos < -topWidth)
+        {
+            topPos = canvas.Width;
+        }
+    }
+    
+    if (bottomWidth <= canvas.Width)
+    {
+        bottomPos = (canvas.Width - bottomWidth) / 2;
+    }
+    else
+    {
+        bottomPos -= 1;
+        if (bottomPos < -bottomWidth)
+        {
+            bottomPos = canvas.Width;
+        }
+    }
+    
+    matrix.SwapOnVsync(canvas);
     
     Task.Delay(10).Wait();
     
-    
-    // Console.WriteLine("pos = " + pos);
+    DateTime now = DateTime.Now;
+    bottomText = now.ToString("HH:mm");
 }
 Console.WriteLine("Matrix complete");

@@ -114,6 +114,7 @@ new Thread(() =>
 
 while (running)
 {
+    Console.WriteLine("Type 'Top=...' or 'Bottom=...' to change the text, or type 'exit' to quit");
     String input = Console.ReadLine();
     if (input.StartsWith("Top="))
     {

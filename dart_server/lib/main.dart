@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dart_server/dart_server.dart' as dart_server;
+import 'package:dart_server/main.dart' as dart_server;
 
 Future<void> main(List<String> arguments) async {
 

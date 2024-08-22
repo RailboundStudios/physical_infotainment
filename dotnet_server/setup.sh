@@ -15,7 +15,6 @@ reset="\033[0m"
 # Important directories
 rootdir=$(pwd)
 
-
 cd $rootdir
 # Compile the c# code for arm64
 

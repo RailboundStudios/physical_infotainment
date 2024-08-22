@@ -65,9 +65,9 @@ foreach (Color color in textColors)
 {
     canvas.DrawLine(72, 0, 78, 0, color);
     canvas.DrawLine(72, 1, 72, 1, color);
-    canvas.DrawLine(78, 1, 78, 1, color);
-    canvas.DrawLine(72, 1, 78, 1, color);
-    canvas.DrawLine(72, 2, 78, 2, color);
+    canvas.DrawLine(72, 2, 72, 2, color);
+    canvas.DrawLine(72, 3, 78, 3, color);
+    canvas.DrawLine(72, 4, 78, 4, color);
     
     matrix.SwapOnVsync(canvas);
     

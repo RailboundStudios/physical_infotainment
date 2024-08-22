@@ -30,8 +30,15 @@ Task.Delay(5000).Wait();
 var font = new RGBLedFont("dotnet_server/assets/test.bdf");
 canvas.Clear();
 
-// Fill the canvas with white
-canvas.Fill(new Color(0, 0, 255));
+// Scan a white line 3 pixels thick from right to left and back
+for (int i = 0; i < canvas.Width; i++)
+{
+    canvas.Clear();
+    canvas.DrawLine(i, 0, i, canvas.Height, new Color(255, 255, 255));
+    matrix.SwapOnVsync(canvas);
+    Task.Delay(10).Wait();
+}
+
 
 matrix.SwapOnVsync(canvas);
 

@@ -13,8 +13,11 @@ Future<void> main(List<String> arguments) async {
 
   Process matrixServer = await Process.start("$dotnetPath", ["./dotnet_server/bin/dotnet_server.dll"]);
 
-  matrixServer.stdin.writeln("top=Hello from Dart!");
 
-  while (true) {}
+
+  while (true) {
+    matrixServer.stdin.writeln("top=Hello from Dart!");
+    await Future.delayed(Duration(seconds: 1));
+  }
 
 }

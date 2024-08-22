@@ -41,39 +41,20 @@ textColors.Add(new Color(0, 255, 255));
 textColors.Add(new Color(255, 0, 255));
 
 // Scan a white line 5 pixels thick from right to left and back
-// while (true)
-// {
-//     foreach (Color color in textColors)
-//     {
-//         for (int i = -5; i < canvas.Width; i++)
-//         {
-//             canvas.Clear();
-//             canvas.DrawLine(i, 0, i, canvas.Height, color);
-//             canvas.DrawLine(i + 1, 0, i + 1, canvas.Height, color);
-//             canvas.DrawLine(i + 2, 0, i + 2, canvas.Height, color);
-//             canvas.DrawLine(i + 3, 0, i + 3, canvas.Height, color);
-//             canvas.DrawLine(i + 4, 0, i + 4, canvas.Height, color);
-//             matrix.SwapOnVsync(canvas);
-//             Task.Delay(100).Wait();
-//         }
-//     }
-// }
-
-// Draw a filled square arroun 0, 75
-// Before
-canvas.DrawLine(0, 72, 0, 78, new Color(255, 255, 255));
-canvas.DrawLine(1, 72, 1, 78, new Color(255, 255, 255));
-canvas.DrawLine(2, 72, 2, 78, new Color(255, 255, 255));
-canvas.DrawLine(3, 72, 3, 78, new Color(255, 255, 255));
-canvas.DrawLine(4, 72, 4, 78, new Color(255, 255, 255));
-
-// After
-for (int i = 0; i < 5; i++)
+foreach (Color color in textColors)
 {
-    canvas.DrawLine(i, 72, i, 78, new Color(255, 255, 255));
+    for (int i = -5; i < canvas.Width; i++)
+    {
+        canvas.Clear();
+        canvas.DrawLine(i, 0, i, canvas.Height, color);
+        canvas.DrawLine(i + 1, 0, i + 1, canvas.Height, color);
+        canvas.DrawLine(i + 2, 0, i + 2, canvas.Height, color);
+        canvas.DrawLine(i + 3, 0, i + 3, canvas.Height, color);
+        canvas.DrawLine(i + 4, 0, i + 4, canvas.Height, color);
+        matrix.SwapOnVsync(canvas);
+        Task.Delay(500).Wait();
+    }
 }
-
-matrix.SwapOnVsync(canvas);
 
 // Hold for 5 seconds
 Task.Delay(5000).Wait();

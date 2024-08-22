@@ -13,7 +13,7 @@ args = argsList.ToArray();
 Console.WriteLine("Creating matrix");
 using var matrix = new RGBLedMatrix(new RGBLedMatrixOptions
 {
-    Cols = 96,
+    Cols = 128,
     Rows = 16
 });
 Console.WriteLine("Matrix created");

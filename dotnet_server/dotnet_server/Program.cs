@@ -46,8 +46,10 @@ String bottomText = "Bus Stopping";
 int bottomPos = canvas.Width;
 
 // Spin up a web server in a separate thread
-Task.Run(() =>
+new Thread(() =>
 {
+    Thread.CurrentThread.IsBackground = true;
+    
     using var listener = new HttpListener();
     listener.Prefixes.Add("http://localhost:8080/");
     listener.Start();
@@ -87,7 +89,7 @@ Task.Run(() =>
         byte[] buffer = System.Text.Encoding.UTF8.GetBytes("Success");
         context.Response.Close();
     }
-});
+}).Start();
 
 while (true)
 {

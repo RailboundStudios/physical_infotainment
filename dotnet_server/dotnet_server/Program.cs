@@ -41,23 +41,23 @@ textColors.Add(new Color(0, 255, 255));
 textColors.Add(new Color(255, 0, 255));
 
 // Scan a white line 5 pixels thick from right to left and back
-while (true)
-{
-    foreach (Color color in textColors)
-    {
-        for (int i = -5; i < canvas.Width; i++)
-        {
-            canvas.Clear();
-            canvas.DrawLine(i, 0, i, canvas.Height, color);
-            canvas.DrawLine(i + 1, 0, i + 1, canvas.Height, color);
-            canvas.DrawLine(i + 2, 0, i + 2, canvas.Height, color);
-            canvas.DrawLine(i + 3, 0, i + 3, canvas.Height, color);
-            canvas.DrawLine(i + 4, 0, i + 4, canvas.Height, color);
-            matrix.SwapOnVsync(canvas);
-            Task.Delay(100).Wait();
-        }
-    }
-}
+// while (true)
+// {
+//     foreach (Color color in textColors)
+//     {
+//         for (int i = -5; i < canvas.Width; i++)
+//         {
+//             canvas.Clear();
+//             canvas.DrawLine(i, 0, i, canvas.Height, color);
+//             canvas.DrawLine(i + 1, 0, i + 1, canvas.Height, color);
+//             canvas.DrawLine(i + 2, 0, i + 2, canvas.Height, color);
+//             canvas.DrawLine(i + 3, 0, i + 3, canvas.Height, color);
+//             canvas.DrawLine(i + 4, 0, i + 4, canvas.Height, color);
+//             matrix.SwapOnVsync(canvas);
+//             Task.Delay(100).Wait();
+//         }
+//     }
+// }
 
 
 matrix.SwapOnVsync(canvas);

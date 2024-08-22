@@ -82,6 +82,7 @@ while (true)
     Task.Delay(10).Wait();
     
     DateTime now = DateTime.Now;
-    bottomText = now.ToString("HH:mm");
+    // HH:mm AM/PM
+    topText = now.ToString("hh:mm tt");
 }
 Console.WriteLine("Matrix complete");

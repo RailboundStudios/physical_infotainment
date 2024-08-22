@@ -14,5 +14,5 @@ ThirdPartyDir=$BaseDir/third_party
 
 DartDir=$ThirdPartyDir/dart-sdk
 
-sudo ./dart_server/bin/main
+sudo ./dart_server/lib/main
 

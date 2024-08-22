@@ -76,11 +76,6 @@ foreach (Color color in textColors)
     Task.Delay(500).Wait();
 }
 
-
-
-// Hold for 5 seconds
-Task.Delay(5000).Wait();
-
 // var textColor = new Color(255,140,0);
 // textColor = new Color(255,255,255);
 

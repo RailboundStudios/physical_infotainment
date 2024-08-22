@@ -18,7 +18,7 @@ Future<void> main(List<String> arguments) async {
   });
 
   while (true) {
-    matrixServer.stdin.writeln("top=Hello from Dart!");
+    matrixServer.stdin.writeln("Top=Hello from Dart!");
     await Future.delayed(Duration(seconds: 1));
   }
 

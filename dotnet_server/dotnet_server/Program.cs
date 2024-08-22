@@ -31,7 +31,7 @@ var font = new RGBLedFont("dotnet_server/assets/test.bdf");
 canvas.Clear();
 
 // Fill the canvas with white
-canvas.Fill(new Color(255, 255, 255));
+canvas.Fill(new Color(0, 0, 255));
 
 matrix.SwapOnVsync(canvas);
 

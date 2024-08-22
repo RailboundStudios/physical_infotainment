@@ -40,45 +40,6 @@ textColors.Add(new Color(255, 255, 0));
 textColors.Add(new Color(0, 255, 255));
 textColors.Add(new Color(255, 0, 255));
 
-// Scan a white line 5 pixels thick from right to left and back
-// while (true)
-// {
-//     foreach (Color color in textColors)
-//     {
-//         for (int i = -5; i < canvas.Width; i++)
-//         {
-//             canvas.Clear();
-//             canvas.DrawLine(i, 0, i, canvas.Height, color);
-//             canvas.DrawLine(i + 1, 0, i + 1, canvas.Height, color);
-//             canvas.DrawLine(i + 2, 0, i + 2, canvas.Height, color);
-//             canvas.DrawLine(i + 3, 0, i + 3, canvas.Height, color);
-//             canvas.DrawLine(i + 4, 0, i + 4, canvas.Height, color);
-//             matrix.SwapOnVsync(canvas);
-//             Task.Delay(100).Wait();
-//         }
-//     }
-// }
-
-// Draw a filled square arroun 75, 0
-// Before
-foreach (Color color in textColors)
-{
-    canvas.Clear();
-    
-    canvas.DrawLine(72, 0, 78, 0, color);
-    canvas.DrawLine(72, 1, 78, 1, color);
-    canvas.DrawLine(72, 2, 78, 2, color);
-    canvas.DrawLine(72, 3, 78, 3, color);
-    canvas.DrawLine(72, 4, 78, 4, color);
-    
-    matrix.SwapOnVsync(canvas);
-    
-    Task.Delay(500).Wait();
-}
-
-// var textColor = new Color(255,140,0);
-// textColor = new Color(255,255,255);
-
 Console.WriteLine("Getting text ready");
 
 String topText = "Crooked Billet / Walthamstow Avenue";
@@ -86,52 +47,6 @@ int topPos = canvas.Width;
 
 String bottomText = "Bus Stopping";
 int bottomPos = canvas.Width;
-
-// Spin up a web server in a separate thread
-// new Thread(() =>
-// {
-//     Thread.CurrentThread.IsBackground = true;
-//     
-//     using var listener = new HttpListener();
-//     listener.Prefixes.Add("http://localhost:8080/");
-//     listener.Start();
-//     Console.WriteLine("Listening on http://localhost:8080/");
-//     while (true)
-//     {
-//         // Get request
-//         var context = listener.GetContext();
-//         
-//         // get path
-//         String path = context.Request.Url.AbsolutePath;
-//         
-//         if (!(path.StartsWith("/top") || path.StartsWith("/bottom")))
-//         {
-//             context.Response.StatusCode = 404;
-//             context.Response.Close();
-//             continue;
-//         }
-//         
-//         bool isTopText = path.StartsWith("/top");
-//         String text = path.Split("=")[1];
-//         text = WebUtility.UrlDecode(text);
-//         
-//         if (isTopText)
-//         {
-//             topText = text;
-//             topPos = canvas.Width;
-//         }
-//         else
-//         {
-//             bottomText = text;
-//             bottomPos = canvas.Width;
-//         }
-//         
-//         context.Response.StatusCode = 200;
-//         // Send "Success" message
-//         byte[] buffer = System.Text.Encoding.UTF8.GetBytes("Success");
-//         context.Response.Close();
-//     }
-// }).Start();
 
 int numRev = 0;
 
@@ -198,7 +113,65 @@ new Thread(() =>
  *  Allow the user to type Top=... or Bottom=... to change the text in the console
  */
 
-while (true)
+bool running = true;
+
+new Thread(() =>
+{
+    while (running)
+    {
+        canvas.Clear();
+
+        Color textColor = textColors[numRev % textColors.Count];
+
+        int topWidth = font.DrawText(canvas._canvas, topPos, 7, textColor, topText);
+        int bottomWidth = 0;
+
+        if (bottomText == "%time")
+        {
+            DateTime now = DateTime.Now;
+            String bottomTextt = now.ToString("hh:mm tt").ToUpper();
+            bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomTextt);
+        }
+        else
+        {
+            bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomText);
+        }
+
+        if (topWidth <= canvas.Width)
+        {
+            topPos = (canvas.Width - topWidth) / 2;
+        }
+        else
+        {
+            topPos -= 1;
+            if (topPos < -topWidth)
+            {
+                topPos = canvas.Width;
+                numRev++;
+            }
+        }
+
+        if (bottomWidth <= canvas.Width)
+        {
+            bottomPos = (canvas.Width - bottomWidth) / 2;
+        }
+        else
+        {
+            bottomPos -= 1;
+            if (bottomPos < -bottomWidth)
+            {
+                bottomPos = canvas.Width;
+                numRev++;
+            }
+        }
+
+        matrix.SwapOnVsync(canvas);
+
+        Task.Delay(10).Wait();
+    }
+}).Start();
+
+while (running)
 {
     String input = Console.ReadLine();
     if (input.StartsWith("Top="))
@@ -210,6 +183,14 @@ while (true)
     {
         bottomText = input.Split("=")[1];
         bottomPos = canvas.Width;
+    }
+    else if (input.Equals("exit", StringComparison.OrdinalIgnoreCase))
+    {
+        running = false;
+    }
+    else
+    {
+        Console.WriteLine("Invalid input. Use 'Top=...' or 'Bottom=...' or type 'exit' to quit.");
     }
 }
 

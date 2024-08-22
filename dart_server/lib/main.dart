@@ -4,6 +4,8 @@ import 'package:dart_server/main.dart' as dart_server;
 
 Future<void> main(List<String> arguments) async {
 
+  print("Starting the dart server");
+
   // Start the matrix server. The server relies on commands to control the matrix.
   // The server is written in dotnet, located: ../../dotnet_server/bin/Debug/net6.0/dotnet_server.dll
   // The server is started with the command: dotnet dotnet_server.dll
@@ -12,7 +14,8 @@ Future<void> main(List<String> arguments) async {
   String currentDirectory = Directory.current.path;
 
   Process matrixServer = await Process.start("$dotnetPath", ["./dotnet_server/bin/dotnet_server.dll"],
-    workingDirectory: "./dotnet_server/"
+    workingDirectory: "./dotnet_server/",
+
   );
 
   matrixServer.stdout.listen((event) {

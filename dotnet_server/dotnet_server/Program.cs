@@ -39,57 +39,57 @@ Task.Delay(5000).Wait();
 
 var textColor = new Color(255,140,0);
 
-String topText = "Forest Road / Bell Corner";
+String topText = "Crooked Billet / Walthamstow Avenue";
 int topPos = canvas.Width;
 
 String bottomText = "Bus Stopping";
 int bottomPos = canvas.Width;
 
 // Spin up a web server in a separate thread
-new Thread(() =>
-{
-    Thread.CurrentThread.IsBackground = true;
-    
-    using var listener = new HttpListener();
-    listener.Prefixes.Add("http://localhost:8080/");
-    listener.Start();
-    Console.WriteLine("Listening on http://localhost:8080/");
-    while (true)
-    {
-        // Get request
-        var context = listener.GetContext();
-        
-        // get path
-        String path = context.Request.Url.AbsolutePath;
-        
-        if (!(path.StartsWith("/top") || path.StartsWith("/bottom")))
-        {
-            context.Response.StatusCode = 404;
-            context.Response.Close();
-            continue;
-        }
-        
-        bool isTopText = path.StartsWith("/top");
-        String text = path.Split("=")[1];
-        text = WebUtility.UrlDecode(text);
-        
-        if (isTopText)
-        {
-            topText = text;
-            topPos = canvas.Width;
-        }
-        else
-        {
-            bottomText = text;
-            bottomPos = canvas.Width;
-        }
-        
-        context.Response.StatusCode = 200;
-        // Send "Success" message
-        byte[] buffer = System.Text.Encoding.UTF8.GetBytes("Success");
-        context.Response.Close();
-    }
-}).Start();
+// new Thread(() =>
+// {
+//     Thread.CurrentThread.IsBackground = true;
+//     
+//     using var listener = new HttpListener();
+//     listener.Prefixes.Add("http://localhost:8080/");
+//     listener.Start();
+//     Console.WriteLine("Listening on http://localhost:8080/");
+//     while (true)
+//     {
+//         // Get request
+//         var context = listener.GetContext();
+//         
+//         // get path
+//         String path = context.Request.Url.AbsolutePath;
+//         
+//         if (!(path.StartsWith("/top") || path.StartsWith("/bottom")))
+//         {
+//             context.Response.StatusCode = 404;
+//             context.Response.Close();
+//             continue;
+//         }
+//         
+//         bool isTopText = path.StartsWith("/top");
+//         String text = path.Split("=")[1];
+//         text = WebUtility.UrlDecode(text);
+//         
+//         if (isTopText)
+//         {
+//             topText = text;
+//             topPos = canvas.Width;
+//         }
+//         else
+//         {
+//             bottomText = text;
+//             bottomPos = canvas.Width;
+//         }
+//         
+//         context.Response.StatusCode = 200;
+//         // Send "Success" message
+//         byte[] buffer = System.Text.Encoding.UTF8.GetBytes("Success");
+//         context.Response.Close();
+//     }
+// }).Start();
 
 while (true)
 {

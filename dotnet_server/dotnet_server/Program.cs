@@ -45,8 +45,19 @@ matrix.SwapOnVsync(canvas);
 // Hold for 5 seconds
 Task.Delay(5000).Wait();
 
-var textColor = new Color(255,140,0);
-textColor = new Color(255,255,255);
+// var textColor = new Color(255,140,0);
+// textColor = new Color(255,255,255);
+
+List<Color> textColors = new List<Color>();
+textColors.Add(new Color(255, 140, 0));
+textColors.Add(new Color(255, 255, 255));
+textColors.Add(new Color(0, 255, 0));
+textColors.Add(new Color(0, 0, 255));
+textColors.Add(new Color(255, 0, 0));
+textColors.Add(new Color(255, 255, 0));
+textColors.Add(new Color(0, 255, 255));
+textColors.Add(new Color(255, 0, 255));
+
 
 String topText = "Crooked Billet / Walthamstow Avenue";
 int topPos = canvas.Width;
@@ -100,9 +111,13 @@ int bottomPos = canvas.Width;
 //     }
 // }).Start();
 
+int numRev = 0;
+
 while (true)
 {
     canvas.Clear();
+    
+    Color textColor = textColors[numRev % textColors.Count];
     
     int topWidth = font.DrawText(canvas._canvas, topPos, 7, textColor, topText);
     int bottomWidth = 0;
@@ -131,6 +146,7 @@ while (true)
         if (topPos < -topWidth)
         {
             topPos = canvas.Width;
+            numRev++;
         }
     }
     
@@ -144,6 +160,7 @@ while (true)
         if (bottomPos < -bottomWidth)
         {
             bottomPos = canvas.Width;
+            numRev++;
         }
     }
     

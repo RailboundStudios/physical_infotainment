@@ -14,4 +14,6 @@ Future<void> main(List<String> arguments) async {
 
   matrixServer.stdin.writeln("top=Hello from Dart!");
 
+  while (true) {}
+
 }

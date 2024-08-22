@@ -83,6 +83,6 @@ while (true)
     
     DateTime now = DateTime.Now;
     // HH:mm AM/PM
-    topText = now.ToString("hh:mm tt");
+    bottomText = now.ToString("hh:mm tt");
 }
 Console.WriteLine("Matrix complete");

@@ -15,7 +15,7 @@ Future<void> main(List<String> arguments) async {
 
   Process matrixServer = await Process.start("$dotnetPath", ["./dotnet_server/bin/dotnet_server.dll"],
     workingDirectory: "./dotnet_server/",
-
+    runInShell: true
   );
 
   matrixServer.stdout.listen((event) {

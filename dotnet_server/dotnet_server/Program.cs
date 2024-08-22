@@ -111,6 +111,7 @@ new Thread(() =>
         Task.Delay(10).Wait();
         Console.WriteLine("Matrix running");
     }
+    Console.WriteLine("Matrix stopped");
 }).Start();
 
 while (running)

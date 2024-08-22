@@ -11,7 +11,7 @@ Future<void> main(List<String> arguments) async {
   String dotnetPath = "/home/imbenji/.dotnet/dotnet";
   String currentDirectory = Directory.current.path;
 
-  Process matrixServer = await Process.start("dotnetPath", ["$currentDirectory/dotnet_server/bin/dotnet_server.dll"]);
+  Process matrixServer = await Process.start("$dotnetPath", ["./dotnet_server/bin/dotnet_server.dll"]);
 
   matrixServer.stdin.writeln("top=Hello from Dart!");
 

@@ -7,7 +7,7 @@ Future<void> main(List<String> arguments) async {
   // Get current working directory
   String currentDirectory = Directory.current.path;
   print("Current directory: $currentDirectory");
-  String executable = Platform.resolvedExecutable;
+  String executable = Platform.executable;
 
   // Start the matrix server. The server relies on commands to control the matrix.
   // The server is written in dotnet, located: ../../dotnet_server/bin/Debug/net6.0/dotnet_server.dll

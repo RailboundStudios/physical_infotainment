@@ -59,6 +59,13 @@ textColors.Add(new Color(255, 0, 255));
 //     }
 // }
 
+// Draw a filled square arroun 0, 75
+canvas.Clear();
+canvas.DrawLine(0, 72, 0, 78, new Color(255, 255, 255));
+canvas.DrawLine(1, 72, 1, 78, new Color(255, 255, 255));
+canvas.DrawLine(2, 72, 2, 78, new Color(255, 255, 255));
+canvas.DrawLine(3, 72, 3, 78, new Color(255, 255, 255));
+canvas.DrawLine(4, 72, 4, 78, new Color(255, 255, 255));
 
 matrix.SwapOnVsync(canvas);
 

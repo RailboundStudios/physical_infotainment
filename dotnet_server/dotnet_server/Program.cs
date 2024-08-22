@@ -109,6 +109,7 @@ new Thread(() =>
         matrix.SwapOnVsync(canvas);
 
         Task.Delay(10).Wait();
+        Console.WriteLine("Matrix running");
     }
 }).Start();
 

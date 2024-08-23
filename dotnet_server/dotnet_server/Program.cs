@@ -31,6 +31,9 @@ String exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
 String exeDir = System.IO.Path.GetDirectoryName(exePath);
 Console.WriteLine("Exe dir: " + exeDir);
 
+String resolvedPath = System.IO.Path.GetFullPath("assets/test.bdf");
+Console.WriteLine("Resolved path: " + resolvedPath);
+
 // Does font file exist?
 if (!File.Exists("assets/test.bdf"))
 {

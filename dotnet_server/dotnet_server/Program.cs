@@ -35,13 +35,13 @@ String resolvedPath = System.IO.Path.GetFullPath("dotnet_server/dotnet_server/as
 Console.WriteLine("Resolved path: " + resolvedPath);
 
 // Does font file exist?
-if (!File.Exists("dotnet_server/dotnet_server/assets/test.bdf"))
+if (!File.Exists(resolvedPath))
 {
     Console.WriteLine("Font file not found");
     return;
 }
     
-var font = new RGBLedFont("dotnet_server/dotnet_server/assets/test.bdf");
+var font = new RGBLedFont(resolvedPath);
 // var font = new RGBLedFont(resolvedPath);
 canvas.Clear();
 

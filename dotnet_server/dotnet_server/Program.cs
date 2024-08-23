@@ -31,12 +31,13 @@ String exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
 String exeDir = System.IO.Path.GetDirectoryName(exePath);
 Console.WriteLine("Exe dir: " + exeDir);
 
-String fontPath = exeDir+"/../assets/test.bdf";
+String fontPath = exeDir+"/assets/test.bdf";
 String resolvedPath = System.IO.Path.GetFullPath(fontPath);
 
 Console.WriteLine("Font path: " + resolvedPath);
 
-var font = new RGBLedFont("./dotnet_server/assets/test.bdf");
+// var font = new RGBLedFont("./dotnet_server/assets/test.bdf");
+var font = new RGBLedFont(resolvedPath);
 canvas.Clear();
 
 List<Color> textColors = new List<Color>();

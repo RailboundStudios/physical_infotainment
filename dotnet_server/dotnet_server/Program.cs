@@ -13,6 +13,22 @@ if (!argsList.Contains("--led-no-hardware-pulse"))
 // Convert the list back to an array
 args = argsList.ToArray();
 
+new Thread(async () =>
+{
+    Console.WriteLine("Starting Bluetooth");
+    
+    IAdapter1 adapter = (await BlueZManager.GetAdaptersAsync()).FirstOrDefault();
+    
+    await adapter.StartDiscoveryAsync();
+    
+    foreach (Device device in await adapter.GetDevicesAsync())
+    {
+        Console.WriteLine("Device: " + await device.GetNameAsync());
+    }
+    
+    
+}).Start();
+
 Console.WriteLine("Creating matrix");
 using var matrix = new RGBLedMatrix(new RGBLedMatrixOptions
 {
@@ -191,21 +207,7 @@ new Thread(() =>
     Console.WriteLine("Matrix stopped");
 }).Start();
 
-new Thread(async () =>
-{
-    Console.WriteLine("Starting Bluetooth");
-    
-    IAdapter1 adapter = (await BlueZManager.GetAdaptersAsync()).FirstOrDefault();
-    
-    await adapter.StartDiscoveryAsync();
-    
-    foreach (Device device in await adapter.GetDevicesAsync())
-    {
-        Console.WriteLine("Device: " + await device.GetNameAsync());
-    }
-    
-    
-}).Start();
+
 
 
 while (running)

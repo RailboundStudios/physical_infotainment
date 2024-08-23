@@ -1,6 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Net;
+using HashtagChris.DotNetBlueZ;
+using HashtagChris.DotNetBlueZ.Extensions;
 using RPiRgbLEDMatrix;
 
 var argsList = new List<string>(args);
@@ -189,6 +191,21 @@ new Thread(() =>
     Console.WriteLine("Matrix stopped");
 }).Start();
 
+new Thread(async () =>
+{
+    Console.WriteLine("Starting Bluetooth");
+    
+    IAdapter1 adapter = (await BlueZManager.GetAdaptersAsync()).FirstOrDefault();
+    
+    await adapter.StartDiscoveryAsync();
+    
+    foreach (Device device in await adapter.GetDevicesAsync())
+    {
+        Console.WriteLine("Device: " + await device.GetNameAsync());
+    }
+    
+    
+}).Start();
 
 
 while (running)

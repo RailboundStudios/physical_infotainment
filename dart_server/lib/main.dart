@@ -41,7 +41,6 @@ Future<void> main(List<String> arguments) async {
   await adapter.setAlias("Roadbound Infotainment");
   await adapter.startDiscovery();
 
-
   for (BlueZDevice device in client.devices) {
     print("Device: ${device.name}");
   }

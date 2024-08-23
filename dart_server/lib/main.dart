@@ -37,6 +37,10 @@ Future<void> main(List<String> arguments) async {
   // Setup bluetooth stuff
   BlueZClient client = BlueZClient();
   await client.connect();
+  BlueZAdapter adapter = client.adapters.first;
+  await adapter.setAlias("Roadbound Infotainment");
+  await adapter.startDiscovery();
+
 
   for (BlueZDevice device in client.devices) {
     print("Device: ${device.name}");

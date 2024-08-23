@@ -7,7 +7,7 @@ function runCommand(command) {
 
 bleno.on("stateChange", (state) => {
    if (state === "poweredOn") {
-      bleno.startAdvertising("Pi Infotainment", ["12ab"]);
+      bleno.startAdvertising("Pi Infotainment", ["1803"]);
    } else {
         bleno.stopAdvertising();
    }

@@ -134,7 +134,7 @@ new Thread(() =>
     {
         canvas.Clear();
 
-        Color rainbowColor = fromHSB((DateTime.Now.Second * 60) % 360, 1, 1);
+        Color rainbowColor = fromHSB((DateTime.Now.Millisecond * 6) % 360, 1, 1);
         
         Color textColor = textColors[numRev % textColors.Count];
         textColor = rainbowColor;

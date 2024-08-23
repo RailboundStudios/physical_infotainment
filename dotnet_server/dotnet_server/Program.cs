@@ -14,14 +14,6 @@ if (!argsList.Contains("--led-no-hardware-pulse"))
     argsList.Add("--led-no-hardware-pulse");
 }
 
-ServerContext serverContext = new ServerContext();
-await BleAdvertisement.RegisterAdvertisement(serverContext);
-await BleGattApplication.RegisterGattApplication(serverContext);
-DeviceManager.SetDevicePropertyListenerAsync(serverContext, (device1, changes) =>
-{
-    Console.WriteLine("Device property changed: " + device1.ToString());
-});
-
 // Convert the list back to an array
 args = argsList.ToArray();
 

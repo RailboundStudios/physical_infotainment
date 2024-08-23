@@ -36,7 +36,7 @@ String resolvedPath = System.IO.Path.GetFullPath(fontPath);
 
 Console.WriteLine("Font path: " + resolvedPath);
 
-var font = new RGBLedFont("assets/test.bdf");
+var font = new RGBLedFont("dotnet_server/assets/test.bdf");
 canvas.Clear();
 
 List<Color> textColors = new List<Color>();

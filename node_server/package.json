@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "bleno": "^0.5.0",
+    "noble": "^1.9.1",
     "onoff": "^6.0.3"
   }
 }

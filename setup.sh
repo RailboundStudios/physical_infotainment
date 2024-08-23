@@ -12,7 +12,7 @@ BaseDir=$(pwd)
 DartServerDir=$BaseDir/dart_server
 DotNetServerDir=$BaseDir/dotnet_server
 
-DotNetDir="/home/imbenji/.dotnet" // If this doesnt exist, stop the script
+DotNetDir="/home/imbenji/.dotnet" # If this doesnt exist, stop the script
 if [ ! -d $DotNetDir ]; then
     echo -e "${ORANGE}DotNet not installed, this script does not install dotnet yet.${NC}"
     echo -e "${ORANGE}Please install .NET 6.0 SDK for ARM64${NC}"

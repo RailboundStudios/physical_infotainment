@@ -74,5 +74,9 @@ echo -e "${YELLOW}Compiling dart_server for ARM64...${NC}"
 $DartDir/bin/dart compile exe lib/main.dart -o lib/main
 echo -e "${ORANGE}Dart server compiled successfully${NC}"
 
-
+# If the --run flag is passed, run the server
+if [ "$1" == "--run" ]; then
+    # sudo ./dart_server/lib/main
+    sudo $DartDir/bin/dart run $DartServerDir/lib/main.dart
+fi
 

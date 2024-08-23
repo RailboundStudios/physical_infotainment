@@ -38,7 +38,7 @@ Console.WriteLine("Resolved path: " + resolvedPath);
 if (!File.Exists(resolvedPath))
 {
     Console.WriteLine("Font file not found");
-    return;
+    // return;
 }
     
 var font = new RGBLedFont(resolvedPath);

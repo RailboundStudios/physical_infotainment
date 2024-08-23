@@ -57,13 +57,21 @@ else
 
 fi
 
+## Compile dotnet_server for ARM64
+echo -e "${YELLOW}Compiling dotnet_server for ARM64...${NC}"
+cd $DotNetServerDir
+$DotNetDir/dotnet publish -c Release -r linux-arm64 -self-contained true
+echo -e "${ORANGE}dotnet_server compiled successfully${NC}"
+
 ## Install dart_server dependencies
+echo -e "${YELLOW}Installing dart_server dependencies...${NC}"
 cd $DartServerDir
 $DartDir/bin/dart pub get
+echo -e "${ORANGE}dart_server dependencies installed successfully${NC}"
 
 ## Compile dart_server for ARM64
+echo -e "${YELLOW}Compiling dart_server for ARM64...${NC}"
 $DartDir/bin/dart compile exe lib/main.dart -o lib/main
-
 echo -e "${ORANGE}Dart server compiled successfully${NC}"
 
 

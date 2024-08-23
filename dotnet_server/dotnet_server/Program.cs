@@ -31,7 +31,7 @@ String exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
 String exeDir = System.IO.Path.GetDirectoryName(exePath);
 Console.WriteLine("Exe dir: " + exeDir);
 
-String resolvedPath = System.IO.Path.GetFullPath("assets/test.bdf");
+String resolvedPath = System.IO.Path.GetFullPath("dotnet_server/dotnet_server/assets/test.bdf");
 Console.WriteLine("Resolved path: " + resolvedPath);
 
 // Does font file exist?
@@ -41,7 +41,7 @@ if (!File.Exists("assets/test.bdf"))
     return;
 }
     
-var font = new RGBLedFont("assets/test.bdf");
+var font = new RGBLedFont("dotnet_server/dotnet_server/assets/test.bdf");
 // var font = new RGBLedFont(resolvedPath);
 canvas.Clear();
 

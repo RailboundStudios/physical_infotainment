@@ -34,6 +34,8 @@ Console.WriteLine("Exe dir: " + exeDir);
 String fontPath = exeDir+"/../assets/test.bdf";
 String resolvedPath = System.IO.Path.GetFullPath(fontPath);
 
+Console.WriteLine("Font path: " + resolvedPath);
+
 var font = new RGBLedFont(resolvedPath);
 canvas.Clear();
 

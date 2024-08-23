@@ -17,12 +17,22 @@ Future<void> main(List<String> arguments) async {
       workingDirectory: "/home/imbenji/physical_infotainment/dotnet_server/bin/"
   );
 
+  bool matrixServerStarted = false;
+
   matrixServer.stdout.listen((event) {
     print("Matrix Server: ${String.fromCharCodes(event)}");
+    if (String.fromCharCodes(event).contains("Starting matrix")) {
+      matrixServerStarted = true;
+    }
   });
 
+  while (!matrixServerStarted) {
+    await Future.delayed(Duration(seconds: 1));
+  }
+
+  matrixServer.stdin.writeln("Top=Great Titchfield Street / Photographers' Gallery for Oxford Circus Station");
+
   while (true) {
-    matrixServer.stdin.writeln("Top=Hello from Dart!");
     await Future.delayed(Duration(seconds: 1));
   }
 

@@ -35,7 +35,7 @@ String resolvedPath = System.IO.Path.GetFullPath("dotnet_server/dotnet_server/as
 Console.WriteLine("Resolved path: " + resolvedPath);
 
 // Does font file exist?
-if (!File.Exists("assets/test.bdf"))
+if (!File.Exists("dotnet_server/dotnet_server/assets/test.bdf"))
 {
     Console.WriteLine("Font file not found");
     return;

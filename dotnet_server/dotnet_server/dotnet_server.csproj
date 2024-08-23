@@ -15,6 +15,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Update="assets\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="\home\imbenji\rpi-rgb-led-matrix\bindings\c#\RPiRgbLEDMatrix.csproj"/>
     </ItemGroup>
 

@@ -44,7 +44,7 @@ if (!File.Exists(resolvedPath))
     // return;
 }
     
-var font = new RGBLedFont(resolvedPath);
+var font = new RGBLedFont("assets/test.bdf");
 // var font = new RGBLedFont(resolvedPath);
 canvas.Clear();
 

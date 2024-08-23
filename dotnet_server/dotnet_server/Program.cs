@@ -9,6 +9,8 @@ if (!argsList.Contains("--led-no-hardware-pulse"))
     argsList.Add("--led-no-hardware-pulse");
 }
 
+// git pull && bash setup.sh && bash run.sh
+
 // Convert the list back to an array
 args = argsList.ToArray();
 
@@ -50,6 +52,7 @@ var font = new RGBLedFont("assets/test.bdf");
 canvas.Clear();
 
 List<Color> textColors = new List<Color>();
+textColors.Add(new Color(254,254,0));
 textColors.Add(new Color(255, 140, 0));
 textColors.Add(new Color(255, 255, 255));
 textColors.Add(new Color(0, 255, 0));
@@ -58,6 +61,7 @@ textColors.Add(new Color(255, 0, 0));
 textColors.Add(new Color(255, 255, 0));
 textColors.Add(new Color(0, 255, 255));
 textColors.Add(new Color(255, 0, 255));
+textColors.Add(new Color(0, 0, 0));
 
 Console.WriteLine("Getting text ready");
 
@@ -138,7 +142,11 @@ new Thread(() =>
         Color rainbowColor = fromHSB((DateTime.Now.Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds * 0.1) % 360, 1, 1);
         
         Color textColor = textColors[numRev % textColors.Count];
-        textColor = rainbowColor;
+        
+        if (textColor is { R: 0, G: 0, B: 0 })
+        {
+            textColor = rainbowColor;
+        }
 
         int topWidth = font.DrawText(canvas._canvas, topPos, 7, textColor, topText);
         int bottomWidth = 0;

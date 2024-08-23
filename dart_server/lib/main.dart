@@ -14,7 +14,7 @@ Future<void> main(List<String> arguments) async {
   String currentDirectory = Directory.current.path;
 
   Process matrixServer = await Process.start("./dotnet_server/bin/dotnet_server", [""],
-      workingDirectory: "./dotnet_server/bin/"
+      workingDirectory: "/home/imbenji/physical_infotainment/dotnet_server/bin/"
   );
 
   matrixServer.stdout.listen((event) {

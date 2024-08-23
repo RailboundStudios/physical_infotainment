@@ -34,7 +34,7 @@ Console.WriteLine("Exe dir: " + exeDir);
 String workingDir = System.IO.Directory.GetCurrentDirectory();
 Console.WriteLine("Working dir: " + workingDir);
 
-String resolvedPath = System.IO.Path.GetFullPath("dotnet_server/dotnet_server/assets/test.bdf");
+String resolvedPath = System.IO.Path.GetFullPath("assets/test.bdf");
 Console.WriteLine("Resolved path: " + resolvedPath);
 
 // Does font file exist?

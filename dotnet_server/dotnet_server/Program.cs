@@ -1,11 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Net;
-using bletest;
-using DotnetBleServer.Core;
-using DotnetBleServer.Device;
-using HashtagChris.DotNetBlueZ;
-using HashtagChris.DotNetBlueZ.Extensions;
 using RPiRgbLEDMatrix;
 
 var argsList = new List<string>(args);

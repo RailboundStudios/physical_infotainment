@@ -1,7 +1,8 @@
 const bleno = require("bleno");
 
-function runCommand(String command) {
+function runCommand(command) {
     // todo run command
+    console.log("Running command: " + command);
 }
 
 bleno.on("stateChange", (state) => {

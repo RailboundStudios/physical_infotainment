@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:bluez/bluez.dart';
+import 'package:dart_server/io/gps_tracker.dart';
 import 'package:dart_server/main.dart' as dart_server;
 
 Future<void> main(List<String> arguments) async {
@@ -32,8 +34,19 @@ Future<void> main(List<String> arguments) async {
 
   matrixServer.stdin.writeln("Top=Great Titchfield Street / Photographers' Gallery for Oxford Circus Station");
 
+  // Setup bluetooth stuff
+  BlueZClient client = BlueZClient();
+  await client.connect();
+
+  for (BlueZDevice device in await client.devices) {
+    print("Device: ${device.name}");
+  }
+
   while (true) {
     await Future.delayed(Duration(seconds: 1));
+
+
+
   }
 
 }

@@ -1,142 +1,22 @@
-import threading
-from http.server import BaseHTTPRequestHandler, HTTPServer
-import time
+from bluepy.btle import Peripheral, UUID, Service, Characteristic, Descriptor
 
-from sys import path
-path.append('/home/imbenji/physical_infotainment/python_server/includes/rpi-rgb-led-matrix/bindings/python/rgbmatrix')
+class MyPeripheral(Peripheral):
+    def __init__(self):
+        Peripheral.__init__(self)
 
+        # Create a service
+        service_uuid = UUID("12345678-1234-5678-1234-56789abcdef0")
+        service = self.addService(Service(service_uuid))
 
-from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
+        # Create a characteristic
+        char_uuid = UUID("12345678-1234-5678-1234-56789abcdef1")
+        char = service.addCharacteristic(char_uuid,
+                                         props=Characteristic.PROP_READ | Characteristic.PROP_WRITE,
+                                         perms=Characteristic.PERM_READ | Characteristic.PERM_WRITE)
 
-topText = "Walthamstow Central"
-bottomText = "Bus Stopping"
-topPos = 0
-bottomPos = 0
-
-options = RGBMatrixOptions()
-options.rows = 16
-options.cols = 32
-options.chain_length = 3
-options.parallel = 1
-options.gpio_slowdown = 4
-options.show_refresh_rate = True
-options.hardware_mapping = "adafruit-hat"
-
-matrix = RGBMatrix(options = options)
-matrix.brightness = 100
-canvas = matrix.CreateFrameCanvas()
-
-hostName = "0.0.0.0"
-serverPort = 8080
-
-class MyServer(BaseHTTPRequestHandler):
-    def do_GET(self):
-
-        print("GET request, Path:", self.path)
-
-        if not (self.path.startswith("/top") or self.path.startswith("/bottom")):
-            self.send_response(400)
-            self.send_header("Content-type", "text/html")
-            self.end_headers()
-            self.wfile.write(bytes("Invalid path", "utf-8"))
-            return
-
-        isTopText = self.path.startswith("/top")
-        text = self.path.split("=")[1]
-        text = text.replace("%20", " ")
-
-        if isTopText:
-            global topText
-            topText = text
-            topPos = canvas.width
-
-            # Send response status code with html "successfully updated top text"
-            self.send_response(200)
-            self.send_header("Content-type", "text/html")
-            self.end_headers()
-            self.wfile.write(bytes("Successfully updated top text", "utf-8"))
-
-        else:
-            global bottomText
-            bottomText = text
-            bottomPos = canvas.width
-
-            # Send response status code with html "successfully updated bottom text"
-            self.send_response(200)
-            self.send_header("Content-type", "text/html")
-            self.end_headers()
-            self.wfile.write(bytes("Successfully updated bottom text", "utf-8"))
-
-        # updateDisplay()
-        print("=== Updated display ======================")
-        print("Top text: ", topText)
-        print("Bottom text: ", bottomText)
-        print("==========================================")
-
-
-font = graphics.Font()
-font.LoadFont("assets/test.bdf")
-
-def updateDisplay():
-    global font
-    global canvas
-    global topPos
-    global bottomPos
-
-    while True:
-        canvas.Clear()
-
-        textColor = graphics.Color(255,140,0)
-
-        topLength = graphics.DrawText(canvas, font, topPos, 7, textColor, topText)
-        bottomLength = graphics.DrawText(canvas, font, bottomPos, 15, textColor, bottomText)
-
-        # Center the top text if it is shorter than the canvas width
-        if topLength <= canvas.width:
-            topPos = (canvas.width - topLength) // 2
-        else:
-            topPos -= 1
-            if topPos + topLength < 0:
-                topPos = canvas.width
-
-        # Center the bottom text if it is shorter than the canvas width
-        if bottomLength <= canvas.width:
-            bottomPos = (canvas.width - bottomLength) // 2
-        else:
-            bottomPos -= 1
-            if bottomPos + bottomLength < 0:
-                bottomPos = canvas.width
-
-        # Redraw the text after adjusting positions
-        graphics.DrawText(canvas, font, topPos, 7, textColor, topText)
-        graphics.DrawText(canvas, font, bottomPos, 15, textColor, bottomText)
-
-        # Draw a cross (if needed)
-        lineAColor = graphics.Color(20, 0, 0)
-        lineBColor = graphics.Color(0, 0, 20)
-        # graphics.DrawLine(canvas, 0, 0, matrix.width, 15, lineAColor)
-        # graphics.DrawLine(canvas, 0, matrix.height, matrix.width, 0, lineBColor)
-
-        canvas = matrix.SwapOnVSync(canvas)
-
-        time.sleep(0.03)
-
-# updateDisplay()
-
-
+        # Start the peripheral
+        self.advertise("MyBLEPeripheral")
 
 if __name__ == "__main__":
-    webServer = HTTPServer((hostName, serverPort), MyServer)
-    print("Server started http://%s:%s" % (hostName, serverPort))
-
-    # Start a new thread to update the display
-    displayThread = threading.Thread(target=updateDisplay)
-    displayThread.start()
-
-    try:
-        webServer.serve_forever()
-    except KeyboardInterrupt:
-        pass
-
-    webServer.server_close()
-    print("Server stopped.")
+    peripheral = MyPeripheral()
+    peripheral.run()

@@ -71,6 +71,60 @@ int numRev = 0;
  *  Allow the user to type Top=... or Bottom=... to change the text in the console
  */
 
+Color fromHSB(double h, double s, double b)
+{
+    double r = 0, g = 0, bl = 0;
+    if (s == 0)
+    {
+        r = g = bl = b;
+    }
+    else
+    {
+        double sectorPos = h / 60.0;
+        int sectorNumber = (int)(Math.Floor(sectorPos));
+        double fractionalSector = sectorPos - sectorNumber;
+
+        double p = b * (1.0 - s);
+        double q = b * (1.0 - (s * fractionalSector));
+        double t = b * (1.0 - (s * (1 - fractionalSector)));
+
+        switch (sectorNumber)
+        {
+            case 0:
+                r = b;
+                g = t;
+                bl = p;
+                break;
+            case 1:
+                r = q;
+                g = b;
+                bl = p;
+                break;
+            case 2:
+                r = p;
+                g = b;
+                bl = t;
+                break;
+            case 3:
+                r = p;
+                g = q;
+                bl = b;
+                break;
+            case 4:
+                r = t;
+                g = p;
+                bl = b;
+                break;
+            case 5:
+                r = b;
+                g = p;
+                bl = q;
+                break;
+        }
+    }
+    return new Color((byte)(r * 255), (byte)(g * 255), (byte)(bl * 255));
+}
+
 bool running = true;
 
 new Thread(() =>
@@ -80,7 +134,10 @@ new Thread(() =>
     {
         canvas.Clear();
 
+        Color rainbowColor = fromHSB((DateTime.Now.Second * 6) % 360, 1, 1);
+        
         Color textColor = textColors[numRev % textColors.Count];
+        textColor = rainbowColor;
 
         int topWidth = font.DrawText(canvas._canvas, topPos, 7, textColor, topText);
         int bottomWidth = 0;
@@ -131,6 +188,8 @@ new Thread(() =>
     }
     Console.WriteLine("Matrix stopped");
 }).Start();
+
+
 
 while (running)
 {

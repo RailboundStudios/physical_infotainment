@@ -38,7 +38,7 @@ Future<void> main(List<String> arguments) async {
   BlueZClient client = BlueZClient();
   await client.connect();
 
-  for (BlueZDevice device in await client.devices) {
+  for (BlueZDevice device in client.devices) {
     print("Device: ${device.name}");
   }
 

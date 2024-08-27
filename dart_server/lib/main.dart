@@ -1,9 +1,5 @@
 import 'dart:io';
 
-import 'package:bluez/bluez.dart';
-import 'package:dart_server/io/gps_tracker.dart';
-import 'package:dart_server/main.dart' as dart_server;
-
 Future<void> main(List<String> arguments) async {
 
   print("Starting the dart server");

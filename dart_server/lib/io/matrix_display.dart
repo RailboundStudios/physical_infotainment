@@ -36,19 +36,19 @@ class MatrixDisplay {
 
   String get topLine => _topLine;
   void set topLine(String value) {
-    topLine = value;
+    _topLine = value;
     print("Top: $value");
   }
 
   String get bottomLine => _bottomLine;
   void set bottomLine(String value) {
-    bottomLine = value;
+    _bottomLine = value;
     print("Bottom: $value");
   }
 
   Color get color => _color;
   void set color(Color value) {
-    color = value;
+    _color = value;
     print("Color: $value");
   }
 

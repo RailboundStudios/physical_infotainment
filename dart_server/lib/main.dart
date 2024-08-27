@@ -63,7 +63,7 @@ Future<void> main(List<String> arguments) async {
     );
   });
 
-  var server = await shelf_io.serve(router, 'localhost', 8080);
+  var server = await shelf_io.serve(router, '0.0.0.0', 8080);
 
   while (true) {
     await Future.delayed(Duration(seconds: 1));

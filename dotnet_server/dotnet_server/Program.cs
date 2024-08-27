@@ -229,11 +229,7 @@ while (running)
     }
     else if (input.StartsWith("Speed="))
     {
-        String[] speedParts = input.Split("=")[1].Split(",");
-        if (speedParts.Length == 2)
-        {
-            FrameMs = int.Parse(speedParts[0]);
-        }
+        FrameMs = int.Parse(input.Split("=")[1]);
     }
     else if (input.Equals("exit", StringComparison.OrdinalIgnoreCase))
     {

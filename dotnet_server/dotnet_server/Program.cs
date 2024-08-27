@@ -51,17 +51,9 @@ var font = new RGBLedFont("assets/test.bdf");
 // var font = new RGBLedFont(resolvedPath);
 canvas.Clear();
 
-List<Color> textColors = new List<Color>();
-textColors.Add(new Color(254,254,0));
-textColors.Add(new Color(255, 140, 0));
-textColors.Add(new Color(255, 255, 255));
-textColors.Add(new Color(0, 255, 0));
-textColors.Add(new Color(0, 0, 255));
-textColors.Add(new Color(255, 0, 0));
-textColors.Add(new Color(255, 255, 0));
-textColors.Add(new Color(0, 255, 255));
-textColors.Add(new Color(255, 0, 255));
-textColors.Add(new Color(0, 0, 0));
+// Config
+Color textColor = new Color(254, 254, 0);
+int FrameMs = 10;
 
 Console.WriteLine("Getting text ready");
 
@@ -141,8 +133,6 @@ new Thread(() =>
 
         Color rainbowColor = fromHSB((DateTime.Now.Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds * 0.1) % 360, 1, 1);
         
-        Color textColor = textColors[numRev % textColors.Count];
-        
         if (textColor is { R: 0, G: 0, B: 0 })
         {
             textColor = rainbowColor;
@@ -205,8 +195,20 @@ new Thread(() =>
 
 while (running)
 {
-    Console.WriteLine("Type 'Top=...' or 'Bottom=...' to change the text, or type 'exit' to quit");
-    String input = Console.ReadLine();
+    Console.WriteLine("Type: ");
+    Console.WriteLine("Top=... # to change the top text");
+    Console.WriteLine("Bottom=... # to change the bottom text");
+    Console.WriteLine("Color=... # to change the color (r, g, b)");
+    Console.WriteLine("Speed=... # to change the speed");
+    Console.WriteLine("exit # to quit");
+    
+    String? input = Console.ReadLine();
+
+    if (input == null)
+    {
+        continue;
+    }
+    
     if (input.StartsWith("Top="))
     {
         topText = input.Split("=")[1];
@@ -217,13 +219,29 @@ while (running)
         bottomText = input.Split("=")[1];
         bottomPos = canvas.Width;
     }
+    else if (input.StartsWith("Color="))
+    {
+        String[] colorParts = input.Split("=")[1].Split(",");
+        if (colorParts.Length == 3)
+        {
+            textColor = new Color(byte.Parse(colorParts[0]), byte.Parse(colorParts[1]), byte.Parse(colorParts[2]));
+        }
+    }
+    else if (input.StartsWith("Speed="))
+    {
+        String[] speedParts = input.Split("=")[1].Split(",");
+        if (speedParts.Length == 2)
+        {
+            FrameMs = int.Parse(speedParts[0]);
+        }
+    }
     else if (input.Equals("exit", StringComparison.OrdinalIgnoreCase))
     {
         running = false;
     }
     else
     {
-        Console.WriteLine("Invalid input. Use 'Top=...' or 'Bottom=...' or type 'exit' to quit.");
+        Console.WriteLine("Invalid command");
     }
 }
 

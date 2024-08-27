@@ -6,8 +6,10 @@ class GpsTracker {
 
   final String serialPort;
 
+  bool _isFixed = false;
   double _latitude = 0;
   double _longitude = 0;
+  bool get isFixed => _isFixed;
   double get latitude => _latitude;
   double get longitude => _longitude;
 
@@ -44,8 +46,10 @@ class GpsTracker {
       // Check if the data is valid
       if (parts[6] == "0") { // 0:unpositioned 1:SPS mode, position valid 2:Differential, SPS mode, position valid, 3:PPS mode, position valid
         print("No GPS fix");
+        _isFixed = false;
         return;
       }
+      _isFixed = true;
 
       // Get the latitude and longitude
       String latitudeString = parts[2]; // ddmm.mmmm

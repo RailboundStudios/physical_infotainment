@@ -184,7 +184,7 @@ new Thread(() =>
 
         matrix.SwapOnVsync(canvas);
 
-        Task.Delay(10).Wait();
+        Task.Delay(FrameMs).Wait();
         // Console.WriteLine("Matrix running");
     }
     Console.WriteLine("Matrix stopped");

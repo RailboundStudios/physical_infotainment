@@ -38,22 +38,26 @@ class MatrixDisplay {
   void set topLine(String value) {
     _topLine = value;
     print("Top: $value");
+    _matrixServer?.stdin.writeln("top=$value");
   }
 
   String get bottomLine => _bottomLine;
   void set bottomLine(String value) {
     _bottomLine = value;
     print("Bottom: $value");
+    _matrixServer?.stdin.writeln("bottom=$value");
   }
 
   Color get color => _color;
   void set color(Color value) {
     _color = value;
     print("Color: $value");
+    _matrixServer?.stdin.writeln("color=${value.red},${value.green},${value.blue}");
   }
 
   void kill() {
-    _matrixServer?.kill();
+    _matrixServer?.stdin.writeln("exit");
+    // _matrixServer?.kill();
   }
 
 

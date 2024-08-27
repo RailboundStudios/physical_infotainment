@@ -11,6 +11,11 @@ class GpsTracker {
   double get latitude => _latitude;
   double get longitude => _longitude;
 
+  DateTime _time = DateTime.now();
+
+  late Timer _timerA;
+  late Timer _timerB;
+
   GpsTracker(this.serialPort) {
 
     File file = File(serialPort);
@@ -19,7 +24,7 @@ class GpsTracker {
     }
     RandomAccessFile raf = file.openSync(mode: FileMode.read);
 
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    _timerA = Timer.periodic(Duration(seconds: 1), (timer) {
       print("Getting GPS data from $serialPort");
 
       List<int> bytes = raf.readSync(1024);
@@ -62,8 +67,25 @@ class GpsTracker {
         _longitude = -_longitude;
       }
 
+      String timeString = parts[1];
+      int hour = int.parse(timeString.substring(0, 2));
+      int minute = int.parse(timeString.substring(2, 4));
+      double second = double.parse(timeString.substring(4, 9));
+
+      _time = DateTime(_time.year, _time.month, _time.day, hour, minute, second.toInt(), (second * 1000).toInt());
+
       print("Latitude: $_latitude, Longitude: $_longitude");
     });
+
+    _timerB = Timer.periodic(Duration(milliseconds: 1), (timer) {
+      _time = _time.add(Duration(milliseconds: 1));
+    });
+  }
+
+  void dispose() {
+    // Close the serial port
+    _timerA.cancel();
+    _timerB.cancel();
   }
 
 

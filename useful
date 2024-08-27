@@ -3,3 +3,9 @@ git clone --recurse-submodules -j8 https://github.com/RailboundStudios/physical_
 # This directory is where all of the wifi network information is stored
 /etc/NetworkManager/system-connections
 /etc/wpa_supplicant/wpa_supplicant.conf
+
+# This is the script for setting up the wifi network
+curl "https://www.raspberryconnect.com/images/scripts/AccessPopup.tar.gz" -o AccessPopup.tar.gz
+tar -xvf AccessPopup.tar.gz
+cd AccessPoint
+sudo ./installconfig.sh

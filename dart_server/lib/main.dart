@@ -34,28 +34,8 @@ Future<void> main(List<String> arguments) async {
 
   matrixServer.stdin.writeln("Top=Great Titchfield Street / Photographers' Gallery for Oxford Circus Station");
 
-  // Setup bluetooth stuff
-  try {
-    BlueZClient client = BlueZClient();
-    await client.connect();
-    BlueZAdapter adapter = client.adapters.first;
-    await adapter.setAlias("Roadbound Infotainment");
-    await adapter.startDiscovery();
-
-    for (BlueZDevice device in client.devices) {
-      print("Device: ${device.name}");
-    }
-  } catch (e) {
-    print("Error setting up bluetooth: $e");
-  }
-
-
-
   while (true) {
     await Future.delayed(Duration(seconds: 1));
-
-
-
   }
 
 }

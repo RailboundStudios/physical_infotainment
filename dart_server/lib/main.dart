@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dart_server/io/gps_tracker.dart';
@@ -44,22 +45,26 @@ Future<void> main(List<String> arguments) async {
   // get the displayInfo. /displayInfo
   router.get("/displayInfo", (Request request) {
     return Response.ok(
-      {
+      jsonEncode({
         "topText": matrixDisplay.topLine,
         "bottomText": matrixDisplay.bottomLine,
-        "textColor": [matrixDisplay.color.red, matrixDisplay.color.green, matrixDisplay.color.blue],
-      }
+        "textColor": [
+          matrixDisplay.color.red,
+          matrixDisplay.color.green,
+          matrixDisplay.color.blue
+        ],
+      })
     );
   });
 
   // get the locationInfo. /locationInfo
   router.get("/locationInfo", (Request request) {
     return Response.ok(
-      {
+      jsonEncode({
         "locationFix": gpsTracker.isFixed,
         "latitude": gpsTracker.latitude,
         "longitude": gpsTracker.longitude
-      }
+      })
     );
   });
 

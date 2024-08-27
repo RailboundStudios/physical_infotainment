@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
 import 'package:dart_server/io/gps_tracker.dart';
 import 'package:dart_server/io/matrix_display.dart';
 import 'package:shelf/shelf.dart';
@@ -11,14 +12,28 @@ Future<void> main(List<String> arguments) async {
 
   print("Starting the dart server");
 
+  Directory storageDir = Directory("../storage");
+  if (!storageDir.existsSync()) {
+    storageDir.createSync();
+  }
+  Directory routesDir = Directory("../storage/routes");
+  if (!routesDir.existsSync()) {
+    routesDir.createSync();
+  }
+
   MatrixDisplay matrixDisplay = MatrixDisplay();
   GpsTracker gpsTracker = GpsTracker("/dev/ttyACM0");
+
+  Route? currentRoute;
+
+  while (!matrixDisplay.isReady) {
+    await Future.delayed(Duration(seconds: 1));
+  }
 
   matrixDisplay.topLine = "Hello";
   matrixDisplay.bottomLine = "World";
 
   Router router = Router();
-
   // Set the top line. /top?text=Hello
   router.get("/top", (Request request) {
     String text = request.url.queryParameters["text"] ?? "";
@@ -42,6 +57,13 @@ Future<void> main(List<String> arguments) async {
     return Response.ok("Color set to $r, $g, $b");
   });
 
+  // set the speed. /speed?ms=10
+  router.get("/speed", (Request request) {
+    int ms = int.parse(request.url.queryParameters["ms"] ?? "10");
+    matrixDisplay.SpeedMs = ms;
+    return Response.ok("Speed set to $ms");
+  });
+
   // get the displayInfo. /displayInfo
   router.get("/displayInfo", (Request request) {
     return Response.ok(
@@ -53,6 +75,7 @@ Future<void> main(List<String> arguments) async {
           matrixDisplay.color.green,
           matrixDisplay.color.blue
         ],
+        "speedMs": matrixDisplay.SpeedMs
       })
     );
   });
@@ -68,6 +91,25 @@ Future<void> main(List<String> arguments) async {
     );
   });
 
+  // Upload a route. /uploadRoute - Saves the route to a file
+  router.post("/uploadRoute", (Request request) async {
+    var body = await request.readAsString();
+
+    String hash = sha256.convert(utf8.encode(body)).toString();
+    Map<String, dynamic> map = jsonDecode(body);
+
+    File file = File("../storage/routes/$hash.json");
+    file.writeAsStringSync(jsonEncode(map));
+
+    return Response.ok("Route uploaded");
+  });
+
+  // Test Connection. /testConnection
+  router.get("/testConnection", (Request request) {
+    return Response.ok("Connection successful");
+  });
+
+  // Start the server
   var server = await shelf_io.serve(router, '0.0.0.0', 8080);
 
   while (true) {

@@ -31,6 +31,7 @@ class MatrixDisplay {
   String _topLine = "";
   String _bottomLine = "";
   Color _color = Color(254, 254, 0);
+  int _speedMs = 10;
 
   bool get isReady => _matrixServer != null;
 
@@ -53,6 +54,13 @@ class MatrixDisplay {
     _color = value;
     print("Color: $value");
     _matrixServer?.stdin.writeln("Color=${value.red},${value.green},${value.blue}");
+  }
+
+  int get SpeedMs => _speedMs;
+  void set SpeedMs(int value) {
+    _speedMs = value;
+    print("Speed: $value");
+    _matrixServer?.stdin.writeln("Speed=$value");
   }
 
   void kill() {

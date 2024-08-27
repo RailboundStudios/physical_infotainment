@@ -147,19 +147,21 @@ new Thread(() =>
         {
             textColor = rainbowColor;
         }
-
-        int topWidth = font.DrawText(canvas._canvas, topPos, 7, textColor, topText);
+        
+        int topWidth = canvas.DrawText(font, topPos, 7, textColor, topText);
         int bottomWidth = 0;
 
         if (bottomText == "%time")
         {
             DateTime now = DateTime.Now;
             String bottomTextt = now.ToString("hh:mm tt").ToUpper();
-            bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomTextt);
+            // bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomTextt);
+            bottomWidth = canvas.DrawText(font, bottomPos, 15, textColor, bottomTextt);
         }
         else
         {
-            bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomText);
+            // bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomText);
+            bottomWidth = canvas.DrawText(font, bottomPos, 15, textColor, bottomText);
         }
 
         if (topWidth <= canvas.Width)

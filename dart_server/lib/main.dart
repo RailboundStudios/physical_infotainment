@@ -11,7 +11,7 @@ Future<void> main(List<String> arguments) async {
   String dotnetPath = "/home/imbenji/.dotnet/dotnet";
   String currentDirectory = Directory.current.path;
 
-  Process matrixServer = await Process.start("./dotnet_server", [""],
+  Process matrixServer = await Process.start("ls ", [""],
       workingDirectory: "/home/imbenji/physical_infotainment/dotnet_server/bin/"
   );
 

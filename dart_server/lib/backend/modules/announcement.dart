@@ -257,16 +257,24 @@ Future<void> playSound(Uint8List sound) async {
   print('Sound played.');
 }
 
+final soundLengthCache = <String, Duration>{};
+
 // Get the length of the sound file.
 Future<Duration> getSoundLength(Uint8List sound) async {
+
+  String hash = sha256.convert(sound).toString();
+
+  // Check if the sound length is cached.
+  if (soundLengthCache.containsKey(hash)) {
+    return soundLengthCache[hash]!;
+  }
+
   // If a temp directory doesnt exist, create one.
   final tempDir = Directory('tmp');
   if (!tempDir.existsSync()) {
     tempDir.createSync();
   }
-
-  String hash = sha256.convert(sound).toString();
-
+  
   // Create a temporary file to store the sound.
   final tempFile = File('${tempDir.path}/$hash.wav');
   tempFile.createSync();
@@ -285,6 +293,10 @@ Future<Duration> getSoundLength(Uint8List sound) async {
 
   // Parse the result.
   final length = double.parse(result.stdout.toString().trim());
+
+  // Cache the result.
+  soundLengthCache[hash] = Duration(seconds: length.toInt());
+
   return Duration(seconds: length.toInt());
 }
 

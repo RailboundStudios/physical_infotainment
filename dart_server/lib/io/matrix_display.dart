@@ -19,7 +19,7 @@ class MatrixDisplay {
     ).then((process) {
       process.stdout.listen((event) {
         print("Matrix Server: ${String.fromCharCodes(event)}");
-        if (String.fromCharCodes(event).contains("Type: ") && !isReady) {
+        if (String.fromCharCodes(event).contains("exit # to quit") && !isReady) {
           _matrixServer = process;
 
           Future.delayed(Duration(seconds: 1), () {

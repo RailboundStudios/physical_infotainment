@@ -24,8 +24,8 @@ class MatrixDisplay {
 
           Future.delayed(Duration(seconds: 1), () {
             print("Matrix Server ready!!!");
-            _topLine = "IMBENJI.NET";
-            _bottomLine = "PI-BUS";
+            topLine = "IMBENJI.NET";
+            bottomLine = "PI-BUS";
           });
         }
       });

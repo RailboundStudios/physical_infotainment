@@ -21,7 +21,7 @@ class MatrixDisplay {
         if (String.fromCharCodes(event).contains("Starting matrix")) {
           _matrixServer = process;
 
-          Future.delayed(Duration(seconds: 1), () {
+          Future.delayed(Duration(seconds: 3), () {
             _topLine = "IMBENJI.NET";
             _bottomLine = "PI-BUS";
           });

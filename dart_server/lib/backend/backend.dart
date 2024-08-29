@@ -17,15 +17,24 @@ class pibus_backend {
 
   pibus_backend._internal() {
     print("pibus_backend initializing");
+
+    // Initialize IO
+    matrixDisplay = MatrixDisplay();
+    gpsTracker = GpsTracker('/dev/ttyACM0');
+
+    // Initialize modules
+    Module_Tracker = TrackerModule();
+    Module_Announcement = AnnouncementModule();
+
   }
 
   // IO
-  MatrixDisplay matrixDisplay = MatrixDisplay();
-  GpsTracker gpsTracker = GpsTracker('/dev/ttyACM0');
+  late MatrixDisplay matrixDisplay;
+  late GpsTracker gpsTracker;
 
   // Modules
-  TrackerModule Module_Tracker = TrackerModule();
-  AnnouncementModule Module_Announcement = AnnouncementModule();
+  late TrackerModule Module_Tracker;
+  late AnnouncementModule Module_Announcement;
 
   // Events
   EventDelegate<BusRoute> routeDelegate = EventDelegate<BusRoute>();

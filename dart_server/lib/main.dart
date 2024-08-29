@@ -181,8 +181,13 @@ Future<void> main(List<String> arguments) async {
       matrixDisplay.topLine = nearestBusStop.name;
       matrixDisplay.bottomLine = "${nearestDistance.toStringAsFixed(2)}m";
     } else {
-      matrixDisplay.topLine = "${currentRoute!.routeNumber} to ${currentRoute!.destination}";
-      matrixDisplay.bottomLine = "";
+      if (
+          matrixDisplay.topLine != "${currentRoute!.routeNumber} to ${currentRoute!.destination}" ||
+          matrixDisplay.bottomLine != ""
+      ) {
+        matrixDisplay.topLine = "${currentRoute!.routeNumber} to ${currentRoute!.destination}";
+        matrixDisplay.bottomLine = "";
+      }
     }
   });
 

@@ -274,7 +274,7 @@ Future<Duration> getSoundLength(Uint8List sound) async {
   if (!tempDir.existsSync()) {
     tempDir.createSync();
   }
-  
+
   // Create a temporary file to store the sound.
   final tempFile = File('${tempDir.path}/$hash.wav');
   tempFile.createSync();

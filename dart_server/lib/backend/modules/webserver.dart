@@ -132,6 +132,14 @@ class WebserverModule extends InfoModule {
       return Response.ok(jsonEncode(routes));
     });
 
+    // Get the current route. /currentRoute
+    router.get("/currentRoute", (Request request) {
+      if (backend.currentRoute == null) {
+        return Response.ok("No route set");
+      }
+      return Response.ok(getPrettyJSONString(backend.currentRoute!.toMap()));
+    });
+
     // Test Connection. /testConnection
     router.get("/testConnection", (Request request) {
       return Response.ok("Connection successful");

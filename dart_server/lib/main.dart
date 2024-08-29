@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:dart_server/io/gps_tracker.dart';
 import 'package:dart_server/io/matrix_display.dart';
+import 'package:dart_server/route.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart';
@@ -24,7 +25,7 @@ Future<void> main(List<String> arguments) async {
   MatrixDisplay matrixDisplay = MatrixDisplay();
   GpsTracker gpsTracker = GpsTracker("/dev/ttyACM0");
 
-  Route? currentRoute;
+  BusRoute? currentRoute;
 
   while (!matrixDisplay.isReady) {
     await Future.delayed(Duration(seconds: 1));
@@ -104,6 +105,8 @@ Future<void> main(List<String> arguments) async {
     return Response.ok("Route uploaded");
   });
 
+  // The next 2 routers can be optimised by pre-caching the route information.
+
   // Get a list of routes. /routes
   router.get("/routes", (Request request) {
     List<dynamic> routes = [];
@@ -117,12 +120,27 @@ Future<void> main(List<String> arguments) async {
 
       routes.add({
         "RouteNumber": map["RouteNumber"],
-        "RouteDestination": map["RouteDestination"],
+        "RouteDestination": map["Destination"],
         "RouteHash": hash,
         "StopCount": map["Stops"].length
       });
-
     }
+
+    // Set the current route. /setCurrentRoute?hash=123456
+    router.get("/setCurrentRoute", (Request request) {
+      String hash = request.url.queryParameters["hash"] ?? "";
+      for (FileSystemEntity fileSystemEntity in routesDir.listSync()) {
+        File file = File(fileSystemEntity.path);
+        String contents = file.readAsStringSync();
+        String fileHash = sha256.convert(utf8.encode(contents)).toString();
+        if (fileHash == hash) {
+          Map<String, dynamic> map = jsonDecode(contents);
+          currentRoute = BusRoute.fromMap(map);
+          return Response.ok("Route set to ${map["RouteNumber"]} - ${map["RouteDestination"]}");
+        }
+      }
+      return Response.ok("Route not found");
+    });
 
 
     return Response.ok(jsonEncode(routes));

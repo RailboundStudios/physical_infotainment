@@ -146,12 +146,12 @@ new Thread(() =>
             DateTime now = DateTime.Now;
             String bottomTextt = now.ToString("hh:mm tt").ToUpper();
             // bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomTextt);
-            bottomWidth = canvas.DrawText(font, bottomPos, 15, textColor, bottomTextt);
+            bottomWidth = canvas.DrawText(font, bottomPos, 16, textColor, bottomTextt);
         }
         else
         {
             // bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomText);
-            bottomWidth = canvas.DrawText(font, bottomPos, 15, textColor, bottomText);
+            bottomWidth = canvas.DrawText(font, bottomPos, 16, textColor, bottomText);
         }
 
         if (topWidth <= canvas.Width)

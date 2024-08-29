@@ -104,6 +104,30 @@ Future<void> main(List<String> arguments) async {
     return Response.ok("Route uploaded");
   });
 
+  // Get a list of routes. /routes
+  router.get("/routes", (Request request) {
+    List<dynamic> routes = [];
+
+    for (FileSystemEntity fileSystemEntity in routesDir.listSync()) {
+      File file = File(fileSystemEntity.path);
+
+      String contents = file.readAsStringSync();
+      Map<String, dynamic> map = jsonDecode(contents);
+      String hash = sha256.convert(utf8.encode(contents)).toString();
+
+      routes.add({
+        "RouteNumber": map["RouteNumber"],
+        "RouteDestination": map["RouteDestination"],
+        "RouteHash": hash,
+        "StopCount": map["Stops"].length
+      });
+
+    }
+
+
+    return Response.ok(jsonEncode(routes));
+  });
+
   // Test Connection. /testConnection
   router.get("/testConnection", (Request request) {
     return Response.ok("Connection successful");

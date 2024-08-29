@@ -40,6 +40,20 @@ void main() {
       print("Added bus route $route, $run");
     }
 
+    // Remove anything that is surrounded in any kind of parenthesis, () [] {} <>
+    stopName = stopName.replaceAll(RegExp(r"\(.*\)"), "").replaceAll(RegExp(r"\[.*\]"), "").replaceAll(RegExp(r"\{.*\}"), "").replaceAll(RegExp(r"\<.*\>"), "");
+
+    // Remove outliers
+    stopName = stopName.replaceAll("lol<", "");
+
+    // remove anything that isnt A-Z, a-z, 0-9, /, ., ,, from the stop name. Then split the stop name by spaces, remove any empty strings, and capitalise the first letter of each word.
+    stopName = stopName
+        .replaceAll(RegExp(r"[^A-Za-z0-9/., ]"), "")
+        .split(" ")
+        .where((element) => element.isNotEmpty)
+        .map((e) => e[0].toUpperCase() + e.substring(1).toLowerCase())
+        .join(" ");
+
     // set the destination.
     busRoute.destination = stopName;
 

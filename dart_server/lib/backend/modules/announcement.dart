@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:crypto/crypto.dart';
 import 'package:dart_server/utils/delegates.dart';
 
 import 'info_module.dart';
@@ -241,8 +242,11 @@ Future<void> playSound(Uint8List sound) async {
     tempDir.createSync();
   }
 
+  String hash = sha256.convert(sound).toString();
+
   // Create a temporary file to store the sound.
-  final tempFile = File('${tempDir.path}/temp.wav');
+  final tempFile = File('${tempDir.path}/$hash.wav');
+  tempFile.createSync();
   tempFile.writeAsBytesSync(sound);
 
   print('Playing sound...');
@@ -267,8 +271,11 @@ Future<Duration> getSoundLength(Uint8List sound) async {
     tempDir.createSync();
   }
 
+  String hash = sha256.convert(sound).toString();
+
   // Create a temporary file to store the sound.
-  final tempFile = File('${tempDir.path}/temp.wav');
+  final tempFile = File('${tempDir.path}/$hash.wav');
+  tempFile.createSync();
   tempFile.writeAsBytesSync(sound);
 
   // Get the length of the sound file.

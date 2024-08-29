@@ -21,7 +21,7 @@ class pibus_backend {
 
   // IO
   MatrixDisplay matrixDisplay = MatrixDisplay();
-  GpsTracker gpsTracker = GpsTracker("/dev/ttyACM0");
+  GpsTracker gpsTracker = GpsTracker('/dev/ttyACM0');
 
   // Modules
   TrackerModule Module_Tracker = TrackerModule();

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -5,9 +6,11 @@ import 'package:crypto/crypto.dart';
 import 'package:dart_server/io/gps_tracker.dart';
 import 'package:dart_server/io/matrix_display.dart';
 import 'package:dart_server/route.dart';
+import 'package:dart_server/utils/OrdinanceSurveyUtils.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart';
+import 'package:vector_math/vector_math.dart';
 
 Future<void> main(List<String> arguments) async {
 
@@ -136,6 +139,7 @@ Future<void> main(List<String> arguments) async {
         if (fileHash == hash) {
           Map<String, dynamic> map = jsonDecode(contents);
           currentRoute = BusRoute.fromMap(map);
+          print("Route set to ${map["RouteNumber"]} - ${map["RouteDestination"]}");
           return Response.ok("Route set to ${map["RouteNumber"]} - ${map["RouteDestination"]}");
         }
       }
@@ -149,6 +153,35 @@ Future<void> main(List<String> arguments) async {
   // Test Connection. /testConnection
   router.get("/testConnection", (Request request) {
     return Response.ok("Connection successful");
+  });
+
+  Timer.periodic(Duration(seconds: 1), (timer) {
+    if (currentRoute == null) {
+      return;
+    }
+
+    // Get the nearest bus stop
+    BusRouteStop? nearestBusStop;
+    double nearestDistance = double.infinity;
+    for (BusRouteStop busStop in currentRoute!.stops) {
+
+      Vector2 PointA = OSGrid.toNorthingEasting([gpsTracker.latitude, gpsTracker.longitude]);
+      Vector2 PointB = OSGrid.toNorthingEasting([busStop.latitude, busStop.longitude]);
+
+      double distance = PointA.distanceTo(PointB);
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestBusStop = busStop;
+      }
+    }
+
+    if (nearestBusStop != null) {
+      matrixDisplay.topLine = nearestBusStop.name;
+      matrixDisplay.bottomLine = "${nearestDistance.toStringAsFixed(2)}m";
+    } else {
+      matrixDisplay.topLine = "${currentRoute!.routeNumber} to ${currentRoute!.destination}";
+      matrixDisplay.bottomLine = "";
+    }
   });
 
   // Start the server

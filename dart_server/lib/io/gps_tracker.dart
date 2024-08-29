@@ -7,9 +7,11 @@ class GpsTracker {
   final String serialPort;
 
   bool _isFixed = false;
+  bool _hasEverFixed = false;
   double _latitude = 0;
   double _longitude = 0;
   bool get isFixed => _isFixed;
+  bool get hasEverFixed => _hasEverFixed;
   double get latitude => _latitude;
   double get longitude => _longitude;
 
@@ -50,6 +52,7 @@ class GpsTracker {
         return;
       }
       _isFixed = true;
+      _hasEverFixed = true;
 
       // Get the latitude and longitude
       String latitudeString = parts[2]; // ddmm.mmmm

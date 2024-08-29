@@ -163,15 +163,17 @@ Future<void> main(List<String> arguments) async {
     // Get the nearest bus stop
     BusRouteStop? nearestBusStop;
     double nearestDistance = double.infinity;
-    for (BusRouteStop busStop in currentRoute!.stops) {
+    if (gpsTracker.hasEverFixed) {
+      for (BusRouteStop busStop in currentRoute!.stops) {
 
-      Vector2 PointA = OSGrid.toNorthingEasting([gpsTracker.latitude, gpsTracker.longitude]);
-      Vector2 PointB = OSGrid.toNorthingEasting([busStop.latitude, busStop.longitude]);
+        Vector2 PointA = OSGrid.toNorthingEasting([gpsTracker.latitude, gpsTracker.longitude]);
+        Vector2 PointB = OSGrid.toNorthingEasting([busStop.latitude, busStop.longitude]);
 
-      double distance = PointA.distanceTo(PointB);
-      if (distance < nearestDistance) {
-        nearestDistance = distance;
-        nearestBusStop = busStop;
+        double distance = PointA.distanceTo(PointB);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestBusStop = busStop;
+        }
       }
     }
 

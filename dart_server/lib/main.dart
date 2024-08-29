@@ -30,12 +30,7 @@ Future<void> main(List<String> arguments) async {
   backend.init();
 
   while (true) {
-    // read input, if "exit" then break
-    print("Enter a command:");
-    String? input = stdin.readLineSync();
-    if (input == "exit") {
-      break;
-    }
+    await Future.delayed(Duration(seconds: 1));
   }
 
   backend.gpsTracker.dispose();

@@ -2,6 +2,7 @@
 
 // Singleton class to control the matrix display
 import 'dart:io';
+import 'dart:math';
 
 class MatrixDisplay {
   static final MatrixDisplay _singleton = MatrixDisplay._internal();
@@ -18,10 +19,10 @@ class MatrixDisplay {
     ).then((process) {
       process.stdout.listen((event) {
         print("Matrix Server: ${String.fromCharCodes(event)}");
-        if (String.fromCharCodes(event).contains("Starting matrix")) {
+        if (String.fromCharCodes(event).contains("Type: ") && !isReady) {
           _matrixServer = process;
 
-          Future.delayed(Duration(seconds: 3), () {
+          Future.delayed(Duration(seconds: 1), () {
             print("Matrix Server ready!!!");
             _topLine = "IMBENJI.NET";
             _bottomLine = "PI-BUS";

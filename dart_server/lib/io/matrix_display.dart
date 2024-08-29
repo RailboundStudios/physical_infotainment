@@ -20,6 +20,8 @@ class MatrixDisplay {
         print("Matrix Server: ${String.fromCharCodes(event)}");
         if (String.fromCharCodes(event).contains("Starting matrix")) {
           _matrixServer = process;
+          _topLine = "IMBENJI.NET";
+          _bottomLine = "PI-BUS";
         }
       });
 

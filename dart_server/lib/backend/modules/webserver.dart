@@ -10,10 +10,10 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart';
 
-class Webserver_Module extends InfoModule {
+class WebserverModule extends InfoModule {
 
   // Constructor
-  Webserver_Module() {
+  WebserverModule() {
     Directory routesDir = Directory("storage/routes");
 
     Router router = Router();

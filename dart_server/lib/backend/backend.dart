@@ -2,6 +2,7 @@
 
 import 'package:dart_server/backend/modules/announcement.dart';
 import 'package:dart_server/backend/modules/tracker.dart';
+import 'package:dart_server/backend/modules/webserver.dart';
 import 'package:dart_server/io/gps_tracker.dart';
 import 'package:dart_server/io/matrix_display.dart';
 import 'package:dart_server/route.dart';
@@ -27,6 +28,7 @@ class pibus_backend {
     // Initialize modules
     Module_Tracker = TrackerModule();
     Module_Announcement = AnnouncementModule();
+    Module_Webserver = WebserverModule();
   }
 
   // IO
@@ -36,6 +38,7 @@ class pibus_backend {
   // Modules
   late TrackerModule Module_Tracker;
   late AnnouncementModule Module_Announcement;
+  late WebserverModule Module_Webserver;
 
   // Events
   EventDelegate<BusRoute> routeDelegate = EventDelegate<BusRoute>();

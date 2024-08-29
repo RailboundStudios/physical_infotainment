@@ -29,8 +29,16 @@ Future<void> main(List<String> arguments) async {
   pibus_backend backend = pibus_backend(); // Create the backend.
 
   while (true) {
-    await Future.delayed(Duration(seconds: 1));
+    // read input, if "exit" then break
+    print("Enter a command:");
+    String? input = stdin.readLineSync();
+    if (input == "exit") {
+      break;
+    }
   }
+
+  backend.gpsTracker.dispose();
+  backend.matrixDisplay.dispose();
 
 }
 

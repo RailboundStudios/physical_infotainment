@@ -25,6 +25,7 @@ class GpsTracker {
   DateTime _time = DateTime.now();
 
   late Timer _timerA;
+  late RandomAccessFile raf;
 
   GpsTracker(this.serialPort) {
 
@@ -32,7 +33,8 @@ class GpsTracker {
     if (!file.existsSync()) {
       throw Exception("Serial port $serialPort does not exist.");
     }
-    RandomAccessFile raf = file.openSync(mode: FileMode.read);
+
+    raf = file.openSync(mode: FileMode.read);
 
     _timerA = Timer.periodic(Duration(seconds: 1), (timer) {
       print("Getting GPS data from $serialPort");
@@ -100,13 +102,13 @@ class GpsTracker {
       }
 
     });
-
-
   }
 
   void dispose() {
     // Close the serial port
     _timerA.cancel();
+    raf.closeSync();
+    print("GPS tracker disposed");
   }
 
 

@@ -68,6 +68,10 @@ class MatrixDisplay {
     // _matrixServer?.kill();
   }
 
+  void dispose() {
+    kill();
+  }
+
 
 }
 

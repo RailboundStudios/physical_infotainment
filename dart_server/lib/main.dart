@@ -27,6 +27,7 @@ Future<void> main(List<String> arguments) async {
   }
 
   pibus_backend backend = pibus_backend(); // Create the backend.
+  backend.init();
 
   while (true) {
     // read input, if "exit" then break

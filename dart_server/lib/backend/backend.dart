@@ -15,7 +15,9 @@ class pibus_backend {
     return _singleton;
   }
 
-  pibus_backend._internal() {
+  pibus_backend._internal() {}
+
+  void init() {
     print("pibus_backend initializing");
 
     // Initialize IO
@@ -25,7 +27,6 @@ class pibus_backend {
     // Initialize modules
     Module_Tracker = TrackerModule();
     Module_Announcement = AnnouncementModule();
-
   }
 
   // IO

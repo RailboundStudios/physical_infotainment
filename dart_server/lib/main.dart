@@ -20,7 +20,7 @@ Future<void> main(List<String> arguments) async {
   if (!storageDir.existsSync()) {
     storageDir.createSync();
   }
-  Directory routesDir = Directory(".storage/routes");
+  Directory routesDir = Directory("storage/routes");
   if (!routesDir.existsSync()) {
     routesDir.createSync();
   }

@@ -27,14 +27,22 @@ Future<void> main(List<String> arguments) async {
   }
 
   pibus_backend backend = pibus_backend(); // Create the backend.
-  backend.init();
 
-  while (true) {
-    await Future.delayed(Duration(seconds: 1));
+  try {
+
+    backend.init();
+
+    while (true) {
+      await Future.delayed(Duration(seconds: 1));
+    }
+  } catch (e) {
+    print("Error: $e");
+
+    backend.gpsTracker.dispose();
+    backend.matrixDisplay.dispose();
   }
 
-  backend.gpsTracker.dispose();
-  backend.matrixDisplay.dispose();
+
 
 }
 

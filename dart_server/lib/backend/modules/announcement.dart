@@ -59,10 +59,11 @@ class AnnouncementModule extends InfoModule {
         }
 
         isPlaying = false;
-
+        queue.removeAt(0);
+        
       }
 
-      queue.removeAt(0);
+
 
     }
 

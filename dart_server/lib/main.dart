@@ -103,7 +103,7 @@ Future<void> main(List<String> arguments) async {
     Map<String, dynamic> map = jsonDecode(body);
 
     File file = File("../storage/routes/$hash.json");
-    file.writeAsStringSync(jsonEncode(map));
+    file.writeAsStringSync(getPrettyJSONString(map));
 
     return Response.ok("Route uploaded");
   });
@@ -143,7 +143,7 @@ Future<void> main(List<String> arguments) async {
           return Response.ok("Route set to ${map["RouteNumber"]} - ${map["RouteDestination"]}");
         }
       }
-      return Response.ok("Route not found");
+      return Response.ok("Failed to find route with hash: $hash");
     });
 
 
@@ -191,4 +191,9 @@ Future<void> main(List<String> arguments) async {
     await Future.delayed(Duration(seconds: 1));
   }
 
+}
+
+String getPrettyJSONString(jsonObject){
+  var encoder = new JsonEncoder.withIndent("     ");
+  return encoder.convert(jsonObject);
 }

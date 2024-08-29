@@ -16,11 +16,11 @@ Future<void> main(List<String> arguments) async {
 
   print("Starting the dart server");
 
-  Directory storageDir = Directory("../storage");
+  Directory storageDir = Directory("storage");
   if (!storageDir.existsSync()) {
     storageDir.createSync();
   }
-  Directory routesDir = Directory("../storage/routes");
+  Directory routesDir = Directory(".storage/routes");
   if (!routesDir.existsSync()) {
     routesDir.createSync();
   }
@@ -102,7 +102,7 @@ Future<void> main(List<String> arguments) async {
     String hash = sha256.convert(utf8.encode(body)).toString();
     Map<String, dynamic> map = jsonDecode(body);
 
-    File file = File("../storage/routes/$hash.json");
+    File file = File("storage/routes/$hash.json");
     file.writeAsStringSync(getPrettyJSONString(map));
 
     return Response.ok("Route uploaded");

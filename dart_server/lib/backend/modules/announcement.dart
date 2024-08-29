@@ -289,9 +289,6 @@ Future<Duration> getSoundLength(Uint8List sound) async {
     tempFile.path,
   ]);
 
-  // Delete the temporary file.
-  tempFile.deleteSync();
-
   // Parse the result.
   final length = double.parse(result.stdout.toString().trim());
   return Duration(seconds: length.toInt());

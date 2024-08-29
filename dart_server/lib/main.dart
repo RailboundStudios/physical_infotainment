@@ -26,10 +26,11 @@ Future<void> main(List<String> arguments) async {
     routesDir.createSync();
   }
 
-  pibus_backend backend = pibus_backend(); // Create the backend.
+  late pibus_backend backend; // Create the backend.
 
   try {
 
+    backend = pibus_backend(); // Initialize the backend.
     backend.init();
 
     while (true) {

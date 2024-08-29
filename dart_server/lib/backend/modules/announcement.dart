@@ -62,6 +62,8 @@ class AnnouncementModule extends InfoModule {
 
       }
 
+      queue.removeAt(0);
+
     }
 
 

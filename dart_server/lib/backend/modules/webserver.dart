@@ -140,6 +140,21 @@ class WebserverModule extends InfoModule {
       return Response.ok(getPrettyJSONString(backend.currentRoute!.toMap()));
     });
 
+    // Announce stop. /announceStop?stop=StopName
+    router.get("/announceStop", (Request request) {
+      String stop = request.url.queryParameters["stop"] ?? "";
+
+      BusRouteStop? stopToAnnounce = backend.currentRoute!.stops.firstWhere((element) => element.name == stop, orElse: () => BusRouteStop("", 0, 0));
+
+      if (stopToAnnounce.name == "") {
+        return Response.ok("Failed to find stop: $stop");
+      }
+
+      backend.Module_Announcement.queueAnnouncement_stop(stopToAnnounce);
+
+      return Response.ok("Announcing stop: $stop");
+    });
+
     // Test Connection. /testConnection
     router.get("/testConnection", (Request request) {
       return Response.ok("Connection successful");

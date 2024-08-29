@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:dart_server/route.dart';
 import 'package:dart_server/utils/delegates.dart';
 
 import 'info_module.dart';
@@ -37,24 +38,10 @@ class AnnouncementModule extends InfoModule {
         isPlaying = true;
         AnnouncementQueueEntry nextAnnouncement = queue.first;
 
-        bool proceeding = await _internalAccountForInconsistentTime(
-          announcement: nextAnnouncement,
-          timerInterval: const Duration(milliseconds: 10),
-          callback: () {
-            queue.removeAt(0);
-            print("Announcement proceeding");
-          }
-        );
-
-        if (!proceeding) {
-          isPlaying = false;
-          print("Announcement not proceeding");
-          print("Queue: ${queue.length}");
-          return;
-        }
-
         currentAnnouncement = nextAnnouncement;
         currentAnnouncementTimeStamp = DateTime.now(); // todo: replace this with the rtc module or gps module
+
+        backend.matrixDisplay.topLine = currentAnnouncement!.displayText;
 
         onAnnouncement.trigger(currentAnnouncement!);
 
@@ -199,6 +186,15 @@ class AnnouncementModule extends InfoModule {
     //   audioSources: [AudioWrapperAssetSource("audio/manual_announcements/readytodepart.mp3")],
     // ),
   ];
+
+  void queueAnnouncement_stop(BusRouteStop stopToAnnounce) {
+    queueAnnouncement(AnnouncementQueueEntry(
+      displayText: stopToAnnounce.name,
+      audioBytes: [
+        if (stopToAnnounce.audio != null) stopToAnnounce.audio!
+      ],
+    ));
+  }
 }
 
 class AnnouncementQueueEntry {

@@ -22,6 +22,7 @@ class MatrixDisplay {
           _matrixServer = process;
 
           Future.delayed(Duration(seconds: 3), () {
+            print("Matrix Server ready!!!");
             _topLine = "IMBENJI.NET";
             _bottomLine = "PI-BUS";
           });

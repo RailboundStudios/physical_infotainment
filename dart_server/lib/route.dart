@@ -41,6 +41,7 @@ class BusRouteStop {
 
   double latitude = 0.0;
   double longitude = 0.0;
+  double heading = 0.0;
 
   BusRouteStop(this.name, this.latitude, this.longitude);
 

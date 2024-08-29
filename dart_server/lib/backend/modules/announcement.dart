@@ -233,11 +233,8 @@ class NamedAnnouncementQueueEntry extends AnnouncementQueueEntry {
 
 // Play the sound using ffmpeg.
 Future<void> playSound(Uint8List sound) async {
-  // Get the directory of the executable.
-  final executableDir = File(Platform.resolvedExecutable).parent;
-
   // If a temp directory doesnt exist, create one.
-  final tempDir = Directory('${executableDir.path}/tmp');
+  final tempDir = Directory('tmp');
   if (!tempDir.existsSync()) {
     tempDir.createSync();
   }
@@ -262,11 +259,8 @@ Future<void> playSound(Uint8List sound) async {
 
 // Get the length of the sound file.
 Future<Duration> getSoundLength(Uint8List sound) async {
-  // Get the directory of the executable.
-  final executableDir = File(Platform.resolvedExecutable).parent;
-
   // If a temp directory doesnt exist, create one.
-  final tempDir = Directory('${executableDir.path}/tmp');
+  final tempDir = Directory('tmp');
   if (!tempDir.existsSync()) {
     tempDir.createSync();
   }

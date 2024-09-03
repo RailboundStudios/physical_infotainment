@@ -12,11 +12,17 @@ BaseDir=$(pwd)
 DartServerDir=$BaseDir/dart_server
 DotNetServerDir=$BaseDir/dotnet_server
 
-DotNetDir="/home/imbenji/.dotnet" # If this doesnt exist, stop the script
+DotNetDir="/home/imbenji/.dotnet" # If this doesnt exist, install .NET 6.0 SDK for ARM64
 if [ ! -d $DotNetDir ]; then
-    echo -e "${ORANGE}DotNet not installed, this script does not install dotnet yet.${NC}"
-    echo -e "${ORANGE}Please install .NET 6.0 SDK for ARM64${NC}"
-    exit 1
+    echo -e "${RED}.NET 6.0 SDK for ARM64 not found. Installing...${NC}"
+
+    wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+    chmod +x dotnet-install.sh
+
+    # Install in the home directory
+    cd $HOME
+    ./dotnet-install.sh --channel 6.0
+
 fi
 
 ThirdPartyDir=$BaseDir/third_party # Might not exist, but we'll create it

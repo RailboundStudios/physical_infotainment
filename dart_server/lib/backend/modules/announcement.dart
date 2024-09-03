@@ -60,7 +60,7 @@ class AnnouncementModule extends InfoModule {
 
         isPlaying = false;
         queue.removeAt(0);
-        
+
       }
 
 

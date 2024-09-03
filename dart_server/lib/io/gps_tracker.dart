@@ -24,8 +24,6 @@ class GpsTracker {
 
   DateTime _time = DateTime.now();
 
-  late Timer _timerA;
-  late RandomAccessFile raf;
 
   GpsTracker(this.serialPort) {
 
@@ -33,26 +31,11 @@ class GpsTracker {
     if (!file.existsSync()) {
       throw Exception("Serial port $serialPort does not exist.");
     }
+    Process.run("cat", [serialPort]).then((ProcessResult result) {
+      result.stdout.listen((event) {
 
-    raf = file.openSync(mode: FileMode.read);
-
-    _timerA = Timer.periodic(Duration(seconds: 1), (timer) {
-
-      try {
-        print("Getting GPS data from $serialPort");
-
-        List<int> bytes = raf.readSync(1024);
-
-        if (bytes.isEmpty) {
-          print("No data received from GPS");
-          return;
-        }
-
-        String data = String.fromCharCodes(bytes);
-        List<String> parts = data.split(",");
-
-        if (parts[0] == "\$GPGGA") { // Check if the data is a GPGGA sentence
-          // Check if the data is valid
+        if (event.toString().contains("GPGGA")) {
+          List<String> parts = event.toString().split(",");
           if (parts[6] == "0") { // 0:unpositioned 1:SPS mode, position valid 2:Differential, SPS mode, position valid, 3:PPS mode, position valid
             print("No GPS fix");
             _isFixed = false;
@@ -66,9 +49,9 @@ class GpsTracker {
           String longitudeString = parts[4]; // dddmm.mmmm
 
           // Convert latitude and longitude to decimal degrees
-          double _latitude = int.parse(latitudeString.substring(0, 2)) +
+          _latitude = int.parse(latitudeString.substring(0, 2)) +
               double.parse(latitudeString.substring(2)) / 60;
-          double _longitude = int.parse(longitudeString.substring(0, 3)) +
+          _longitude = int.parse(longitudeString.substring(0, 3)) +
               double.parse(longitudeString.substring(3)) / 60;
 
           bool isNorth = parts[3] == "N";
@@ -91,28 +74,22 @@ class GpsTracker {
           print("Latitude: $_latitude, Longitude: $_longitude");
           return;
         }
-        if (parts[0] == "\$GPVTG") { // Check if the data is a GPVTG sentence
+        if (event.toString().contains("GPVTG")) {
           // Get the speed
-          _speed = double.parse(parts[7]);
+          _speed = double.parse(event.toString().split(",")[7]);
           print("Speed: $_speed");
           return;
         }
-      } catch (e) {
-        print("Error parsing GPS data: $e");
-      }
 
-      if (_time.difference(DateTime.now()).inSeconds > 2) {
-        print("No GPS data received in 10 seconds");
-        _isFixed = false;
-      }
-
+      });
     });
+
   }
 
   void dispose() {
     // Close the serial port
-    _timerA.cancel();
-    raf.closeSync();
+    // _timerA.cancel();
+    // raf.closeSync();
     print("GPS tracker disposed");
   }
 

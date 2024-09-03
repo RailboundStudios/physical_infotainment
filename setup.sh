@@ -31,9 +31,11 @@ if [ ! -d $DotNetDir ]; then
     wget https://dot.net/v1/dotnet-install.sh -O tmp/dotnet-install.sh
     chmod +x tmp/dotnet-install.sh
 
+    absinstallscriptpth=$(readlink -f tmp/dotnet-install.sh)
+
     # Install in the home directory
     cd $HOME
-    bash tmp/dotnet-install.sh --channel 6.0
+    bash $absinstallscriptpth --channel 6.0
 fi
 
 ## Install Dart

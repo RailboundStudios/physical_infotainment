@@ -23,6 +23,7 @@ public class bmtxt
     
     public void WriteCanvas(RGBLedCanvas canvas, int x, int y)
     {
+        Console.WriteLine("Writing bmtxt to canvas");
         
         List<String> lines = content.Split("\n").ToList();
 
@@ -32,6 +33,8 @@ public class bmtxt
         int numPixels = height * width;
 
         List<String> components = lines[2].Split(",").ToList(); // r,g,b,r,g,b...
+        
+        Console.WriteLine("NumComponents: " + components.Count);
         
         for (int i = 0; i < numPixels; i++)
         {
@@ -45,6 +48,7 @@ public class bmtxt
             canvas.SetPixel(x1, y1, new Color(r, g, b));
         }
         
+        Console.WriteLine("Done writing bmtxt to canvas");
     }
     
 }

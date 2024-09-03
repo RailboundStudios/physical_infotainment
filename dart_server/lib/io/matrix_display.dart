@@ -2,7 +2,6 @@
 
 // Singleton class to control the matrix display
 import 'dart:io';
-import 'dart:math';
 
 class MatrixDisplay {
   static final MatrixDisplay _singleton = MatrixDisplay._internal();

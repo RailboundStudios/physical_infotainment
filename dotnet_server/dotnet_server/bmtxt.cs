@@ -14,33 +14,33 @@ public class bmtxt
 
     public int GetHeight()
     {
-        return int.Parse(content.Split("\n")[1]);
+        return Int32.Parse(content.Split("\n")[1]);
     }
     public int GetWidth()
     {
-        return int.Parse(content.Split("\n")[0]);
+        return Int32.Parse(content.Split("\n")[0]);
     }
     
     public void WriteCanvas(RGBLedCanvas canvas, int x, int y)
     {
         Console.WriteLine("Writing bmtxt to canvas");
         
-        List<String> lines = content.Split("\n").ToList();
+        String[] lines = content.Split("\n");
 
-        int height = int.Parse(lines[1]);
-        int width = int.Parse(lines[0]);
+        int height = Int32.Parse(lines[1]);
+        int width = Int32.Parse(lines[0]);
         
         int numPixels = height * width;
 
-        List<String> components = lines[2].Split(",").ToList(); // r,g,b,r,g,b...
+        String[] components = lines[2].Split(","); // r,g,b,r,g,b...
         
-        Console.WriteLine("NumComponents: " + components.Count);
+        Console.WriteLine("NumComponents: " + components.Length);
         
         for (int i = 0; i < numPixels; i++)
         {
-            int r = int.Parse(components[i * 3]);
-            int g = int.Parse(components[i * 3 + 1]);
-            int b = int.Parse(components[i * 3 + 2]);
+            int r = Int32.Parse(components[i * 3]);
+            int g = Int32.Parse(components[i * 3 + 1]);
+            int b = Int32.Parse(components[i * 3 + 2]);
             
             int x1 = x + i % width;
             int y1 = y + i / width;

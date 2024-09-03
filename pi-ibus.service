@@ -1,11 +1,14 @@
 [Unit]
 Description=ibus-daemon
 After=network.target
+
 [Service]
 Type=idle
 User=imbenji
-ExecStart=bash /home/imbenji/physical_infotainment/run.sh
+WorkingDirectory=/home/imbenji/physical_infotainment
+ExecStart=/bin/bash -c './run.sh'
 Restart=on-success
 RestartSec=5
+
 [Install]
 WantedBy=multi-user.target

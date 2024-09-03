@@ -96,3 +96,16 @@ if [ "$1" == "--run" ]; then
     sudo $DartDir/bin/dart run $DartServerDir/lib/main.dart
 fi
 
+## Create a systemd service for the dart server
+## Just copy the pi-ibus.service file to /etc/systemd/system
+# Check if the file exists
+if [ ! -f /etc/systemd/system/pi-ibus.service ]; then
+    echo -e "${YELLOW}Creating systemd service for dart_server...${NC}"
+    sudo cp $BaseDir/pi-ibus.service /etc/systemd/system/pi-ibus.service
+    sudo systemctl enable pi-ibus.service
+    echo -e "${ORANGE}Systemd service created successfully${NC}"
+else
+    echo -e "${ORANGE}Systemd service already exists${NC}"
+fi
+
+sudo systemctl start pi-ibus.service

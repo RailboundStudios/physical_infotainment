@@ -52,7 +52,7 @@ var font = new RGBLedFont("assets/test.bdf");
 canvas.Clear();
 
 // Config
-Color textColor = new Color(254, 254, 0);
+Color textColor = new Color(231, 164, 57);
 int FrameMs = 10;
 
 Console.WriteLine("Getting text ready");

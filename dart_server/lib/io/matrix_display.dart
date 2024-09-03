@@ -37,7 +37,7 @@ class MatrixDisplay {
 
   String _topLine = "";
   String _bottomLine = "";
-  Color _color = Color(254, 254, 0);
+  Color _color = Color(231, 164, 57);
   int _speedMs = 10;
 
   bool get isReady => _matrixServer != null;

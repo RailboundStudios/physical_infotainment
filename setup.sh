@@ -45,7 +45,7 @@ sudo systemctl is-active --quiet pi-ibus.service && sudo systemctl stop pi-ibus.
 
 ## Compile dotnet_server for ARM64 to /dotnet_server/bin
 echo -e "${YELLOW}Compiling dotnet_server for ARM64...${NC}"
-"$DotNetDir/dotnet" publish "$DotNetServerDir" -c Release -r linux-arm64 -o bin --self-contained true &&
+$DotNetDir/dotnet publish -c Release -r linux-arm64 -o bin --self-contained true 2> /dev/null
 echo -e "${ORANGE}dotnet_server compiled successfully${NC}"
 
 ## Install dart_server dependencies and compile it

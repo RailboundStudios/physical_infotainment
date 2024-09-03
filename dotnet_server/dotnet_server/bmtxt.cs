@@ -29,22 +29,22 @@ public class bmtxt
         int height = int.Parse(lines[0]);
         int width = int.Parse(lines[1]);
         
-        // Lambda to convert 1d index to 2d index
-        Func<int, int, int> index = (i, j) => i * width + j;
+        int numPixels = height * width;
 
         List<String> components = lines[2].Split(",").ToList(); // r,g,b,r,g,b...
         
-        for (int i = 0; i < height; i++)
+        for (int i = 0; i < numPixels; i++)
         {
-            for (int j = 0; j < width; j++)
-            {
-                int r = int.Parse(components[index(i, j)]);
-                int g = int.Parse(components[index(i, j) + 1]);
-                int b = int.Parse(components[index(i, j) + 2]);
-                
-                canvas.SetPixel(x + j, y + i, new Color(r, g, b));
-            }
+            int r = int.Parse(components[i * 3]);
+            int g = int.Parse(components[i * 3 + 1]);
+            int b = int.Parse(components[i * 3 + 2]);
+            
+            int x1 = x + i % width;
+            int y1 = y + i / width;
+            
+            canvas.SetPixel(x1, y1, new Color(r, g, b));
         }
+        
     }
     
 }

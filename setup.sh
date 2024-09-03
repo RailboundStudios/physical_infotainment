@@ -25,6 +25,8 @@ if [ ! -d $DotNetDir ]; then
 
 fi
 
+cd $BaseDir
+
 ThirdPartyDir=$BaseDir/third_party # Might not exist, but we'll create it
 if [ ! -d $ThirdPartyDir ]; then
     mkdir $ThirdPartyDir

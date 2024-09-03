@@ -17,6 +17,6 @@ DartDir=$ThirdPartyDir/dart-sdk
 # Im lazy, should remove this
 # git pull
 
-# sudo ./dart_server/lib/main
-sudo $DartDir/bin/dart run $DartServerDir/lib/main.dart
+sudo ./dart_server/lib/main
+# sudo $DartDir/bin/dart run $DartServerDir/lib/main.dart
 

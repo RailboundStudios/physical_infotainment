@@ -53,22 +53,25 @@ Task.Delay(5000).Wait();
         new Color(255, 0, 255),
         new Color(255, 255, 255),
     };
-
+    
     foreach (Color color in testColors)
     {
-        canvas.Clear();
-        for (int x = 0; x < canvas.Width; x++)
+        for (int i = 0; i < 2; i++)
         {
-            for (int y = 0; y < canvas.Height; y++)
+            canvas.Clear();
+            for (int x = 0; x < canvas.Width; x++)
             {
-                if ((x + y) % 2 == 0)
+                for (int y = 0; y < canvas.Height; y++)
                 {
-                    canvas.SetPixel(x, y, color);
+                    if ((x + y + i) % 2 == 0)
+                    {
+                        canvas.SetPixel(x, y, color);
+                    }
                 }
             }
+            matrix.SwapOnVsync(canvas);
+            Task.Delay(400).Wait();
         }
-        matrix.SwapOnVsync(canvas);
-        Task.Delay(500).Wait();
     }
     
 }

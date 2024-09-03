@@ -68,6 +68,11 @@ else
 
 fi
 
+## If the server is already running, stop it
+if sudo systemctl is-active --quiet pi-ibus.service; then
+    sudo systemctl stop pi-ibus.service
+fi
+
 ## Compile the rgb library
 rgbDir="/home/imbenji/rpi-rgb-led-matrix/bindings/c#"
 cd $rgbDir
@@ -94,6 +99,16 @@ echo -e "${ORANGE}Dart server compiled successfully${NC}"
 if [ "$1" == "--run" ]; then
     # sudo ./dart_server/lib/main
     sudo $DartDir/bin/dart run $DartServerDir/lib/main.dart
+fi
+
+## Ensure ffmpeg is installed
+if ! command -v ffmpeg &> /dev/null
+then
+    echo -e "${YELLOW}ffmpeg not found. Installing...${NC}"
+    sudo apt-get install ffmpeg
+    echo -e "${ORANGE}ffmpeg installed successfully${NC}"
+else
+    echo -e "${ORANGE}ffmpeg already installed${NC}"
 fi
 
 ## Create a systemd service for the dart server

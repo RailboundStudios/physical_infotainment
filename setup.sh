@@ -33,7 +33,7 @@ if [ ! -d $DotNetDir ]; then
 
     # Install in the home directory
     cd $HOME
-    sudo bash tmp/dotnet-install.sh --channel 6.0
+    bash tmp/dotnet-install.sh --channel 6.0
 fi
 
 ## Install Dart

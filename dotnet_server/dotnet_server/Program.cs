@@ -23,6 +23,7 @@ bmtxt bootImage = new bmtxt("assets/logo.txt");
 int bootWidth = bootImage.GetWidth();
 // Place in the middle of the screen
 bootImage.WriteCanvas(canvas, (canvas.Width - bootWidth) / 2, 0);
+matrix.SwapOnVsync(canvas);
 
 // Hold for 5 seconds
 Task.Delay(5000).Wait();

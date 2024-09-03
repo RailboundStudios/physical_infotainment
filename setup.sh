@@ -21,7 +21,9 @@ if [ ! -d "$DotNetDir" ]; then
     echo -e "${YELLOW}.NET 6.0 SDK for ARM64 not found. Installing...${NC}"
     wget https://dot.net/v1/dotnet-install.sh -O "$TmpDir/dotnet-install.sh" &&
     chmod +x "$TmpDir/dotnet-install.sh" &&
-    bash "$TmpDir/dotnet-install.sh" --channel 6.0
+    cd $HOME &&
+    bash "$TmpDir/dotnet-install.sh" --channel 6.0 &&
+    cd "$BaseDir"
 fi
 
 ## Install Dart SDK
@@ -45,19 +47,21 @@ sudo systemctl is-active --quiet pi-ibus.service && sudo systemctl stop pi-ibus.
 
 ## Compile dotnet_server for ARM64 to /dotnet_server/bin
 echo -e "${YELLOW}Compiling dotnet_server for ARM64...${NC}"
-$DotNetDir/dotnet publish -c Release -r linux-arm64 -o bin --self-contained true 2> /dev/null
+cd "$DotNetServerDir" &&
+"$DotNetDir/dotnet" publish -c Release -r linux-arm64 -o bin --self-contained true &&
 echo -e "${ORANGE}dotnet_server compiled successfully${NC}"
 
 ## Install dart_server dependencies and compile it
 echo -e "${YELLOW}Installing dart_server dependencies...${NC}"
-"$DartDir/bin/dart" pub get --directory "$DartServerDir" &&
+cd "$DartServerDir" &&
+"$DartDir/bin/dart" pub get &&
 echo -e "${YELLOW}Compiling dart_server for ARM64...${NC}"
-"$DartDir/bin/dart" compile exe "$DartServerDir/lib/main.dart" -o "$DartServerDir/lib/main" &&
+"$DartDir/bin/dart" compile exe lib/main.dart -o lib/main &&
 echo -e "${ORANGE}Dart server compiled successfully${NC}"
 
 ## Run the server if --run flag is passed
 if [ "$1" == "--run" ]; then
-    sudo "$DartDir/bin/dart" run "$DartServerDir/lib/main.dart"
+    sudo "$DartDir/bin/dart" run lib/main.dart
 fi
 
 ## Ensure ffmpeg is installed

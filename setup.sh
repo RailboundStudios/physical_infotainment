@@ -38,6 +38,8 @@ if [ ! -d $DotNetDir ]; then
     bash $absinstallscriptpth --channel 6.0
 fi
 
+cd $BaseDir
+
 ## Install Dart
 DartVersion=3.4.4
 DartDir=$ThirdPartyDir/dart-sdk

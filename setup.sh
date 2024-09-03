@@ -74,9 +74,9 @@ if sudo systemctl is-active --quiet pi-ibus.service; then
 fi
 
 ## Compile the rgb library
-rgbDir="/home/imbenji/rpi-rgb-led-matrix/bindings/c#"
-cd $rgbDir
-$DotNetDir/dotnet build
+# rgbDir="/home/imbenji/rpi-rgb-led-matrix/bindings/c#"
+# cd $rgbDir
+# $DotNetDir/dotnet build
 
 ## Compile dotnet_server for ARM64 to /dotnet_server/bin
 echo -e "${YELLOW}Compiling dotnet_server for ARM64...${NC}"

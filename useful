@@ -9,3 +9,6 @@ curl "https://www.raspberryconnect.com/images/scripts/AccessPopup.tar.gz" -o Acc
 tar -xvf AccessPopup.tar.gz
 cd AccessPoint
 sudo ./installconfig.sh
+
+
+sudo journalctl -f -u pi-ibus.service

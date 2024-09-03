@@ -20,6 +20,7 @@ var canvas = matrix.CreateOffscreenCanvas();
 
 // Initialise the boot sequence
 bmtxt bootImage = new bmtxt(File.ReadAllText("assets/logo.txt"));
+Console.WriteLine("Boot image loaded");
 int bootWidth = bootImage.GetWidth();
 // Place in the middle of the screen
 bootImage.WriteCanvas(canvas, (canvas.Width - bootWidth) / 2, 0);

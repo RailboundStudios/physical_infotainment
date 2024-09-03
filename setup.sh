@@ -29,11 +29,11 @@ if [ ! -d $DotNetDir ]; then
     echo -e "${RED}.NET 6.0 SDK for ARM64 not found. Installing...${NC}"
 
     wget https://dot.net/v1/dotnet-install.sh -O tmp/dotnet-install.sh
-    chmod +x dotnet-install.sh
+    chmod +x tmp/dotnet-install.sh
 
     # Install in the home directory
     cd $HOME
-    bash tmp/dotnet-install.sh --channel 6.0
+    sudo bash tmp/dotnet-install.sh --channel 6.0
 fi
 
 ## Install Dart

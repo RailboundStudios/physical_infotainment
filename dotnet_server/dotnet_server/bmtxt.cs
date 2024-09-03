@@ -14,11 +14,11 @@ public class bmtxt
 
     public int GetHeight()
     {
-        return int.Parse(content.Split("\n")[0]);
+        return int.Parse(content.Split("\n")[1]);
     }
     public int GetWidth()
     {
-        return int.Parse(content.Split("\n")[1]);
+        return int.Parse(content.Split("\n")[0]);
     }
     
     public void WriteCanvas(RGBLedCanvas canvas, int x, int y)
@@ -27,8 +27,8 @@ public class bmtxt
         
         List<String> lines = content.Split("\n").ToList();
 
-        int height = int.Parse(lines[0]);
-        int width = int.Parse(lines[1]);
+        int height = int.Parse(lines[1]);
+        int width = int.Parse(lines[0]);
         
         int numPixels = height * width;
 

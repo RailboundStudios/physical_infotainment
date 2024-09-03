@@ -1,19 +1,12 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Net;
 using RPiRgbLEDMatrix;
+using System.Runtime.InteropServices;
+using Color = RPiRgbLEDMatrix.Color;
+using System.Drawing;
+using dotnet_server;
 
-var argsList = new List<string>(args);
-if (!argsList.Contains("--led-no-hardware-pulse"))
-{
-    argsList.Add("--led-no-hardware-pulse");
-}
-
-// git pull && bash setup.sh && bash run.sh
-
-// Convert the list back to an array
-args = argsList.ToArray();
-
+// Initialise the matrix
 Console.WriteLine("Creating matrix");
 using var matrix = new RGBLedMatrix(new RGBLedMatrixOptions
 {
@@ -21,11 +14,15 @@ using var matrix = new RGBLedMatrix(new RGBLedMatrixOptions
     Rows = 16
 });
 Console.WriteLine("Matrix created");
+
+// Create a canvas
 var canvas = matrix.CreateOffscreenCanvas();
 
-canvas.DrawLine(0,0,canvas.Width,canvas.Height, new Color(255, 0, 0));
-canvas.DrawLine(0,canvas.Height,canvas.Width,0, new Color(0, 255, 0));
-matrix.SwapOnVsync(canvas);
+// Initialise the boot sequence
+bmtxt bootImage = new bmtxt("assets/logo.txt");
+int bootWidth = bootImage.GetWidth();
+// Place in the middle of the screen
+bootImage.WriteCanvas(canvas, (canvas.Width - bootWidth) / 2, 0);
 
 // Hold for 5 seconds
 Task.Delay(5000).Wait();
@@ -57,10 +54,10 @@ int FrameMs = 10;
 
 Console.WriteLine("Getting text ready");
 
-String topText = "Crooked Billet / Walthamstow Avenue";
+String topText = "";
 int topPos = canvas.Width;
 
-String bottomText = "Bus Stopping";
+String bottomText = "";
 int bottomPos = canvas.Width;
 
 int numRev = 0;

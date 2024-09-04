@@ -22,8 +22,8 @@ class GpsTracker {
   double _speed = 0;
   double get speed => _speed;
 
-  DateTime _time = DateTime.now();
-
+  Duration _utcOffset = Duration.zero;
+  DateTime get utcTime => DateTime.now().toUtc().add(_utcOffset);
 
   GpsTracker(this.serialPort) {
 
@@ -42,52 +42,60 @@ class GpsTracker {
 
       print("GpsTracker: ${decoded}");
 
-      if (decoded.contains("GPGGA")) {
-        List<String> parts = decoded.split(",");
-        if (parts[6] == "0") { // 0:unpositioned 1:SPS mode, position valid 2:Differential, SPS mode, position valid, 3:PPS mode, position valid
-          print("No GPS fix");
-          _isFixed = false;
+      try {
+        if (decoded.contains("GPGGA")) {
+          List<String> parts = decoded.split(",");
+          if (parts[6] == "0") { // 0:unpositioned 1:SPS mode, position valid 2:Differential, SPS mode, position valid, 3:PPS mode, position valid
+            print("No GPS fix");
+            _isFixed = false;
+            return;
+          }
+          _isFixed = true;
+          _hasEverFixed = true;
+
+          // Get the latitude and longitude
+          String latitudeString = parts[2]; // ddmm.mmmm
+          String longitudeString = parts[4]; // dddmm.mmmm
+
+          // Convert latitude and longitude to decimal degrees
+          _latitude = int.parse(latitudeString.substring(0, 2)) +
+              double.parse(latitudeString.substring(2)) / 60;
+          _longitude = int.parse(longitudeString.substring(0, 3)) +
+              double.parse(longitudeString.substring(3)) / 60;
+
+          bool isNorth = parts[3] == "N";
+          bool isEast = parts[5] == "E";
+
+          if (!isNorth) {
+            _latitude = -_latitude;
+          }
+          if (!isEast) {
+            _longitude = -_longitude;
+          }
+
+          String timeString = parts[1];
+          int hour = int.parse(timeString.substring(0, 2));
+          int minute = int.parse(timeString.substring(2, 4));
+          double second = double.parse(timeString.substring(4, 9));
+
+          DateTime now = DateTime.now();
+          DateTime gpsTime = DateTime(now.year, now.month, now.day, hour, minute, second.toInt(), (second * 1000).toInt());
+
+          _utcOffset = gpsTime.difference(now);
+
+          print("Latitude: $_latitude, Longitude: $_longitude");
           return;
         }
-        _isFixed = true;
-        _hasEverFixed = true;
-
-        // Get the latitude and longitude
-        String latitudeString = parts[2]; // ddmm.mmmm
-        String longitudeString = parts[4]; // dddmm.mmmm
-
-        // Convert latitude and longitude to decimal degrees
-        _latitude = int.parse(latitudeString.substring(0, 2)) +
-            double.parse(latitudeString.substring(2)) / 60;
-        _longitude = int.parse(longitudeString.substring(0, 3)) +
-            double.parse(longitudeString.substring(3)) / 60;
-
-        bool isNorth = parts[3] == "N";
-        bool isEast = parts[5] == "E";
-
-        if (!isNorth) {
-          _latitude = -_latitude;
+        if (decoded.contains("GPVTG")) {
+          // Get the speed
+          _speed = double.parse(decoded.split(",")[7]);
+          print("Speed: $_speed");
+          return;
         }
-        if (!isEast) {
-          _longitude = -_longitude;
-        }
-
-        String timeString = parts[1];
-        int hour = int.parse(timeString.substring(0, 2));
-        int minute = int.parse(timeString.substring(2, 4));
-        double second = double.parse(timeString.substring(4, 9));
-
-        _time = DateTime(_time.year, _time.month, _time.day, hour, minute, second.toInt(), (second * 1000).toInt());
-
-        print("Latitude: $_latitude, Longitude: $_longitude");
-        return;
+      } catch (e) {
+        print("Error parsing GPS data: $e");
       }
-      if (decoded.contains("GPVTG")) {
-        // Get the speed
-        _speed = double.parse(decoded.split(",")[7]);
-        print("Speed: $_speed");
-        return;
-      }
+
     });
 
   }

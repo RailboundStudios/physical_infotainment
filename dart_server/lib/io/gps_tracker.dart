@@ -1,5 +1,6 @@
 
 import 'dart:io';
+import 'package:libserialport/libserialport.dart';
 
 class GpsTracker {
 
@@ -26,62 +27,63 @@ class GpsTracker {
 
   GpsTracker(this.serialPort) {
 
-    Process.run("/bin/cat", [serialPort]).then((ProcessResult result) {
+    SerialPort serial = SerialPort(serialPort);
 
-      print("GPS tracker started");
+    if (!serial.openRead()) {
+      throw Exception("Failed to open serial port: $serialPort");
+    }
 
-      result.stdout.listen((event) {
+    SerialPortReader reader = SerialPortReader(serial);
 
-        print("GpsTracker: ${event.toString()}");
+    reader.stream.listen((event) {
+      print("GpsTracker: ${event.toString()}");
 
-        if (event.toString().contains("GPGGA")) {
-          List<String> parts = event.toString().split(",");
-          if (parts[6] == "0") { // 0:unpositioned 1:SPS mode, position valid 2:Differential, SPS mode, position valid, 3:PPS mode, position valid
-            print("No GPS fix");
-            _isFixed = false;
-            return;
-          }
-          _isFixed = true;
-          _hasEverFixed = true;
-
-          // Get the latitude and longitude
-          String latitudeString = parts[2]; // ddmm.mmmm
-          String longitudeString = parts[4]; // dddmm.mmmm
-
-          // Convert latitude and longitude to decimal degrees
-          _latitude = int.parse(latitudeString.substring(0, 2)) +
-              double.parse(latitudeString.substring(2)) / 60;
-          _longitude = int.parse(longitudeString.substring(0, 3)) +
-              double.parse(longitudeString.substring(3)) / 60;
-
-          bool isNorth = parts[3] == "N";
-          bool isEast = parts[5] == "E";
-
-          if (!isNorth) {
-            _latitude = -_latitude;
-          }
-          if (!isEast) {
-            _longitude = -_longitude;
-          }
-
-          String timeString = parts[1];
-          int hour = int.parse(timeString.substring(0, 2));
-          int minute = int.parse(timeString.substring(2, 4));
-          double second = double.parse(timeString.substring(4, 9));
-
-          _time = DateTime(_time.year, _time.month, _time.day, hour, minute, second.toInt(), (second * 1000).toInt());
-
-          print("Latitude: $_latitude, Longitude: $_longitude");
+      if (event.toString().contains("GPGGA")) {
+        List<String> parts = event.toString().split(",");
+        if (parts[6] == "0") { // 0:unpositioned 1:SPS mode, position valid 2:Differential, SPS mode, position valid, 3:PPS mode, position valid
+          print("No GPS fix");
+          _isFixed = false;
           return;
         }
-        if (event.toString().contains("GPVTG")) {
-          // Get the speed
-          _speed = double.parse(event.toString().split(",")[7]);
-          print("Speed: $_speed");
-          return;
+        _isFixed = true;
+        _hasEverFixed = true;
+
+        // Get the latitude and longitude
+        String latitudeString = parts[2]; // ddmm.mmmm
+        String longitudeString = parts[4]; // dddmm.mmmm
+
+        // Convert latitude and longitude to decimal degrees
+        _latitude = int.parse(latitudeString.substring(0, 2)) +
+            double.parse(latitudeString.substring(2)) / 60;
+        _longitude = int.parse(longitudeString.substring(0, 3)) +
+            double.parse(longitudeString.substring(3)) / 60;
+
+        bool isNorth = parts[3] == "N";
+        bool isEast = parts[5] == "E";
+
+        if (!isNorth) {
+          _latitude = -_latitude;
+        }
+        if (!isEast) {
+          _longitude = -_longitude;
         }
 
-      });
+        String timeString = parts[1];
+        int hour = int.parse(timeString.substring(0, 2));
+        int minute = int.parse(timeString.substring(2, 4));
+        double second = double.parse(timeString.substring(4, 9));
+
+        _time = DateTime(_time.year, _time.month, _time.day, hour, minute, second.toInt(), (second * 1000).toInt());
+
+        print("Latitude: $_latitude, Longitude: $_longitude");
+        return;
+      }
+      if (event.toString().contains("GPVTG")) {
+        // Get the speed
+        _speed = double.parse(event.toString().split(",")[7]);
+        print("Speed: $_speed");
+        return;
+      }
     });
 
   }

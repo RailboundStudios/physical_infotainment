@@ -69,7 +69,8 @@ class WebserverModule extends InfoModule {
           jsonEncode({
             "locationFix": backend.gpsTracker.isFixed,
             "latitude": backend.gpsTracker.latitude,
-            "longitude": backend.gpsTracker.longitude
+            "longitude": backend.gpsTracker.longitude,
+            "timeOffset": backend.gpsTracker.utcOffset.inSeconds,
           })
       );
     });

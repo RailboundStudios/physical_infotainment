@@ -23,6 +23,7 @@ class GpsTracker {
   double get speed => _speed;
 
   Duration _utcOffset = Duration.zero;
+  Duration get utcOffset => _utcOffset;
   DateTime get utcTime => DateTime.now().toUtc().add(_utcOffset);
 
   GpsTracker(this.serialPort) {
@@ -40,7 +41,7 @@ class GpsTracker {
 
       String decoded = String.fromCharCodes(event);
 
-      print("GpsTracker: ${decoded}");
+      // print("GpsTracker: ${decoded}");
 
       try {
         if (decoded.contains("GPGGA")) {
@@ -83,7 +84,11 @@ class GpsTracker {
 
           _utcOffset = gpsTime.difference(now);
 
-          print("Latitude: $_latitude, Longitude: $_longitude");
+          // print("Latitude: $_latitude, Longitude: $_longitude");
+
+          print("GpsTracker: Fixed at $_latitude, $_longitude");
+          print("GpsTracker: UTC time: $utcTime");
+
           return;
         }
         if (decoded.contains("GPVTG")) {

@@ -37,10 +37,13 @@ class GpsTracker {
 
     print("GpsTracker: Listening to GPS data");
     reader.stream.listen((event) {
-      print("GpsTracker: ${event.toString()}");
 
-      if (event.toString().contains("GPGGA")) {
-        List<String> parts = event.toString().split(",");
+      String decoded = String.fromCharCodes(event);
+
+      print("GpsTracker: ${decoded}");
+
+      if (decoded.contains("GPGGA")) {
+        List<String> parts = decoded.split(",");
         if (parts[6] == "0") { // 0:unpositioned 1:SPS mode, position valid 2:Differential, SPS mode, position valid, 3:PPS mode, position valid
           print("No GPS fix");
           _isFixed = false;
@@ -79,9 +82,9 @@ class GpsTracker {
         print("Latitude: $_latitude, Longitude: $_longitude");
         return;
       }
-      if (event.toString().contains("GPVTG")) {
+      if (decoded.contains("GPVTG")) {
         // Get the speed
-        _speed = double.parse(event.toString().split(",")[7]);
+        _speed = double.parse(decoded.split(",")[7]);
         print("Speed: $_speed");
         return;
       }

@@ -73,6 +73,15 @@ else
     echo -e "${ORANGE}ffmpeg already installed${NC}"
 fi
 
+## Ensure libserialport is installed
+if ! command -v serialport-config &> /dev/null; then
+    echo -e "${YELLOW}libserialport not found. Installing...${NC}"
+    sudo apt-get install -y libserialport-dev &&
+    echo -e "${ORANGE}libserialport installed successfully${NC}"
+else
+    echo -e "${ORANGE}libserialport already installed${NC}"
+fi
+
 ## Create systemd service for dart_server if not exists
 if [ ! -f /etc/systemd/system/pi-ibus.service ]; then
     echo -e "${YELLOW}Creating systemd service for dart_server...${NC}"

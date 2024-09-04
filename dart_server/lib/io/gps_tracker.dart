@@ -26,12 +26,13 @@ class GpsTracker {
 
   GpsTracker(this.serialPort) {
 
-    File file = File(serialPort);
-    if (!file.existsSync()) {
-      throw Exception("Serial port $serialPort does not exist.");
-    }
     Process.run("cat", [serialPort]).then((ProcessResult result) {
+
+      print("GPS tracker started");
+
       result.stdout.listen((event) {
+
+        print("GpsTracker: ${event.toString()}");
 
         if (event.toString().contains("GPGGA")) {
           List<String> parts = event.toString().split(",");

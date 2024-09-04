@@ -122,6 +122,9 @@ class WebserverModule extends InfoModule {
 
             backend.currentRoute = BusRoute.fromMap(map);
             print("Route set to ${map["RouteNumber"]} - ${map["RouteDestination"]}");
+
+            backend.matrixDisplay.topLine = "${map["RouteNumber"]} to ${map["RouteDestination"]}";
+
             return Response.ok("Route set to ${map["RouteNumber"]} - ${map["RouteDestination"]}");
           }
         }

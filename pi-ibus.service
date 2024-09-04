@@ -1,6 +1,6 @@
 [Unit]
 Description=ibus-daemon
-After=network.target
+After=local-fs.target
 
 [Service]
 Type=idle

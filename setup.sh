@@ -84,3 +84,4 @@ else
 fi
 
 sudo systemctl start pi-ibus.service
+sudo journalctl -f -u pi-ibus.service

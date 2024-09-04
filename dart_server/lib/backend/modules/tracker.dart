@@ -31,7 +31,7 @@ class TrackerModule extends InfoModule {
 
 
   void onTick() {
-    if (backend.gpsTracker.hasEverFixed) {
+    if (!backend.gpsTracker.hasEverFixed) {
       return;
     }
 

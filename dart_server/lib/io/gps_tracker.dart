@@ -26,7 +26,7 @@ class GpsTracker {
 
   GpsTracker(this.serialPort) {
 
-    Process.run("cat", [serialPort]).then((ProcessResult result) {
+    Process.run("/bin/cat", [serialPort]).then((ProcessResult result) {
 
       print("GPS tracker started");
 

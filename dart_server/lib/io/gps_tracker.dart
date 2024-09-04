@@ -81,7 +81,6 @@ class GpsTracker {
 
           DateTime now = DateTime.now();
           DateTime gpsTime = DateTime(now.year, now.month, now.day, hour, minute, second.toInt(), (second * 1000).toInt());
-
           _utcOffset = gpsTime.difference(now);
 
           // print("Latitude: $_latitude, Longitude: $_longitude");

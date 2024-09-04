@@ -35,6 +35,8 @@ class TrackerModule extends InfoModule {
       return;
     }
 
+    print("Updating nearest stop");
+
     updateNearestStop();
   }
 

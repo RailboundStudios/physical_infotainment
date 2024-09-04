@@ -35,6 +35,7 @@ class GpsTracker {
 
     SerialPortReader reader = SerialPortReader(serial);
 
+    print("GpsTracker: Listening to GPS data");
     reader.stream.listen((event) {
       print("GpsTracker: ${event.toString()}");
 

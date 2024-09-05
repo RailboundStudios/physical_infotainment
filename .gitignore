@@ -4,3 +4,5 @@
 
 /dart_server/storage
 /dart_server/lib/tools/tfl_route_generator/audios/iBus-20231124T123541Z-001
+
+/dotnet_server/dotnet_server/includes/rpi-rgb-led-matrix

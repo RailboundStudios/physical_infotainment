@@ -260,11 +260,11 @@ new Thread(() =>
                 }
             
                 String topTextt = now.ToString("hh:mm tt").ToUpper();
-                mainWidth = canvas.DrawText(sstockFont, topPos, 7, textColor, topTextt);
+                mainWidth = canvas.DrawText(sstockFont, topPos, 0, textColor, topTextt);
             }
             else
             {
-                mainWidth = canvas.DrawText(sstockFont, topPos, 7, textColor, topText);
+                mainWidth = canvas.DrawText(sstockFont, topPos, 0, textColor, topText);
             }
             
             if (mainWidth <= canvas.Width)

@@ -106,7 +106,9 @@ class WebserverModule extends InfoModule {
 
         String contents = file.readAsStringSync();
         Map<String, dynamic> map = jsonDecode(contents);
-        String hash = sha256.convert(utf8.encode(contents)).toString();
+
+        BusRoute route = BusRoute.fromMap(map);
+        String hash = route.hash;
 
         if (request.url.queryParameters["deep"] == "true") {
           routes.add(map);
@@ -262,7 +264,9 @@ class WebserverModule extends InfoModule {
     router.post("/uploadRoute", (Request request) async {
       var body = await request.readAsString();
 
-      String hash = sha256.convert(utf8.encode(body)).toString();
+      BusRoute route = BusRoute.fromMap(jsonDecode(body));
+
+      String hash = route.hash;
       Map<String, dynamic> map = jsonDecode(body);
 
       File file = File("storage/routes/$hash.json");
@@ -282,7 +286,8 @@ class WebserverModule extends InfoModule {
 
         String contents = file.readAsStringSync();
         Map<String, dynamic> map = jsonDecode(contents);
-        String hash = sha256.convert(utf8.encode(contents)).toString();
+        BusRoute route = BusRoute.fromMap(map);
+        String hash = route.hash;
 
         routes.add({
           "RouteNumber": map["RouteNumber"],
@@ -298,7 +303,10 @@ class WebserverModule extends InfoModule {
         for (FileSystemEntity fileSystemEntity in routesDir.listSync()) {
           File file = File(fileSystemEntity.path);
           String contents = file.readAsStringSync();
-          String fileHash = sha256.convert(utf8.encode(contents)).toString();
+
+          BusRoute route = BusRoute.fromMap(jsonDecode(contents));
+          String fileHash = route.hash;
+
           if (fileHash == hash) {
             Map<String, dynamic> map = jsonDecode(contents);
 

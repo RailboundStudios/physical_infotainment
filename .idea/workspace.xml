@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1535fcc-9345-4949-8060-bf1d0cc3d16c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dart_server/lib/backend/modules/webserver.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/backend/modules/webserver.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dart_server/lib/tools/tfl_route_generator/tfl_route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/tools/tfl_route_generator/tfl_route_generator.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dotnet_server/dotnet_server/assets/sstock.bdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dotnet_server/dotnet_server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/dotnet_server/dotnet_server/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pi-ibus.service" beforeDir="false" afterPath="$PROJECT_DIR$/pi-ibus.service" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/setup.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/useful" beforeDir="false" afterPath="$PROJECT_DIR$/useful" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dotnet_server/dotnet_server/assets/test.bdf" beforeDir="false" afterPath="$PROJECT_DIR$/dotnet_server/dotnet_server/assets/ibus.bdf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

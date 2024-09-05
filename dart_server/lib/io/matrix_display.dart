@@ -46,6 +46,7 @@ class MatrixDisplay {
   Color _color = Color(231, 164, 57);
   int _speedMs = 10;
   int _timeOffset = 0;
+  int _mode = 0; // 0 = Ibus, 1 = S Stock
 
   bool get isReady => _matrixServer != null;
 
@@ -82,6 +83,13 @@ class MatrixDisplay {
     _timeOffset = value;
     print("Time Offset: $value");
     _matrixServer?.stdin.writeln("TimeOffset=$value");
+  }
+
+  int get mode => _mode;
+  void set mode(int value) {
+    _mode = value;
+    print("Mode: $value");
+    _matrixServer?.stdin.writeln("Mode=$value");
   }
 
   void kill() {

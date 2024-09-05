@@ -93,7 +93,8 @@ if (!File.Exists(resolvedPath))
     // return;
 }
     
-var font = new RGBLedFont("assets/test.bdf");
+var ibusFont = new RGBLedFont("assets/ibus.bdf");
+var sstockFont = new RGBLedFont("assets/sstock.bdf");
 // var font = new RGBLedFont(resolvedPath);
 canvas.Clear();
 
@@ -169,6 +170,7 @@ Color fromHSB(double h, double s, double b)
 }
 
 int timeOffset = 0; // Offset in milliseconds
+int mode = 0; // 0 = ibus, 1 = sstock
 
 bool running = true;
 
@@ -179,62 +181,104 @@ new Thread(() =>
     {
         canvas.Clear();
 
-        Color rainbowColor = fromHSB((DateTime.Now.Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds * 0.1) % 360, 1, 1);
-        
-        if (textColor is { R: 0, G: 0, B: 0 })
+        if (mode == 0)
         {
-            textColor = rainbowColor;
-        }
+            Color rainbowColor = fromHSB((DateTime.Now.Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds * 0.1) % 360, 1, 1);
         
-        int topWidth = canvas.DrawText(font, topPos, 7, textColor, topText);
-        int bottomWidth = 0;
-
-        if (bottomText == "%time")
-        {
-            DateTime now = DateTime.Now;
-            now = now.AddMilliseconds(timeOffset);
-            
-            // Account for BST
-            if (DateTime.Now.IsDaylightSavingTime())
+            if (textColor is { R: 0, G: 0, B: 0 })
             {
-                now = now.AddHours(1);
+                textColor = rainbowColor;
+            }
+        
+            int topWidth = canvas.DrawText(ibusFont, topPos, 7, textColor, topText);
+            int bottomWidth = 0;
+
+            if (bottomText == "%time")
+            {
+                DateTime now = DateTime.Now;
+                now = now.AddMilliseconds(timeOffset);
+            
+                // Account for BST
+                if (DateTime.Now.IsDaylightSavingTime())
+                {
+                    now = now.AddHours(1);
+                }
+            
+                String bottomTextt = now.ToString("hh:mm tt").ToUpper();
+                // bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomTextt);
+                bottomWidth = canvas.DrawText(ibusFont, bottomPos, 16, textColor, bottomTextt);
+            }
+            else
+            {
+                // bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomText);
+                bottomWidth = canvas.DrawText(ibusFont, bottomPos, 16, textColor, bottomText);
+            }
+
+            if (topWidth <= canvas.Width)
+            {
+                topPos = (canvas.Width - topWidth) / 2;
+            }
+            else
+            {
+                topPos -= 1;
+                if (topPos < -topWidth)
+                {
+                    topPos = canvas.Width;
+                    numRev++;
+                }
+            }
+
+            if (bottomWidth <= canvas.Width)
+            {
+                bottomPos = (canvas.Width - bottomWidth) / 2;
+            }
+            else
+            {
+                bottomPos -= 1;
+                if (bottomPos < -bottomWidth)
+                {
+                    bottomPos = canvas.Width;
+                    numRev++;
+                }
+            }
+        }
+        else if (mode == 1)
+        {
+            // S Stock only has one line
+
+            int mainWidth = 0;
+            
+            if (topText == "%time")
+            {
+                DateTime now = DateTime.Now;
+                now = now.AddMilliseconds(timeOffset);
+            
+                // Account for BST
+                if (DateTime.Now.IsDaylightSavingTime())
+                {
+                    now = now.AddHours(1);
+                }
+            
+                String topTextt = now.ToString("hh:mm tt").ToUpper();
+                mainWidth = canvas.DrawText(sstockFont, topPos, 7, textColor, topTextt);
+            }
+            else
+            {
+                mainWidth = canvas.DrawText(sstockFont, topPos, 7, textColor, topText);
             }
             
-            String bottomTextt = now.ToString("hh:mm tt").ToUpper();
-            // bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomTextt);
-            bottomWidth = canvas.DrawText(font, bottomPos, 16, textColor, bottomTextt);
-        }
-        else
-        {
-            // bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomText);
-            bottomWidth = canvas.DrawText(font, bottomPos, 16, textColor, bottomText);
-        }
-
-        if (topWidth <= canvas.Width)
-        {
-            topPos = (canvas.Width - topWidth) / 2;
-        }
-        else
-        {
-            topPos -= 1;
-            if (topPos < -topWidth)
+            if (mainWidth <= canvas.Width)
             {
-                topPos = canvas.Width;
-                numRev++;
+                topPos = (canvas.Width - mainWidth) / 2;
             }
-        }
-
-        if (bottomWidth <= canvas.Width)
-        {
-            bottomPos = (canvas.Width - bottomWidth) / 2;
-        }
-        else
-        {
-            bottomPos -= 1;
-            if (bottomPos < -bottomWidth)
+            else
             {
-                bottomPos = canvas.Width;
-                numRev++;
+                topPos -= 1;
+                if (topPos < -mainWidth)
+                {
+                    topPos = canvas.Width;
+                    numRev++;
+                }
             }
         }
 
@@ -257,6 +301,7 @@ while (running)
     Console.WriteLine("Color=... # to change the color (r, g, b)");
     Console.WriteLine("Speed=... # to change the speed");
     Console.WriteLine("TimeOffset=... # to change the time offset");
+    Console.WriteLine("Mode=... # to change the mode (0 = ibus, 1 = sstock)");
     Console.WriteLine("exit # to quit");
     
     String? input = Console.ReadLine();
@@ -291,6 +336,10 @@ while (running)
     else if (input.StartsWith("TimeOffset="))
     {
         timeOffset = int.Parse(input.Split("=")[1]);
+    }
+    else if (input.StartsWith("Mode="))
+    {
+        mode = int.Parse(input.Split("=")[1]);
     }
     else if (input.Equals("exit", StringComparison.OrdinalIgnoreCase))
     {

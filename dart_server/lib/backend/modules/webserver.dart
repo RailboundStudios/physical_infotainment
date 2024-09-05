@@ -38,6 +38,9 @@ class WebserverModule extends InfoModule {
       if (body["speed"] != null) {
         backend.matrixDisplay.SpeedMs = body["speed"];
       }
+      if (body["mode"] != null) {
+        backend.matrixDisplay.mode = body["mode"];
+      }
     });
     // Get the current Matrix Payload.
     router.get("/matrix", (Request request) {

@@ -157,9 +157,8 @@ class WebserverModule extends InfoModule {
       var body = await request.readAsString();
 
       BusRoute route = BusRoute.fromMap(jsonDecode(body));
-      String routeBody = getPrettyJSONString(route.toMap());
 
-      String hash = sha256.convert(utf8.encode(routeBody)).toString();
+      String hash = route.hash;
       Map<String, dynamic> map = jsonDecode(body);
 
       File file = File("storage/routes/$hash.json");

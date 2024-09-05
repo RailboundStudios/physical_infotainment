@@ -2,6 +2,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:crypto/crypto.dart';
+
 class BusRoute {
   String routeNumber = "";
   String destination = "";
@@ -16,9 +18,20 @@ class BusRoute {
   BusRoute.fromMap(Map<String, dynamic> map) {
     routeNumber = map["RouteNumber"];
     destination = map["Destination"];
-    routeAudio = map["RouteAudio"] != "" ? base64Decode(map["RouteAudio"]) : null;
-    destinationAudio = map["DestinationAudio"] != "" ? base64Decode(map["DestinationAudio"]) : null;
+
+    if (map["RouteAudio"] != null && map["RouteAudio"] != "") {
+      routeAudio = base64Decode(map["RouteAudio"]);
+    }
+
+    if (map["DestinationAudio"] != null && map["DestinationAudio"] != "") {
+      destinationAudio = base64Decode(map["DestinationAudio"]);
+    }
+
     stops = (map["Stops"] as List).map((e) => BusRouteStop.fromMap(e)).toList();
+  }
+
+  String get hash {
+    return sha256.convert(utf8.encode(getPrettyJSONString(toMap()))).toString();
   }
 
   toMap() {
@@ -64,4 +77,9 @@ class BusRouteStop {
       "AnnounceDistance": announceDistance,
     };
   }
+}
+
+String getPrettyJSONString(jsonObject){
+  var encoder = new JsonEncoder.withIndent("     ");
+  return encoder.convert(jsonObject);
 }

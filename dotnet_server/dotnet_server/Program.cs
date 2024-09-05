@@ -70,7 +70,7 @@ Task.Delay(5000).Wait();
                 }
             }
             matrix.SwapOnVsync(canvas);
-            Task.Delay(400).Wait();
+            Task.Delay(200).Wait();
         }
     }
     

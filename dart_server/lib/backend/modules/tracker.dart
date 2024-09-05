@@ -21,11 +21,7 @@ class TrackerModule extends InfoModule {
       updateNearestStop();
     });
     Timer.periodic(Duration(seconds: 1), (timer) {
-      try {
-        onTick();
-      } catch (e) {
-        print("Error in tracker module: $e");
-      }
+      onTick();
     });
   }
 

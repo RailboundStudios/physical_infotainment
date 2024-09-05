@@ -111,17 +111,12 @@ class WebserverModule extends InfoModule {
         if (request.url.queryParameters["deep"] == "true") {
           routes.add({
             "RouteNumber": map["RouteNumber"],
-            "RouteDestination": map["Destination"],
+            "Destination": map["Destination"],
             "RouteHash": hash,
             "Stops": map["Stops"]
           });
         } else {
-          routes.add({
-            "RouteNumber": map["RouteNumber"],
-            "RouteDestination": map["Destination"],
-            "RouteHash": hash,
-            "StopCount": map["Stops"].length
-          });
+          routes.add(map);
         }
       }
 

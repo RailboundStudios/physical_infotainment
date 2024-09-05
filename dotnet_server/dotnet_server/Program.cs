@@ -264,7 +264,7 @@ new Thread(() =>
             }
             else
             {
-                mainWidth = canvas.DrawText(sstockFont, topPos, 0, textColor, topText);
+                mainWidth = canvas.DrawText(sstockFont, topPos, 14, textColor, topText);
             }
             
             if (mainWidth <= canvas.Width)

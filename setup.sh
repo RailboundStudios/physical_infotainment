@@ -92,5 +92,6 @@ else
     echo -e "${ORANGE}Systemd service already exists${NC}"
 fi
 
+sudo chmod 744 run.sh
 sudo systemctl start pi-ibus.service
 sudo journalctl -f -u pi-ibus.service

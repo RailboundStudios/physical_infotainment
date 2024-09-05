@@ -175,20 +175,18 @@ class TrackerModule extends InfoModule {
 
 double _calculateRelativeDistance(BusRouteStop stop, double latitude, double longitude) {
 
-  List<double> toLatLong = [stop.latitude, stop.longitude];
+  Vector2 StopPoint = OSGrid.toNorthingEasting([stop.latitude, stop.longitude]);
+  Vector2 CurrentPoint = OSGrid.toNorthingEasting([latitude, longitude]);
 
-  Vector2 stopPoint = OSGrid.toNorthingEasting([toLatLong[0], toLatLong[1]]);
-  Vector2 currentPoint = OSGrid.toNorthingEasting([latitude, longitude]);
+  // Detect whether the stop is in front or behind the current location using the heading
+  double heading = stop.heading;
+  double angle = atan2(StopPoint.y - CurrentPoint.y, StopPoint.x - CurrentPoint.x);
+  double relativeAngle = angle - heading;
+  bool isBehind = relativeAngle.abs() > pi / 2;
 
-  // calculate the heading from the current point to the stop point
-  // 0 degrees is north, 90 degrees is east, 180 degrees is south, 270 degrees is west
-  double toHeading = degrees(atan2(stopPoint.x - currentPoint.x, stopPoint.y - currentPoint.y));
-  toHeading = (toHeading + 360) % 360;
+  double sign = isBehind ? -1 : 1;
 
-  // get the dot product of the heading and the stop heading
-  double dotProduct = cos(radians(toHeading)) * cos(radians(stop.heading.toDouble())) + sin(radians(toHeading)) * sin(radians(stop.heading.toDouble()));
-
-  return (dotProduct.sign) * _calculateDistance(latitude, longitude, toLatLong[0], toLatLong[1]);
+  return sign * StopPoint.distanceTo(CurrentPoint);
 }
 
 double _calculateDistance(double lat1, double lon1, double lat2, double lon2) {

@@ -201,7 +201,7 @@ class AnnouncementModule extends InfoModule {
 
   void queueAnnouncement_destination(BusRoute route) {
     queueAnnouncement(AnnouncementQueueEntry(
-      displayText: route.destination,
+      displayText: "${route.routeNumber} to ${route.destination}",
       audioBytes: [
         if (route.routeAudio != null) route.routeAudio!,
         File("assets/audio/to_destination.wav").readAsBytesSync(),

@@ -134,21 +134,14 @@ class WebserverModule extends InfoModule {
         return Response.ok("Route set to nil");
       }
 
-      for (FileSystemEntity fileSystemEntity in routesDir.listSync()) {
-        File file = File(fileSystemEntity.path);
-        String contents = file.readAsStringSync();
-        String fileHash = sha256.convert(utf8.encode(contents)).toString();
-        if (fileHash == hash) {
-          Map<String, dynamic> map = jsonDecode(contents);
-
-          backend.currentRoute = BusRoute.fromMap(map);
-          print("Route set to ${map["RouteNumber"]} - ${map["RouteDestination"]}");
-
-          backend.matrixDisplay.topLine = "${map["RouteNumber"]} to ${map["RouteDestination"]}";
-
-          return Response.ok("Route set to ${map["RouteNumber"]} - ${map["RouteDestination"]}");
-        }
+      File file = File("storage/routes/$hash.json");
+      if (!file.existsSync()) {
+        return Response.ok("Failed to find route with hash: $hash");
       }
+
+      Map<String, dynamic> map = jsonDecode(file.readAsStringSync());
+      backend.currentRoute = BusRoute.fromMap(map);
+
       return Response.ok("Failed to find route with hash: $hash");
     });
     // Get the current route. /current-route

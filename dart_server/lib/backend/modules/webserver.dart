@@ -142,7 +142,7 @@ class WebserverModule extends InfoModule {
       Map<String, dynamic> map = jsonDecode(file.readAsStringSync());
       backend.currentRoute = BusRoute.fromMap(map);
 
-      return Response.ok("Failed to find route with hash: $hash");
+      return Response.ok("Route set to ${map["RouteNumber"]} - ${map["Destination"]}");
     });
     // Get the current route. /current-route
     router.get("/current-route", (Request request) {

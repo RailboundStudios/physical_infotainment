@@ -168,6 +168,8 @@ Color fromHSB(double h, double s, double b)
     return new Color((byte)(r * 255), (byte)(g * 255), (byte)(bl * 255));
 }
 
+int timeOffset = 0; // Offset in milliseconds
+
 bool running = true;
 
 new Thread(() =>
@@ -190,6 +192,7 @@ new Thread(() =>
         if (bottomText == "%time")
         {
             DateTime now = DateTime.Now;
+            now = now.AddMilliseconds(timeOffset);
             String bottomTextt = now.ToString("hh:mm tt").ToUpper();
             // bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomTextt);
             bottomWidth = canvas.DrawText(font, bottomPos, 16, textColor, bottomTextt);
@@ -246,6 +249,7 @@ while (running)
     Console.WriteLine("Bottom=... # to change the bottom text");
     Console.WriteLine("Color=... # to change the color (r, g, b)");
     Console.WriteLine("Speed=... # to change the speed");
+    Console.WriteLine("TimeOffset=... # to change the time offset");
     Console.WriteLine("exit # to quit");
     
     String? input = Console.ReadLine();
@@ -276,6 +280,10 @@ while (running)
     else if (input.StartsWith("Speed="))
     {
         FrameMs = int.Parse(input.Split("=")[1]);
+    }
+    else if (input.StartsWith("TimeOffset="))
+    {
+        timeOffset = int.Parse(input.Split("=")[1]);
     }
     else if (input.Equals("exit", StringComparison.OrdinalIgnoreCase))
     {

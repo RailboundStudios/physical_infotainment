@@ -31,6 +31,7 @@ class TrackerModule extends InfoModule {
       return;
     }
 
+    backend.matrixDisplay.timeOffset = backend.gpsTracker.utcOffset.inMilliseconds;
     updateNearestStop();
   }
 

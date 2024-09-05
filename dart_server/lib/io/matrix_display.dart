@@ -45,6 +45,7 @@ class MatrixDisplay {
   String _bottomLine = "";
   Color _color = Color(231, 164, 57);
   int _speedMs = 10;
+  int _timeOffset = 0;
 
   bool get isReady => _matrixServer != null;
 
@@ -74,6 +75,13 @@ class MatrixDisplay {
     _speedMs = value;
     print("Speed: $value");
     _matrixServer?.stdin.writeln("Speed=$value");
+  }
+
+  int get timeOffset => _timeOffset;
+  void set timeOffset(int value) {
+    _timeOffset = value;
+    print("Time Offset: $value");
+    _matrixServer?.stdin.writeln("TimeOffset=$value");
   }
 
   void kill() {

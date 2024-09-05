@@ -42,7 +42,7 @@ class WebserverModule extends InfoModule {
     // Get the current Matrix Payload.
     router.get("/matrix", (Request request) {
       return Response.ok(
-          jsonEncode({
+          getPrettyJSONString({
             "text_top": backend.matrixDisplay.topLine,
             "text_bottom": backend.matrixDisplay.bottomLine,
             "color": [
@@ -87,7 +87,7 @@ class WebserverModule extends InfoModule {
     // Get the current GPS Payload.
     router.get("/position", (Request request) {
       return Response.ok(
-          jsonEncode({
+          getPrettyJSONString({
             "latitude": backend.gpsTracker.latitude,
             "longitude": backend.gpsTracker.longitude,
             "speed": backend.gpsTracker.speed,
@@ -121,7 +121,7 @@ class WebserverModule extends InfoModule {
         }
       }
 
-      return Response.ok(jsonEncode(routes));
+      return Response.ok(getPrettyJSONString(routes));
     });
 
     // Set the current route. /current-route?hash=123456
@@ -232,7 +232,7 @@ class WebserverModule extends InfoModule {
     // get the displayInfo. /displayInfo
     router.get("/displayInfo", (Request request) {
       return Response.ok(
-          jsonEncode({
+          getPrettyJSONString({
             "topText": backend.matrixDisplay.topLine,
             "bottomText": backend.matrixDisplay.bottomLine,
             "textColor": [
@@ -248,7 +248,7 @@ class WebserverModule extends InfoModule {
     // get the locationInfo. /locationInfo
     router.get("/locationInfo", (Request request) {
       return Response.ok(
-          jsonEncode({
+          getPrettyJSONString({
             "locationFix": backend.gpsTracker.isFixed,
             "latitude": backend.gpsTracker.latitude,
             "longitude": backend.gpsTracker.longitude
@@ -314,7 +314,7 @@ class WebserverModule extends InfoModule {
       });
 
 
-      return Response.ok(jsonEncode(routes));
+      return Response.ok(getPrettyJSONString(routes));
     });
 
     // Get the current route. /currentRoute

@@ -14,19 +14,38 @@ class GpsTracker {
 
   double _latitude = 0;
   double get latitude => _latitude;
+  set latitude(double value) {
+    _latitude = value;
+    _hasEverFixed = true;
+  }
 
   double _longitude = 0;
   double get longitude => _longitude;
+  set longitude(double value) {
+    _longitude = value;
+    _hasEverFixed = true;
+  }
 
   /// Speed in km/h
   double _speed = 0;
   double get speed => _speed;
+  set speed(double value) {
+    _speed = value;
+  }
 
   Duration _utcOffset = Duration.zero;
   Duration get utcOffset => _utcOffset;
   DateTime get utcTime => DateTime.now().toUtc().add(_utcOffset);
+  set utcTime(DateTime value) {
+    _utcOffset = value.difference(DateTime.now().toUtc());
+  }
 
   GpsTracker(this.serialPort) {
+
+    if (Platform.isWindows) { // Assume test environment
+      print("GpsTracker: Windows is not supported");
+      return;
+    }
 
     SerialPort serial = SerialPort(serialPort);
 

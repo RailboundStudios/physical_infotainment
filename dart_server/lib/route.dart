@@ -50,6 +50,7 @@ class BusRouteStop {
     var location = map["Location"].split(", ");
     latitude = double.parse(location[0]);
     longitude = double.parse(location[1]);
+    heading = map["Heading"];
     audio = map["Audio"] != "" ? base64Decode(map["Audio"]) : null;
     announceDistance = map["AnnounceDistance"];
   }
@@ -58,6 +59,7 @@ class BusRouteStop {
     return {
       "Name": name,
       "Location": "$latitude, $longitude",
+      "Heading": heading,
       "Audio": audio != null ? base64Encode(audio!) : "",
       "AnnounceDistance": announceDistance,
     };

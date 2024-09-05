@@ -17,6 +17,179 @@ class WebserverModule extends InfoModule {
     Directory routesDir = Directory("storage/routes");
 
     Router router = Router();
+
+    // Update the Matrix Payload.
+    router.patch("/matrix", (Request request) async {
+      Map<String, dynamic> body = jsonDecode(await request.readAsString());
+
+      // Start updating matrix attributes.
+      // If expected values are null, then leave them the same.
+      // todo: Come back to this, and update the dotnet server so that the parameters are dynamic in preparation for different types of displays.
+      // todo: for now, we'll just adapt to the current fixed parameters.
+      if (body["text_top"] != null) {
+        backend.matrixDisplay.topLine = body["text_top"];
+      }
+      if (body["text_bottom"] != null) {
+        backend.matrixDisplay.bottomLine = body["text_bottom"];
+      }
+      if (body["color"] != null) {
+        backend.matrixDisplay.color = Color(body["color"][0], body["color"][1], body["color"][2]);
+      }
+      if (body["speed"] != null) {
+        backend.matrixDisplay.SpeedMs = body["speed"];
+      }
+    });
+    // Get the current Matrix Payload.
+    router.get("/matrix", (Request request) {
+      return Response.ok(
+          jsonEncode({
+            "text_top": backend.matrixDisplay.topLine,
+            "text_bottom": backend.matrixDisplay.bottomLine,
+            "color": [
+              backend.matrixDisplay.color.red,
+              backend.matrixDisplay.color.green,
+              backend.matrixDisplay.color.blue
+            ],
+            "speed": backend.matrixDisplay.SpeedMs
+          })
+      );
+    });
+
+
+    // Update the GPS Payload. Hopefully this isn't used much.
+    router.patch("/position", (Request request) async {
+      Map<String, dynamic> body = jsonDecode(await request.readAsString());
+
+      /*
+        Expecting:
+          - latitude
+          - longitude
+          - speed
+          - time
+       */
+
+      if (body["latitude"] != null) {
+        backend.gpsTracker.latitude = body["latitude"];
+      }
+      if (body["longitude"] != null) {
+        backend.gpsTracker.longitude = body["longitude"];
+      }
+      if (body["speed"] != null) {
+        backend.gpsTracker.speed = body["speed"];
+      } else {
+        // We could calculate the speed from the previous position, but that's long.
+      }
+      if (body["time"] != null) {
+        backend.gpsTracker.utcTime = DateTime.parse(body["time"]);
+      }
+
+    });
+    // Get the current GPS Payload.
+    router.get("/position", (Request request) {
+      return Response.ok(
+          jsonEncode({
+            "latitude": backend.gpsTracker.latitude,
+            "longitude": backend.gpsTracker.longitude,
+            "speed": backend.gpsTracker.speed,
+            "time": backend.gpsTracker.utcTime.toIso8601String()
+          })
+      );
+    });
+
+    // Get a list of routes. /routes?deep=true|false
+    // if deep is true, then the stops are included.
+    router.get("/routes", (Request request) {
+      List<dynamic> routes = [];
+
+      for (FileSystemEntity fileSystemEntity in routesDir.listSync()) {
+        File file = File(fileSystemEntity.path);
+
+        String contents = file.readAsStringSync();
+        Map<String, dynamic> map = jsonDecode(contents);
+        String hash = sha256.convert(utf8.encode(contents)).toString();
+
+        if (request.url.queryParameters["deep"] == "true") {
+          routes.add({
+            "RouteNumber": map["RouteNumber"],
+            "RouteDestination": map["Destination"],
+            "RouteHash": hash,
+            "Stops": map["Stops"]
+          });
+        } else {
+          routes.add({
+            "RouteNumber": map["RouteNumber"],
+            "RouteDestination": map["Destination"],
+            "RouteHash": hash,
+            "StopCount": map["Stops"].length
+          });
+        }
+      }
+
+      return Response.ok(jsonEncode(routes));
+    });
+
+    // Set the current route. /current-route?hash=123456
+    router.patch("/current-route", (Request request) {
+      String hash = request.url.queryParameters["hash"] ?? "";
+
+      if (hash == "nil") {
+        backend.currentRoute = null;
+        backend.matrixDisplay.topLine = "";
+        return Response.ok("Route set to nil");
+      }
+
+      for (FileSystemEntity fileSystemEntity in routesDir.listSync()) {
+        File file = File(fileSystemEntity.path);
+        String contents = file.readAsStringSync();
+        String fileHash = sha256.convert(utf8.encode(contents)).toString();
+        if (fileHash == hash) {
+          Map<String, dynamic> map = jsonDecode(contents);
+
+          backend.currentRoute = BusRoute.fromMap(map);
+          print("Route set to ${map["RouteNumber"]} - ${map["RouteDestination"]}");
+
+          backend.matrixDisplay.topLine = "${map["RouteNumber"]} to ${map["RouteDestination"]}";
+
+          return Response.ok("Route set to ${map["RouteNumber"]} - ${map["RouteDestination"]}");
+        }
+      }
+      return Response.ok("Failed to find route with hash: $hash");
+    });
+    // Get the current route. /current-route
+    router.get("/current-route", (Request request) {
+      if (backend.currentRoute == null) {
+        return Response.ok("No route set");
+      }
+      return Response.ok(getPrettyJSONString(backend.currentRoute!.toMap()));
+    });
+
+    /*
+        Vanity stuff
+     */
+
+    // Announce stop. /announce-stop
+    router.post("/announce-stop", (Request request) async {
+      Map<String, dynamic> body = jsonDecode(await request.readAsString());
+
+      BusRouteStop? stopToAnnounce = backend.currentRoute!.stops.firstWhere((element) => element.name == body["stop"], orElse: () => BusRouteStop("", 0, 0));
+
+      if (stopToAnnounce.name == "") {
+        return Response.ok("Failed to find stop: ${body["stop"]}");
+      }
+
+      backend.Module_Announcement.queueAnnouncement_stop(stopToAnnounce);
+
+      return Response.ok("Announcing stop: ${body["stop"]}");
+    });
+    // Announce destination. todo: implement this.
+
+
+
+
+    /*
+      Legacy
+     */
+
     // Set the top line. /top?text=Hello
     router.get("/top", (Request request) {
       String text = request.url.queryParameters["text"] ?? "";
@@ -164,7 +337,10 @@ class WebserverModule extends InfoModule {
       return Response.ok("Connection successful");
     });
 
-    var server = shelf_io.serve(router, '0.0.0.0', 8080);
+    var server80   = shelf_io.serve(router, '0.0.0.0', 80);
+    var server8080 = shelf_io.serve(router, '0.0.0.0', 8080);
+    print("Listening on port 80 and 8080");
+
   }
 
 }

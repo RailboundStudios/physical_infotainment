@@ -31,12 +31,9 @@ class TrackerModule extends InfoModule {
 
 
   void onTick() {
-    print("Has ever fixed: ${backend.gpsTracker.hasEverFixed}");
     if (!backend.gpsTracker.hasEverFixed) {
       return;
     }
-
-    print("Updating nearest stop");
 
     updateNearestStop();
   }

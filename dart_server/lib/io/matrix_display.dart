@@ -11,7 +11,14 @@ class MatrixDisplay {
   }
 
   MatrixDisplay._internal() {
-    print("MatrixDisplay singleton created");
+
+
+    if (Platform.isWindows) { // Assume test environment
+      print("MatrixDisplay: Windows is not supported");
+      return;
+    }
+
+    print("MatrixDisplay: Initialising");
 
     Process.start("./dotnet_server", [""],
         workingDirectory: "/home/imbenji/physical_infotainment/dotnet_server/bin/"

@@ -109,14 +109,14 @@ class WebserverModule extends InfoModule {
         String hash = sha256.convert(utf8.encode(contents)).toString();
 
         if (request.url.queryParameters["deep"] == "true") {
+          routes.add(map);
+        } else {
           routes.add({
             "RouteNumber": map["RouteNumber"],
             "Destination": map["Destination"],
             "RouteHash": hash,
-            "Stops": map["Stops"]
+            "StopCount": map["Stops"].length
           });
-        } else {
-          routes.add(map);
         }
       }
 
@@ -190,6 +190,13 @@ class WebserverModule extends InfoModule {
       return Response.ok("Announcing stop: ${body["stop"]}");
     });
     // Announce destination. todo: implement this.
+    router.get("/announce-destination", (Request request) async {
+
+      BusRoute currentRoute = backend.currentRoute!;
+      backend.Module_Announcement.queueAnnouncement_destination(currentRoute);
+
+      return Response.ok("Announcing destination: ${currentRoute.destination}");
+    });
 
 
 

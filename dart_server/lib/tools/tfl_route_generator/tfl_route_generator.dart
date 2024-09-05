@@ -81,7 +81,7 @@ Uint8List getAudioForDestination(String destination, Map<String, String> indexed
 void main() {
 
   List<String> routeAllowlist = [
-    "N68"
+    "34"
   ];
 
   Map<String, String> indexedAudios = {};

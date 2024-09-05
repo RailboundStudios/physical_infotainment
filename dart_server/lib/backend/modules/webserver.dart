@@ -163,6 +163,19 @@ class WebserverModule extends InfoModule {
       return Response.ok(getPrettyJSONString(backend.currentRoute!.toMap()));
     });
 
+    // Upload a route. /upload-route
+    router.post("/upload-route", (Request request) async {
+      var body = await request.readAsString();
+
+      String hash = sha256.convert(utf8.encode(body)).toString();
+      Map<String, dynamic> map = jsonDecode(body);
+
+      File file = File("storage/routes/$hash.json");
+      file.writeAsStringSync(getPrettyJSONString(map));
+
+      return Response.ok(hash);
+    });
+
     /*
         Vanity stuff
      */

@@ -70,8 +70,7 @@ class GpsTracker {
             _isFixed = false;
             return;
           }
-          _isFixed = true;
-          _hasEverFixed = true;
+
 
           // Get the latitude and longitude
           String latitudeString = parts[2]; // ddmm.mmmm
@@ -102,7 +101,8 @@ class GpsTracker {
           DateTime gpsTime = DateTime(now.year, now.month, now.day, hour, minute, second.toInt(), (second * 1000).toInt());
           _utcOffset = gpsTime.difference(now);
 
-          // print("Latitude: $_latitude, Longitude: $_longitude");
+          _isFixed = true;
+          _hasEverFixed = true;
 
           print("GpsTracker: Fixed at $_latitude, $_longitude");
           print("GpsTracker: UTC time: $utcTime");

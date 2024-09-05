@@ -115,7 +115,8 @@ class WebserverModule extends InfoModule {
             "RouteNumber": map["RouteNumber"],
             "Destination": map["Destination"],
             "RouteHash": hash,
-            "StopCount": map["Stops"].length
+            "StopCount": map["Stops"].length,
+            "Stops": []
           });
         }
       }

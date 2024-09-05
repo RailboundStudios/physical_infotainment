@@ -156,7 +156,10 @@ class WebserverModule extends InfoModule {
     router.post("/upload-route", (Request request) async {
       var body = await request.readAsString();
 
-      String hash = sha256.convert(utf8.encode(body)).toString();
+      BusRoute route = BusRoute.fromMap(jsonDecode(body));
+      String routeBody = getPrettyJSONString(route.toMap());
+
+      String hash = sha256.convert(utf8.encode(routeBody)).toString();
       Map<String, dynamic> map = jsonDecode(body);
 
       File file = File("storage/routes/$hash.json");

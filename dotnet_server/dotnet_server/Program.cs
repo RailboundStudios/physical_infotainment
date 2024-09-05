@@ -99,7 +99,7 @@ canvas.Clear();
 
 // Config
 Color textColor = new Color(231, 164, 57);
-int FrameMs = 10;
+int FrameMs = 20;
 
 Console.WriteLine("Getting text ready");
 
@@ -193,6 +193,13 @@ new Thread(() =>
         {
             DateTime now = DateTime.Now;
             now = now.AddMilliseconds(timeOffset);
+            
+            // Account for BST
+            if (DateTime.Now.IsDaylightSavingTime())
+            {
+                now = now.AddHours(1);
+            }
+            
             String bottomTextt = now.ToString("hh:mm tt").ToUpper();
             // bottomWidth = font.DrawText(canvas._canvas, bottomPos, 15, textColor, bottomTextt);
             bottomWidth = canvas.DrawText(font, bottomPos, 16, textColor, bottomTextt);

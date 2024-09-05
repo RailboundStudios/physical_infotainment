@@ -12,3 +12,4 @@ sudo ./installconfig.sh
 
 
 sudo journalctl -f -u pi-ibus.service
+sudo nano /etc/systemd/system/pi-ibus.service

@@ -78,10 +78,73 @@ Uint8List getAudioForDestination(String destination, Map<String, String> indexed
   return audioFile.readAsBytesSync();
 }
 
+void sanitiseRoute(BusRoute busRoute, Map<String, String> indexedAudios, Map<String, dynamic> destinations) {
+  busRoute.routeNumber = busRoute.routeNumber.split(",")[0];
+
+  String routeNumberAudio = "R_${busRoute.routeNumber}_001.mp3";
+  File routeNumberAudioFile = File(indexedAudios[routeNumberAudio.toLowerCase()]!);
+  busRoute.routeAudio = routeNumberAudioFile.readAsBytesSync();
+
+  String? destination;
+
+  for (String key in destinations.keys) {
+
+    if (destination == null) {
+      destination = key;
+      continue;
+    }
+
+    Vector2 lastStopPoint = OSGrid.toNorthingEasting([busRoute.stops.last.latitude, busRoute.stops.last.longitude]);
+    Vector2 currentDestinationPoint = OSGrid.toNorthingEasting([
+      double.parse(destinations[key]!["Location"].split(", ")[0]),
+      double.parse(destinations[key]!["Location"].split(", ")[1])
+    ]);
+    Vector2 nextDestinationPoint = OSGrid.toNorthingEasting([
+      double.parse(destinations[destination]!["Location"].split(", ")[0]),
+      double.parse(destinations[destination]!["Location"].split(", ")[1])
+    ]);
+
+    double distanceA = lastStopPoint.distanceTo(currentDestinationPoint);
+    double distanceB = lastStopPoint.distanceTo(nextDestinationPoint);
+
+    if (distanceA < distanceB) {
+      destination = key;
+    }
+
+  }
+  print("Choose destination $destination for route ${busRoute.routeNumber}");
+
+  busRoute.destination = destination!;
+  Uint8List audioBytes = getAudioForDestination(destination, indexedAudios);
+  busRoute.destinationAudio = audioBytes;
+
+  String fileName = "${busRoute.routeNumber} from ${busRoute.stops.first.name} to ${busRoute.stops.last.name}".replaceAll(RegExp(r"[^A-Za-z0-9 ]"), "")
+      .replaceAll("  ", " ")
+      .replaceAll(" ", "_");
+
+  File routeFile = File("lib/tools/tfl_route_generator/output/$fileName.json");
+
+  routeFile.createSync();
+
+  // Encode to json with indentation
+  String json = getPrettyJSONString(busRoute.toMap());
+
+  routeFile.writeAsStringSync(json);
+}
+
 void main() {
 
   List<String> routeAllowlist = [
-    "34"
+
+    // Walthamstow Routes
+    "20", "34", "55", "56", "58", "66", "69", "97", "123", "145", "158", "179",
+    "212", "215", "230", "257", "275", "308", "313", "357", "379", "385", "397",
+    "444", "N26", "N38", "N55", "N69", "N73", "N8", "SL4", "W11", "W12", "W13",
+    "W14", "W15", "W16", "W19", "SL1", "SL2"
+
+    // Tonys Routes
+    "D8", "108", "277", "135", "425", "155", "15", "25", "188",
+
   ];
 
   Map<String, String> indexedAudios = {};
@@ -129,6 +192,11 @@ void main() {
     BusRoute busRoute = busRoutes.lastWhere((element) => element.routeNumber == "$route, $run", orElse: () => BusRoute("$route, $run", ""));
     // If the bus route doesn't exist, add it to the list
     if (!busRoutes.contains(busRoute)) {
+      if (busRoutes.isNotEmpty) {
+        BusRoute lastBusRoute = busRoutes.last;
+        sanitiseRoute(lastBusRoute, indexedAudios, destinations);
+      }
+
       busRoutes.add(busRoute);
       print("Added bus route $route, $run");
     }
@@ -174,7 +242,7 @@ void main() {
     List<double> latLong = OSGrid.toLatLong(double.parse(northing), double.parse(easting));
 
     BusRouteStop busStop = BusRouteStop(stopName, latLong[0], latLong[1]);
-    busStop.heading = double.parse(heading);
+    busStop.heading = double.tryParse(heading) ?? 0;
     busStop.audio = audioFile.readAsBytesSync();
 
     // Add the bus stop to the bus route
@@ -186,48 +254,6 @@ void main() {
 
   print("Loaded ${busRoutes.length} bus routes");
 
-  // Sanitise the bus routes
-  for (BusRoute busRoute in busRoutes) {
-    busRoute.routeNumber = busRoute.routeNumber.split(",")[0];
-
-    String routeNumberAudio = "R_${busRoute.routeNumber}_001.mp3";
-    File routeNumberAudioFile = File(indexedAudios[routeNumberAudio.toLowerCase()]!);
-    busRoute.routeAudio = routeNumberAudioFile.readAsBytesSync();
-
-    String? destination;
-
-    for (String key in destinations.keys) {
-
-      if (destination == null) {
-        destination = key;
-        continue;
-      }
-
-      Vector2 lastStopPoint = OSGrid.toNorthingEasting([busRoute.stops.last.latitude, busRoute.stops.last.longitude]);
-      Vector2 currentDestinationPoint = OSGrid.toNorthingEasting([
-        double.parse(destinations[key]!["Location"].split(", ")[0]),
-        double.parse(destinations[key]!["Location"].split(", ")[1])
-      ]);
-      Vector2 nextDestinationPoint = OSGrid.toNorthingEasting([
-        double.parse(destinations[destination]!["Location"].split(", ")[0]),
-        double.parse(destinations[destination]!["Location"].split(", ")[1])
-      ]);
-
-      double distanceA = lastStopPoint.distanceTo(currentDestinationPoint);
-      double distanceB = lastStopPoint.distanceTo(nextDestinationPoint);
-
-      if (distanceA < distanceB) {
-        destination = key;
-      }
-
-    }
-    print("Choose destination $destination for route ${busRoute.routeNumber}");
-
-    busRoute.destination = destination!;
-    Uint8List audioBytes = getAudioForDestination(destination, indexedAudios);
-    busRoute.destinationAudio = audioBytes;
-  }
-
   // Save each individual bus route to a file
   Directory outputDirectory = Directory("lib/tools/tfl_route_generator/output");
   if (!outputDirectory.existsSync()) {
@@ -235,12 +261,7 @@ void main() {
   }
 
   for (BusRoute busRoute in busRoutes) {
-    File routeFile = File("lib/tools/tfl_route_generator/output/${busRoute.routeNumber}_towards_${busRoute.destination}.json");
 
-    // Encode to json with indentation
-    String json = getPrettyJSONString(busRoute.toMap());
-
-    routeFile.writeAsStringSync(json);
   }
 
 }

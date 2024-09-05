@@ -144,6 +144,8 @@ class WebserverModule extends InfoModule {
       Map<String, dynamic> map = jsonDecode(file.readAsStringSync());
       backend.currentRoute = BusRoute.fromMap(map);
 
+      backend.Module_Announcement.queueAnnouncement_destination(backend.currentRoute!);
+
       return Response.ok("Route set to ${map["RouteNumber"]} - ${map["Destination"]}");
     });
     // Get the current route. /current-route

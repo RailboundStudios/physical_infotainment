@@ -204,7 +204,7 @@ class AnnouncementModule extends InfoModule {
       displayText: "${route.routeNumber} to ${route.destination}",
       audioBytes: [
         if (route.routeAudio != null) route.routeAudio!,
-        File("assets/audio/to_destination.wav").readAsBytesSync(),
+        File("dart_server/assets/audio/to_destination.wav").readAsBytesSync(),
         if (route.destinationAudio != null) route.destinationAudio!,
       ],
     ));

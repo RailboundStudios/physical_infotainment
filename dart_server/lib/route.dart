@@ -50,7 +50,7 @@ class BusRouteStop {
     var location = map["Location"].split(", ");
     latitude = double.parse(location[0]);
     longitude = double.parse(location[1]);
-    heading = map["Heading"];
+    heading = map["Heading"] ?? 0.0;
     audio = map["Audio"] != "" ? base64Decode(map["Audio"]) : null;
     announceDistance = map["AnnounceDistance"];
   }

@@ -25,9 +25,9 @@ class AnnouncementModule extends InfoModule {
     // This is a workaround to mitigate that.
     // We will play quiet noise on a loop to keep the audio channel open.
     if (Platform.isLinux) {
-      await playSound(File("dart_server/assets/audio/noise.mp3"), volume: 0.01, loop: true);
+      playSound(File("dart_server/assets/audio/noise.mp3"), volume: 0.01, loop: true);
     } else {
-      await playSound(File("assets/audio/noise.mp3"), volume: 0.01, loop: true);
+      playSound(File("assets/audio/noise.mp3"), volume: 0.01, loop: true);
     }
 
   }

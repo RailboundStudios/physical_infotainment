@@ -299,6 +299,7 @@ Future<void> playSoundFromBytes(Uint8List sound) async {
 // Play the sound using ffmpeg.
 Future<void> playSound(File sound, {
   double volume = 1.0, // Volume from 0.0 to 1.0
+  bool loop = false,
 }) async {
   ConsoleLog('Playing sound...');
 
@@ -308,6 +309,7 @@ Future<void> playSound(File sound, {
     "-autoexit",
     "-nodisp",
     "-volume", "${(volume * 100).toInt()}",
+    if (loop) "-loop", "0",
   ]);
 
   ConsoleLog('Sound played.');

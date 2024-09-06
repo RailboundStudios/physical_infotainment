@@ -24,15 +24,11 @@ class AnnouncementModule extends InfoModule {
     // When using some bluetooth modules, the start of the audio is cut off.
     // This is a workaround to mitigate that.
     // We will play quiet noise on a loop to keep the audio channel open.
-    Future.delayed(Duration.zero).then((_) async {
-      while (true) {
-        if (Platform.isLinux) {
-          await playSound(File("dart_server/assets/audio/noise.mp3"), volume: 0.01);
-        } else {
-          await playSound(File("assets/audio/noise.mp3"), volume: 0.01);
-        }
-      }
-    });
+    if (Platform.isLinux) {
+      await playSound(File("dart_server/assets/audio/noise.mp3"), volume: 0.01, loop: true);
+    } else {
+      await playSound(File("assets/audio/noise.mp3"), volume: 0.01, loop: true);
+    }
 
   }
 

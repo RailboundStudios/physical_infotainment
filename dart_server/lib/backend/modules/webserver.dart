@@ -201,6 +201,10 @@ class WebserverModule extends InfoModule {
       return Response.ok("Announcing destination: ${currentRoute.destination}");
     });
 
+    router.get("/ring-bell", (Request request) {
+      backend.Module_Announcement.ringBell();
+      return Response.ok("Ringing bell");
+    });
 
 
 

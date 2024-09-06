@@ -1,6 +1,7 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:isolate';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
@@ -14,6 +15,22 @@ class AnnouncementModule extends InfoModule {
   // Constructor
   AnnouncementModule() {
     refreshTimer();
+
+    // Initial cut-off mitigation.
+    // When using some bluetooth modules, the start of the audio is cut off.
+    // This is a workaround to mitigate that.
+    // We will play quiet noise on a loop to keep the audio channel open.
+    // We can do this on a separate thread.
+    Isolate.spawn((_) async {
+      while (true) {
+        if (Platform.isLinux) {
+          await playSound(File("dart_server/assets/audio/noise.mp3"), volume: 0.01);
+        } else {
+          await playSound(File("assets/audio/noise.mp3"), volume: 0.01);
+        }
+      }
+    }, null);
+
   }
 
 
@@ -49,7 +66,7 @@ class AnnouncementModule extends InfoModule {
 
           // Prime all of the audio sources to be ready to play
           for (Uint8List source in currentAnnouncement!.audioBytes) {
-            await playSound(source);
+            await playSoundFromBytes(source);
           }
 
         } else {
@@ -200,16 +217,30 @@ class AnnouncementModule extends InfoModule {
   }
 
   void queueAnnouncement_destination(BusRoute route) {
+    Directory workingDirectory = Directory.current;
+
     queueAnnouncement(AnnouncementQueueEntry(
       displayText: "${route.routeNumber} to ${route.destination}",
       audioBytes: [
         if (route.routeAudio != null) route.routeAudio!,
-        File("dart_server/assets/audio/to_destination.wav").readAsBytesSync(),
+        if (Platform.isLinux)
+          File("dart_server/assets/audio/to_destination.wav").readAsBytesSync()
+        else
+          File("assets/audio/to_destination.wav").readAsBytesSync(),
         if (route.destinationAudio != null) route.destinationAudio!,
       ],
     ));
   }
 
+  Future<void> ringBell() async {
+    if (Platform.isWindows) {
+      await playSound(File("assets/audio/envirobell.mp3"));
+    } else {
+      await playSound(File("dart_server/assets/audio/envirobell.mp3"));
+    }
+
+    backend.matrixDisplay.bottomLine = "Bus Stopping".toUpperCase();
+  }
 }
 
 class AnnouncementQueueEntry {
@@ -242,27 +273,35 @@ class NamedAnnouncementQueueEntry extends AnnouncementQueueEntry {
 
 }
 
-// Play the sound using ffmpeg.
-Future<void> playSound(Uint8List sound) async {
+Future<void> playSoundFromBytes(Uint8List sound) async {
   // If a temp directory doesnt exist, create one.
   final tempDir = Directory('tmp');
   if (!tempDir.existsSync()) {
     tempDir.createSync();
   }
 
-  String hash = sha256.convert(sound).toString();
+  String hash = tempDir.listSync().length.toString(); // This is faster than hashing the sound data.
 
   // Create a temporary file to store the sound.
   final tempFile = File('${tempDir.path}/$hash.wav');
   tempFile.createSync();
   tempFile.writeAsBytesSync(sound);
 
+  await playSound(tempFile);
+}
+
+// Play the sound using ffmpeg.
+Future<void> playSound(File sound, {
+  double volume = 1.0, // Volume from 0.0 to 1.0
+}) async {
   print('Playing sound...');
 
-  // Play the sound using ffplay.
+  // Play the sound using ffplay. without ui
   await Process.run('ffplay', [
-    tempFile.path,
+    sound.path,
     "-autoexit",
+    "-nodisp",
+    "-volume", "${(volume * 100).toInt()}",
   ]);
 
   print('Sound played.');

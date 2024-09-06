@@ -76,7 +76,7 @@ class TrackerModule extends InfoModule {
 
       int maxStops = backend.currentRoute!.stops.length;
 
-      closestStop = backend.currentRoute!.stops[min(stopIndex + 1, maxStops)];
+      closestStop = backend.currentRoute!.stops[min(stopIndex + 1, maxStops)-1];
 
       print("Closest stop is now: ${closestStop.name}");
     } else {

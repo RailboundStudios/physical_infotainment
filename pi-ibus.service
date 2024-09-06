@@ -6,7 +6,7 @@ After=local-fs.target
 Type=idle
 User=imbenji
 WorkingDirectory=/home/imbenji/physical_infotainment
-ExecStart=nice -n -20 "/bin/bash -c ./run.sh"
+ExecStart=/bin/bash -c './run.sh'
 Restart=on-success
 RestartSec=5
 

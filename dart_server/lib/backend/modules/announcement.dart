@@ -5,6 +5,7 @@ import 'dart:isolate';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:dart_server/backend/modules/FFmpegWrapper.dart';
 import 'package:dart_server/route.dart';
 import 'package:dart_server/utils/delegates.dart';
 
@@ -16,12 +17,13 @@ class AnnouncementModule extends InfoModule {
   AnnouncementModule() {
     refreshTimer();
 
+    // ffmpeg.();
+
     // Initial cut-off mitigation.
     // When using some bluetooth modules, the start of the audio is cut off.
     // This is a workaround to mitigate that.
     // We will play quiet noise on a loop to keep the audio channel open.
-    // We can do this on a separate thread.
-    Isolate.spawn((_) async {
+    Future.delayed(Duration.zero).then((_) async {
       while (true) {
         if (Platform.isLinux) {
           await playSound(File("dart_server/assets/audio/noise.mp3"), volume: 0.01);
@@ -29,7 +31,7 @@ class AnnouncementModule extends InfoModule {
           await playSound(File("assets/audio/noise.mp3"), volume: 0.01);
         }
       }
-    }, null);
+    });
 
   }
 
@@ -42,6 +44,7 @@ class AnnouncementModule extends InfoModule {
   bool isPlaying = false;
 
   // Audio
+  FFplayAudioPlayer ffmpeg = FFplayAudioPlayer();
 
   // Events
   final EventDelegate<AnnouncementQueueEntry> onAnnouncement = EventDelegate();
@@ -66,7 +69,9 @@ class AnnouncementModule extends InfoModule {
 
           // Prime all of the audio sources to be ready to play
           for (Uint8List source in currentAnnouncement!.audioBytes) {
-            await playSoundFromBytes(source);
+            // await playSoundFromBytes(source);
+            await ffmpeg.playFromUint8List(source, "");
+            print("Playing audio");
           }
 
         } else {
@@ -224,9 +229,9 @@ class AnnouncementModule extends InfoModule {
       audioBytes: [
         if (route.routeAudio != null) route.routeAudio!,
         if (Platform.isLinux)
-          File("dart_server/assets/audio/to_destination.wav").readAsBytesSync()
+          File("dart_server/assets/audio/to_destination.mp3").readAsBytesSync()
         else
-          File("assets/audio/to_destination.wav").readAsBytesSync(),
+          File("assets/audio/to_destination.mp3").readAsBytesSync(),
         if (route.destinationAudio != null) route.destinationAudio!,
       ],
     ));

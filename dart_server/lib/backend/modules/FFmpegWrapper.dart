@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:dart_server/backend/backend.dart';
+
 class FFplayAudioPlayer {
   Process? _ffplayProcess;
   bool _isPlaying = false;
@@ -16,10 +18,10 @@ class FFplayAudioPlayer {
 
     _ffplayProcess!.stderr.listen((data) {
       final output = utf8.decode(data);
-      print(output);
+      ConsoleLog(output);
       if (output.contains('aq=    0KB') && _isPlaying) {
         // Handle end of playback
-        print('Playback finished');
+        ConsoleLog('Playback finished');
         _isPlaying = false;
       }
       // You can refine the condition based on more specific output

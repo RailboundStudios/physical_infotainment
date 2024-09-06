@@ -67,12 +67,12 @@ Uint8List getAudioForDestination(String destination, Map<String, String> indexed
 
   if (indexedAudios.containsKey(audioName.toLowerCase())) {
     audioFile = File(indexedAudios[audioName.toLowerCase()]!);
-    print("Found audio file for $audioName");
+    ConsoleLog("Found audio file for $audioName");
   } else {
-    print("Could not find audio file for $audioName");
+    ConsoleLog("Could not find audio file for $audioName");
     String closestMatch = getClosestMatch(audioName, indexedAudios.keys.toList());
     audioFile = File(indexedAudios[closestMatch.toLowerCase()]!);
-    print("Chose $closestMatch for $audioName");
+    ConsoleLog("Chose $closestMatch for $audioName");
   }
 
   return audioFile.readAsBytesSync();
@@ -112,7 +112,7 @@ void sanitiseRoute(BusRoute busRoute, Map<String, String> indexedAudios, Map<Str
     }
 
   }
-  print("Choose destination $destination for route ${busRoute.routeNumber}");
+  ConsoleLog("Choose destination $destination for route ${busRoute.routeNumber}");
 
   busRoute.destination = destination!;
   Uint8List audioBytes = getAudioForDestination(destination, indexedAudios);
@@ -198,7 +198,7 @@ void main() {
       }
 
       busRoutes.add(busRoute);
-      print("Added bus route $route, $run");
+      ConsoleLog("Added bus route $route, $run");
     }
 
     // Remove anything that is surrounded in any kind of parenthesis, () [] {} <>
@@ -225,12 +225,12 @@ void main() {
     late File audioFile;
     if (indexedAudios.containsKey(audioName.toLowerCase())) {
       audioFile = File(indexedAudios[audioName.toLowerCase()]!);
-      print("Found audio file for $audioName");
+      ConsoleLog("Found audio file for $audioName");
     } else {
-      print("Could not find audio file for $audioName");
+      ConsoleLog("Could not find audio file for $audioName");
       String closestMatch = getClosestMatch(audioName, indexedAudios.keys.toList());
       audioFile = File(indexedAudios[closestMatch.toLowerCase()]!);
-      print("Chose $closestMatch for $audioName");
+      ConsoleLog("Chose $closestMatch for $audioName");
     }
 
 
@@ -248,11 +248,11 @@ void main() {
     // Add the bus stop to the bus route
     busRoute.stops.add(busStop);
 
-    print("Added stop $stopName to bus route $route, $run");
-    print(" ");
+    ConsoleLog("Added stop $stopName to bus route $route, $run");
+    ConsoleLog(" ");
   }
 
-  print("Loaded ${busRoutes.length} bus routes");
+  ConsoleLog("Loaded ${busRoutes.length} bus routes");
 
   // Save each individual bus route to a file
   Directory outputDirectory = Directory("lib/tools/tfl_route_generator/output");

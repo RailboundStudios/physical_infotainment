@@ -5,9 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1535fcc-9345-4949-8060-bf1d0cc3d16c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/dart_server/lib/backend/modules/FFmpegWrapper.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dart_server/lib/backend/backend.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/backend/backend.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dart_server/lib/backend/modules/FFmpegWrapper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/backend/modules/FFmpegWrapper.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dart_server/lib/backend/modules/announcement.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/backend/modules/announcement.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dart_server/lib/backend/modules/tracker.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/backend/modules/tracker.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dart_server/lib/backend/modules/webserver.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/backend/modules/webserver.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dart_server/lib/io/gps_tracker.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/io/gps_tracker.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dart_server/lib/io/matrix_display.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/io/matrix_display.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dart_server/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dart_server/lib/tools/bmp_convert.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/tools/bmp_convert.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dart_server/lib/tools/tfl_route_generator/bus-sequences.csv" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/tools/tfl_route_generator/bus-sequences.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dart_server/lib/tools/tfl_route_generator/tfl_route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/tools/tfl_route_generator/tfl_route_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dart_server/lib/utils/delegates.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/utils/delegates.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

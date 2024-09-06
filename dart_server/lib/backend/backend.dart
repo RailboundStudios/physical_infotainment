@@ -19,7 +19,7 @@ class pibus_backend {
   pibus_backend._internal() {}
 
   void init() {
-    print("pibus_backend initializing");
+    ConsoleLog("pibus_backend initializing");
 
     // Initialize IO
     matrixDisplay = MatrixDisplay();
@@ -53,4 +53,8 @@ class pibus_backend {
     });
 
   }
+}
+
+void ConsoleLog(String message) {
+  // print("Console: $message");
 }

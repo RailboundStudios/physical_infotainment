@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 
+import 'package:dart_server/backend/backend.dart';
 import 'package:dart_server/backend/modules/announcement.dart';
 import 'package:dart_server/backend/modules/info_module.dart';
 import 'package:dart_server/io/gps_tracker.dart';
@@ -17,7 +18,7 @@ class TrackerModule extends InfoModule {
   TrackerModule() {
 
     backend.routeDelegate.addListener((route) {
-      print("Route variant changed");
+      ConsoleLog("Route variant changed");
       updateNearestStop();
     });
     Timer.periodic(Duration(seconds: 1), (timer) {
@@ -69,8 +70,8 @@ class TrackerModule extends InfoModule {
 
 
     if (relativeDistance < -10) {
-      print("Closest stop is behind us: ${closestStop.name}");
-      print("Relative distance: $relativeDistance");
+      ConsoleLog("Closest stop is behind us: ${closestStop.name}");
+      ConsoleLog("Relative distance: $relativeDistance");
 
       int stopIndex = backend.currentRoute!.stops.indexOf(closestStop);
 
@@ -78,9 +79,9 @@ class TrackerModule extends InfoModule {
 
       closestStop = backend.currentRoute!.stops[min(stopIndex + 1, maxStops)-1];
 
-      print("Closest stop is now: ${closestStop.name}");
+      ConsoleLog("Closest stop is now: ${closestStop.name}");
     } else {
-      print("Closest stop is in front of us: ${closestStop.name}");
+      ConsoleLog("Closest stop is in front of us: ${closestStop.name}");
     }
 
     bool preExisting = true;
@@ -91,7 +92,7 @@ class TrackerModule extends InfoModule {
       preExisting = false;
     }
 
-    print("Closest stop is the same as before");
+    ConsoleLog("Closest stop is the same as before");
 
     double distance = OSGrid
         .toNorthingEasting([gpsTracker.latitude, gpsTracker.longitude])
@@ -99,7 +100,7 @@ class TrackerModule extends InfoModule {
 
     // convert km/h to mph
     double speed = gpsTracker.speed * 0.621371;
-    print("Speed: $speed");
+    ConsoleLog("Speed: $speed");
 
     Duration? duration;
     {
@@ -109,9 +110,9 @@ class TrackerModule extends InfoModule {
       if (audioBytes != null) {
         duration = await getSoundLength(audioBytes);
 
-        print("Duration of audio: $duration");
+        ConsoleLog("Duration of audio: $duration");
       } else {
-        print("Audio bytes are null");
+        ConsoleLog("Audio bytes are null");
         duration = Duration(seconds: 0);
       }
 
@@ -127,15 +128,15 @@ class TrackerModule extends InfoModule {
     // get the time to the stop in seconds
     double timeToStop = distance / speed;
 
-    print("Distance to stop: $distance");
-    print("Time to stop: $timeToStop");
+    ConsoleLog("Distance to stop: $distance");
+    ConsoleLog("Time to stop: $timeToStop");
 
     int secondsBefore = 7;
 
-    print("Seconds before: $secondsBefore");
+    ConsoleLog("Seconds before: $secondsBefore");
 
     if ((timeToStop < secondsBefore ) && !hasArrived && relativeDistance > 0) {
-      print("We are at the stop");
+      ConsoleLog("We are at the stop");
       hasArrived = true;
       // liveInformation.announcementModule.queueAnnounceByAudioName(
       //   displayText: "${nearestStop!.formattedStopName}",
@@ -168,7 +169,7 @@ class TrackerModule extends InfoModule {
 
 
 
-    print("Closest stop: ${closestStop.name} in ${closestDistance.round()} meters");
+    ConsoleLog("Closest stop: ${closestStop.name} in ${closestDistance.round()} meters");
   }
 
 }

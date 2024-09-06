@@ -5,6 +5,7 @@ import 'dart:isolate';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:dart_server/backend/backend.dart';
 import 'package:dart_server/backend/modules/FFmpegWrapper.dart';
 import 'package:dart_server/route.dart';
 import 'package:dart_server/utils/delegates.dart';
@@ -71,7 +72,7 @@ class AnnouncementModule extends InfoModule {
           for (Uint8List source in currentAnnouncement!.audioBytes) {
             // await playSoundFromBytes(source);
             await ffmpeg.playFromUint8List(source, "");
-            print("Playing audio");
+            ConsoleLog("Playing audio");
           }
 
         } else {
@@ -123,7 +124,7 @@ class AnnouncementModule extends InfoModule {
 
   // Methods
   Future<void> queueAnnouncement(AnnouncementQueueEntry announcement) async {
-    print("Announcement queued: ${announcement.displayText}, with audio: ${announcement.audioBytes.length}");
+    ConsoleLog("Announcement queued: ${announcement.displayText}, with audio: ${announcement.audioBytes.length}");
     queue.add(announcement);
   }
 
@@ -299,7 +300,7 @@ Future<void> playSoundFromBytes(Uint8List sound) async {
 Future<void> playSound(File sound, {
   double volume = 1.0, // Volume from 0.0 to 1.0
 }) async {
-  print('Playing sound...');
+  ConsoleLog('Playing sound...');
 
   // Play the sound using ffplay. without ui
   await Process.run('ffplay', [
@@ -309,7 +310,7 @@ Future<void> playSound(File sound, {
     "-volume", "${(volume * 100).toInt()}",
   ]);
 
-  print('Sound played.');
+  ConsoleLog('Sound played.');
 }
 
 final soundLengthCache = <String, Duration>{};
@@ -342,7 +343,7 @@ Future<Duration> getSoundLength(Uint8List sound) async {
     '-show_entries',
     'format=duration',
     '-of',
-    'default=noprint_wrappers=1:nokey=1',
+    'default=noConsoleLog_wrappers=1:nokey=1',
     tempFile.path,
   ]);
 

@@ -19,21 +19,21 @@ class EventDelegate<T> {
 
   void removeListener(ListenerReceipt<T> receipt) {
     _receipts.remove(receipt);
-    print("removed listener");
+    ConsoleLog("removed listener");
   }
 
   void trigger(T event) {
-    print("triggering event");
+    ConsoleLog("triggering event");
     try {
       for (var receipt in _receipts) {
-        print("triggering listener");
+        ConsoleLog("triggering listener");
         try {
           receipt.listener(event);
         } catch (e) {
         }
       }
     } catch (e) {
-      print("Error in trigger: $e");
+      ConsoleLog("Error in trigger: $e");
     }
   }
 }

@@ -6,20 +6,20 @@ import 'package:dart_server/backend/backend.dart';
 
 Future<void> main(List<String> arguments) async {
 
-  print("---=== PiBus Server =====================================================---");
-  print("Initialising the pi-bus backend...");
-  print("---======================================================================---");
-  print(" ");
+  ConsoleLog("---=== PiBus Server =====================================================---");
+  ConsoleLog("Initialising the pi-bus backend...");
+  ConsoleLog("---======================================================================---");
+  ConsoleLog(" ");
 
   Directory storageDir = Directory("storage");
   if (!storageDir.existsSync()) {
     storageDir.createSync();
-    print("Created storage directory");
+    ConsoleLog("Created storage directory");
   }
   Directory routesDir = Directory("storage/routes");
   if (!routesDir.existsSync()) {
     routesDir.createSync();
-    print("Created routes directory");
+    ConsoleLog("Created routes directory");
   }
 
   late pibus_backend backend; // Create the backend.
@@ -29,15 +29,15 @@ Future<void> main(List<String> arguments) async {
     backend = pibus_backend(); // Initialize the backend.
     backend.init();
 
-    print(" ");
-    print("Backend initialized successfully!");
-    print("---======================================================================---");
+    ConsoleLog(" ");
+    ConsoleLog("Backend initialized successfully!");
+    ConsoleLog("---======================================================================---");
 
     while (true) {
       await Future.delayed(Duration(seconds: 1));
     }
   } catch (e) {
-    print("Error: $e");
+    ConsoleLog("Error: $e");
 
     backend.gpsTracker.dispose();
     backend.matrixDisplay.dispose();

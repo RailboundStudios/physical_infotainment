@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
+import 'package:dart_server/backend/backend.dart';
 import 'package:dart_server/backend/modules/info_module.dart';
 import 'package:dart_server/io/matrix_display.dart';
 import 'package:dart_server/route.dart';
@@ -322,7 +323,7 @@ class WebserverModule extends InfoModule {
 
 
             backend.currentRoute = BusRoute.fromMap(map);
-            print("Route set to ${map["RouteNumber"]} - ${map["RouteDestination"]}");
+            ConsoleLog("Route set to ${map["RouteNumber"]} - ${map["RouteDestination"]}");
 
             backend.matrixDisplay.topLine = "${map["RouteNumber"]} to ${map["RouteDestination"]}";
 
@@ -366,7 +367,7 @@ class WebserverModule extends InfoModule {
 
     var server80   = shelf_io.serve(router, '0.0.0.0', 80);
     var server8080 = shelf_io.serve(router, '0.0.0.0', 8080);
-    print("Listening on port 80 and 8080");
+    ConsoleLog("Listening on port 80 and 8080");
 
   }
 

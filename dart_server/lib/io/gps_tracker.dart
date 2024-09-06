@@ -1,5 +1,6 @@
 
 import 'dart:io';
+import 'package:dart_server/backend/backend.dart';
 import 'package:libserialport/libserialport.dart';
 
 class GpsTracker {
@@ -43,7 +44,7 @@ class GpsTracker {
   GpsTracker(this.serialPort) {
 
     if (Platform.isWindows) { // Assume test environment
-      print("GpsTracker: Windows is not supported");
+      ConsoleLog("GpsTracker: Windows is not supported");
       return;
     }
 
@@ -55,18 +56,18 @@ class GpsTracker {
 
     SerialPortReader reader = SerialPortReader(serial);
 
-    print("GpsTracker: Listening to GPS data");
+    ConsoleLog("GpsTracker: Listening to GPS data");
     reader.stream.listen((event) {
 
       String decoded = String.fromCharCodes(event);
 
-      // print("GpsTracker: ${decoded}");
+      // ConsoleLog("GpsTracker: ${decoded}");
 
       try {
         if (decoded.contains("GPGGA")) {
           List<String> parts = decoded.split(",");
           if (parts[6] == "0") { // 0:unpositioned 1:SPS mode, position valid 2:Differential, SPS mode, position valid, 3:PPS mode, position valid
-            print("No GPS fix");
+            ConsoleLog("No GPS fix");
             _isFixed = false;
             return;
           }
@@ -104,19 +105,19 @@ class GpsTracker {
           _isFixed = true;
           _hasEverFixed = true;
 
-          print("GpsTracker: Fixed at $_latitude, $_longitude");
-          print("GpsTracker: UTC time: $utcTime");
+          ConsoleLog("GpsTracker: Fixed at $_latitude, $_longitude");
+          ConsoleLog("GpsTracker: UTC time: $utcTime");
 
           return;
         }
         if (decoded.contains("GPVTG")) {
           // Get the speed
           _speed = double.parse(decoded.split(",")[7]);
-          print("Speed: $_speed");
+          ConsoleLog("Speed: $_speed");
           return;
         }
       } catch (e) {
-        print("Error parsing GPS data: $e");
+        ConsoleLog("Error parsing GPS data: $e");
       }
 
     });
@@ -127,7 +128,7 @@ class GpsTracker {
     // Close the serial port
     // _timerA.cancel();
     // raf.closeSync();
-    print("GPS tracker disposed");
+    ConsoleLog("GPS tracker disposed");
   }
 
 

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:dart_server/backend/backend.dart';
 import 'package:image/image.dart';
 
 void main() async {
@@ -12,7 +13,7 @@ void main() async {
   final image = decodeImage(imageBytes);
 
   if (image == null) {
-    print('Could not decode image.');
+    ConsoleLog('Could not decode image.');
     return;
   }
 
@@ -39,8 +40,8 @@ void main() async {
   // Remove the last comma
   final result = output.toString().substring(0, output.length - 1);
 
-  // Print the result or save it to a file
-  print(result);
+  // ConsoleLog the result or save it to a file
+  ConsoleLog(result);
 
   Directory outputDir = file.parent;
 

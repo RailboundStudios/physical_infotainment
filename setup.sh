@@ -92,6 +92,19 @@ else
     echo -e "${ORANGE}Systemd service already exists${NC}"
 fi
 
+# add "isolcpus=3" at the end of /boot/cmdline.txt
+sudo sed -i 's/$/ isolcpus=3/' /boot/cmdline.txt
+
+## Fix bad interaction with sound
+## Fix bad interaction with sound
+if ! grep -q "blacklist snd_bcm2835" /etc/modprobe.d/blacklist-rgb-matrix.conf; then
+    cat <<EOF | sudo tee -a /etc/modprobe.d/blacklist-rgb-matrix.conf
+blacklist snd_bcm2835
+EOF
+    sudo update-initramfs -u
+fi
+
+## Start the server
 cd "$BaseDir"
 sudo chmod 744 run.sh
 sudo systemctl start pi-ibus.service

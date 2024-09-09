@@ -22,4 +22,4 @@ cd $BaseDir
 sudo ./dart_server/lib/main
 # sudo $DartDir/bin/dart run $DartServerDir/lib/main.dart
 
-sudo nano /etc/systemd/system/pi-ibus.service
+# sudo nano /etc/systemd/system/pi-ibus.service

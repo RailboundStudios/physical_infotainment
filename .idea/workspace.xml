@@ -7,7 +7,8 @@
     <list default="true" id="b1535fcc-9345-4949-8060-bf1d0cc3d16c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dart_server/lib/backend/backend.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/backend/backend.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dart_server/lib/tools/tfl_route_generator/tfl_route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/dart_server/lib/tools/tfl_route_generator/tfl_route_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/run.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/useful" beforeDir="false" afterPath="$PROJECT_DIR$/useful" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

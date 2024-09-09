@@ -7,3 +7,11 @@
 /dart_server/tmp
 
 /dotnet_server/dotnet_server/includes/rpi-rgb-led-matrix
+
+if (audioData[0] == 255 && audioData[1] == 243 && audioData[2] == 192 && audioData[3] == 196) {
+      print('Detected MP3 format');
+      format = 'mp3';
+    } else {
+      print('Detected WAV format');
+      format = 'wav';
+    }

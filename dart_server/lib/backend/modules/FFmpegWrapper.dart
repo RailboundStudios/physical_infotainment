@@ -25,10 +25,10 @@ class FFplayAudioPlayer {
 
     _ffplayProcess!.stderr.listen((data) {
       final output = utf8.decode(data);
-      ConsoleLog(output);
+      // ConsoleLog(output);
       if (output.contains('aq=    0KB') && _isPlaying) {
         // Handle end of playback
-        ConsoleLog('Playback finished');
+        // ConsoleLog('Playback finished');
         _isPlaying = false;
       }
       // You can refine the condition based on more specific output

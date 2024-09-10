@@ -56,6 +56,12 @@ class GpsTracker {
 
     SerialPortReader reader = SerialPortReader(serial);
 
+    // check if the port exists
+    if (!serial.isOpen) {
+      ConsoleLog("GpsTracker: Failed to open serial port");
+      return;
+    }
+
     ConsoleLog("GpsTracker: Listening to GPS data");
     reader.stream.listen((event) {
 

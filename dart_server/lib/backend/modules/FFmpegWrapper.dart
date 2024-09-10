@@ -4,15 +4,22 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dart_server/backend/backend.dart';
+import 'package:mp3_info/mp3_info.dart';
 
 class FFplayAudioPlayer {
   Process? _ffplayProcess;
   bool _isPlaying = false;
 
+  double volume = 1.0; // 0.0 - 1.0
+
+  FFplayAudioPlayer({
+    this.volume = 1.0,
+  });
+
   Future<void> _initializeFFplay(String format) async {
     _ffplayProcess = await Process.start(
       'ffplay',
-      ['-f', format, '-', '-autoexit'],
+      ['-f', format, '-', '-autoexit', '-volume', '${(volume * 100).round()}'],
       mode: ProcessStartMode.normal
     );
 
@@ -28,7 +35,11 @@ class FFplayAudioPlayer {
     });
   }
 
-  Future<void> playFromUint8List(Uint8List audioData, String format) async {
+  Future<void> playFromUint8List(Uint8List audioData, {
+    String format = "mp3",
+    double volume = 1.0,
+    bool loop = false,
+  }) async {
 
     format = 'mp3';
 
@@ -38,9 +49,13 @@ class FFplayAudioPlayer {
     await _waitForCompletion();
   }
 
-  Future<void> playFromFile(File file, String format) async {
+  Future<void> playFromFile(File file, {
+    String format = "mp3",
+    double volume = 1.0,
+    bool loop = false,
+  }) async {
     final audioData = await file.readAsBytes();
-    await playFromUint8List(audioData, format);
+    await playFromUint8List(audioData, format: format);
   }
 
   Future<void> _writeToProcess(Uint8List data) async {
@@ -57,6 +72,13 @@ class FFplayAudioPlayer {
       await Future.delayed(Duration(milliseconds: 10));
     }
   }
+
+  Future<Duration> queryDuration(Uint8List audioData) async {
+    MP3Info info = MP3Processor.fromBytes(audioData);
+
+    return info.duration;
+  }
+
 
   Future<void> dispose() async {
     _ffplayProcess?.stdin.close();

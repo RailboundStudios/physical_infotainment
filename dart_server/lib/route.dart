@@ -27,23 +27,35 @@ class BusRoute {
       destinationAudio = base64Decode(map["DestinationAudio"]);
     }
 
+    if (map["RouteHash"] != null) {
+      _hash = map["RouteHash"];
+    }
+
     stops = (map["Stops"] as List).map((e) => BusRouteStop.fromMap(e)).toList();
   }
 
+  String? _hash;
   String get hash {
-    return sha256.convert(utf8.encode(getPrettyJSONString(toMap()))).toString();
+    if (_hash == null) {
+      _hash = md5.convert(utf8.encode(getPrettyJSONString(toMap()))).toString();
+    }
+    return _hash!;
   }
 
-  toMap() {
+  toMap({
+    bool includeHash = false,
+  }) {
     return {
       "RouteNumber": routeNumber,
       "Destination": destination,
+      if (_hash != null && includeHash) "RouteHash": hash,
       "RouteAudio": routeAudio != null ? base64Encode(routeAudio!) : "",
       "DestinationAudio": destinationAudio != null ? base64Encode(destinationAudio!) : "",
       "Stops": stops.map((e) => e.toMap()).toList(),
     };
   }
 }
+
 
 class BusRouteStop {
   String name = "";

@@ -16,6 +16,7 @@ dependencies:
   crypto: ^3.0.5
   image: ^3.0.1
   libserialport: ^0.3.0+1
+  mp3_info: ^0.2.1
 
 dev_dependencies:
   lints: ^3.0.0

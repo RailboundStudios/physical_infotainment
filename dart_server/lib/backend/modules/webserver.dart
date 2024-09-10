@@ -95,7 +95,8 @@ class WebserverModule extends InfoModule {
             "latitude": backend.gpsTracker.latitude,
             "longitude": backend.gpsTracker.longitude,
             "speed": backend.gpsTracker.speed,
-            "time": backend.gpsTracker.utcTime.toIso8601String()
+            "time": backend.gpsTracker.utcTime.toIso8601String(),
+            "fixed": backend.gpsTracker.isFixed
           })
       );
     });
@@ -167,7 +168,7 @@ class WebserverModule extends InfoModule {
       BusRoute route = BusRoute.fromMap(jsonDecode(body));
 
       String hash = route.hash;
-      Map<String, dynamic> map = jsonDecode(body);
+      Map<String, dynamic> map = jsonDecode(route.toMap(includeHash: true));
 
       File file = File("storage/routes/$hash.json");
       file.writeAsStringSync(getPrettyJSONString(map));

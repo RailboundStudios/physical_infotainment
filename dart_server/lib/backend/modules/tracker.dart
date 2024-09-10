@@ -108,7 +108,7 @@ class TrackerModule extends InfoModule {
       Uint8List? audioBytes = nearestStop?.audio;
 
       if (audioBytes != null) {
-        duration = await getSoundLength(audioBytes);
+        duration = await backend.Module_Announcement.announcementPlayer.queryDuration(audioBytes);
 
         ConsoleLog("Duration of audio: $duration");
       } else {

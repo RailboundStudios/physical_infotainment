@@ -24,11 +24,15 @@ class AnnouncementModule extends InfoModule {
     // When using some bluetooth modules, the start of the audio is cut off.
     // This is a workaround to mitigate that.
     // We will play quiet noise on a loop to keep the audio channel open.
-    if (Platform.isLinux) {
-      playSound(File("dart_server/assets/audio/noise.mp3"), volume: 0.01, loop: true);
-    } else {
-      playSound(File("assets/audio/noise.mp3"), volume: 0.01, loop: true);
-    }
+    Future.delayed(Duration.zero).then((value) async {
+      while (true) {
+        if (Platform.isLinux) {
+          await noisePlayer.playFromFile(File("dart_server/assets/audio/noise.mp3"), volume: 0.01, loop: true);
+        } else {
+          await noisePlayer.playFromFile(File("assets/audio/noise.mp3"), volume: 0.01, loop: true);
+        }
+      }
+    });
 
   }
 
@@ -41,7 +45,9 @@ class AnnouncementModule extends InfoModule {
   bool isPlaying = false;
 
   // Audio
-  FFplayAudioPlayer ffmpeg = FFplayAudioPlayer();
+  FFplayAudioPlayer announcementPlayer = FFplayAudioPlayer();
+  FFplayAudioPlayer noisePlayer = FFplayAudioPlayer(volume: 0.1);
+  FFplayAudioPlayer bellPlayer = FFplayAudioPlayer();
 
   // Events
   final EventDelegate<AnnouncementQueueEntry> onAnnouncement = EventDelegate();
@@ -67,7 +73,7 @@ class AnnouncementModule extends InfoModule {
           // Prime all of the audio sources to be ready to play
           for (Uint8List source in currentAnnouncement!.audioBytes) {
             // await playSoundFromBytes(source);
-            await ffmpeg.playFromUint8List(source, "");
+            await announcementPlayer.playFromUint8List(source);
             ConsoleLog("Playing audio");
           }
 
@@ -236,13 +242,18 @@ class AnnouncementModule extends InfoModule {
 
   Future<void> ringBell() async {
     if (Platform.isWindows) {
-      await playSound(File("assets/audio/envirobell.mp3"));
+      await bellPlayer.playFromFile(File("assets/audio/envirobell.mp3"));
     } else {
-      await playSound(File("dart_server/assets/audio/envirobell.mp3"));
+      await bellPlayer.playFromFile(File("dart_server/assets/audio/envirobell.mp3"));
     }
 
     backend.matrixDisplay.bottomLine = "Bus Stopping".toUpperCase();
   }
+
+  Future<void> resetBell() async {
+    backend.matrixDisplay.bottomLine = "%time";
+  }
+
 }
 
 class AnnouncementQueueEntry {
@@ -273,85 +284,6 @@ class NamedAnnouncementQueueEntry extends AnnouncementQueueEntry {
     timestamp: timestamp
   );
 
-}
-
-Future<void> playSoundFromBytes(Uint8List sound) async {
-  // If a temp directory doesnt exist, create one.
-  final tempDir = Directory('tmp');
-  if (!tempDir.existsSync()) {
-    tempDir.createSync();
-  }
-
-  String hash = tempDir.listSync().length.toString(); // This is faster than hashing the sound data.
-
-  // Create a temporary file to store the sound.
-  final tempFile = File('${tempDir.path}/$hash.wav');
-  tempFile.createSync();
-  tempFile.writeAsBytesSync(sound);
-
-  await playSound(tempFile);
-}
-
-// Play the sound using ffmpeg.
-Future<void> playSound(File sound, {
-  double volume = 1.0, // Volume from 0.0 to 1.0
-  bool loop = false,
-}) async {
-  ConsoleLog('Playing sound...');
-
-  // Play the sound using ffplay. without ui
-  await Process.run('ffplay', [
-    sound.path,
-    "-autoexit",
-    "-nodisp",
-    "-volume", "${(volume * 100).toInt()}",
-    if (loop) "-loop", "0",
-  ]);
-
-  ConsoleLog('Sound played.');
-}
-
-final soundLengthCache = <String, Duration>{};
-
-// Get the length of the sound file.
-Future<Duration> getSoundLength(Uint8List sound) async {
-
-  String hash = sha256.convert(sound).toString();
-
-  // Check if the sound length is cached.
-  if (soundLengthCache.containsKey(hash)) {
-    return soundLengthCache[hash]!;
-  }
-
-  // If a temp directory doesnt exist, create one.
-  final tempDir = Directory('tmp');
-  if (!tempDir.existsSync()) {
-    tempDir.createSync();
-  }
-
-  // Create a temporary file to store the sound.
-  final tempFile = File('${tempDir.path}/$hash.wav');
-  tempFile.createSync();
-  tempFile.writeAsBytesSync(sound);
-
-  // Get the length of the sound file.
-  final result = await Process.run('ffprobe', [
-    '-v',
-    'error',
-    '-show_entries',
-    'format=duration',
-    '-of',
-    'default=noConsoleLog_wrappers=1:nokey=1',
-    tempFile.path,
-  ]);
-
-  // Parse the result.
-  final length = double.parse(result.stdout.toString().trim());
-
-  // Cache the result.
-  soundLengthCache[hash] = Duration(seconds: length.toInt());
-
-  return Duration(seconds: length.toInt());
 }
 
 var abs = (int value) => value < 0 ? -value : value;

@@ -163,12 +163,12 @@ class WebserverModule extends InfoModule {
 
     // Upload a route. /upload-route
     router.post("/upload-route", (Request request) async {
-      var body = await request.readAsString();
+      String body = await request.readAsString();
 
       BusRoute route = BusRoute.fromMap(jsonDecode(body));
 
       String hash = route.hash;
-      Map<String, dynamic> map = jsonDecode(route.toMap(includeHash: true));
+      Map<String, dynamic> map = route.toMap(includeHash: true);
 
       File file = File("storage/routes/$hash.json");
       file.writeAsStringSync(getPrettyJSONString(map));

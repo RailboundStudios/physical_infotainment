@@ -12,7 +12,7 @@
         <entry key="_macros">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../../Tools/Dart/pkg/_macros/lib" />
+              <option value="$PROJECT_DIR$/../../../../../../Dev/dart-sdk/pkg/_macros/lib" />
             </list>
           </value>
         </entry>
@@ -481,7 +481,7 @@
       </option>
     </properties>
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../../Tools/Dart/pkg/_macros/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../../Dev/dart-sdk/pkg/_macros/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/_fe_analyzer_shared-68.0.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/analyzer-6.5.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/archive-3.6.1/lib" />

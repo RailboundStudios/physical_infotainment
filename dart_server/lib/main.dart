@@ -36,6 +36,24 @@ Future<void> main(List<String> arguments) async {
     ConsoleLog("Backend initialized successfully!");
     ConsoleLog("---======================================================================---");
 
+    // Get the ip address of the server.
+    String? address;
+    try {
+      for (var interface in await NetworkInterface.list()) {
+        for (var addr in interface.addresses) {
+          if (addr.type.name == "IPv4") {
+            address = addr.address;
+          }
+        }
+      }
+    } catch (e) {
+      ConsoleLog("Error: $e");
+    }
+
+    Future.delayed(Duration(seconds: 1));
+
+    backend.matrixDisplay.topLine = "IP: $address";
+
     while (true) {
       await Future.delayed(Duration(seconds: 1));
     }

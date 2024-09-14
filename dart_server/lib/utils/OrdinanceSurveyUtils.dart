@@ -1,3 +1,5 @@
+// Copyright 2024 IMBENJI.NET. All rights reserved.
+// For use of this source code, please see the LICENSE file.
 import 'dart:math' as math;
 import 'package:proj4dart/proj4dart.dart' as proj4;
 import 'package:vector_math/vector_math.dart';

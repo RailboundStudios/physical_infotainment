@@ -1,15 +1,13 @@
+// Copyright 2024 IMBENJI.NET. All rights reserved.
+// For use of this source code, please see the LICENSE file.
 
 import 'dart:async';
 import 'dart:io';
-import 'dart:isolate';
 import 'dart:typed_data';
-
-import 'package:crypto/crypto.dart';
 import 'package:dart_server/backend/backend.dart';
 import 'package:dart_server/backend/modules/FFmpegWrapper.dart';
 import 'package:dart_server/route.dart';
 import 'package:dart_server/utils/delegates.dart';
-
 import 'info_module.dart';
 
 class AnnouncementModule extends InfoModule {

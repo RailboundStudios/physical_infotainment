@@ -1,4 +1,5 @@
-
+// Copyright 2024 IMBENJI.NET. All rights reserved.
+// For use of this source code, please see the LICENSE file.
 
 // Singleton class to control the matrix display
 import 'dart:io';

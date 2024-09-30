@@ -66,9 +66,9 @@ class AnnouncementModule extends InfoModule {
 
         if (bluetoothMode) {
           if (Platform.isLinux) {
-            await noisePlayer.playFromFile(File("dart_server/assets/audio/noise.mp3"), volume: 0.01, loop: true);
+            await announcementPlayer.playFromFile(File("dart_server/assets/audio/noise.mp3"), volume: 0.01, loop: true);
           } else {
-            await noisePlayer.playFromFile(File("assets/audio/noise.mp3"), volume: 0.01, loop: true);
+            await announcementPlayer.playFromFile(File("assets/audio/noise.mp3"), volume: 0.01, loop: true);
           }
         }
       }

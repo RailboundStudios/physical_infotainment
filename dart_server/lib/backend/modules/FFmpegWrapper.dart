@@ -46,6 +46,10 @@ class FFplayAudioPlayer {
 
     format = 'mp3';
 
+    while (_isPlaying) {
+      await Future.delayed(Duration(milliseconds: 10));
+    }
+
     // Initialize ffplay with the provided format
     if (_ffplayProcess == null) await _initializeFFplay(format);
     await _writeToProcess(audioData);

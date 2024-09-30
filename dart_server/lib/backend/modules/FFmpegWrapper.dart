@@ -63,10 +63,16 @@ class FFplayAudioPlayer {
 
   Future<void> _writeToProcess(Uint8List data) async {
 
-    _ffplayProcess!.stdin.add(data);
-    await Future.delayed(Duration(milliseconds: 1000));
-    _isPlaying = true;
-    await _ffplayProcess!.stdin.flush();
+    try {
+      _ffplayProcess!.stdin.add(data);
+      await Future.delayed(Duration(milliseconds: 1000));
+      _isPlaying = true;
+      await _ffplayProcess!.stdin.flush();
+    } catch (e) {
+      ConsoleLog('Error writing to process: $e');
+      pibus_backend().matrixDisplay.bottomLine = "Error: $e";
+    }
+
   }
 
   Future<void> _waitForCompletion() async {

@@ -17,6 +17,7 @@ dependencies:
   image: ^3.0.1
   libserialport: ^0.3.0+1
   mp3_info: ^0.2.1
+  bluez: ^0.8.2
 
 dev_dependencies:
   lints: ^3.0.0

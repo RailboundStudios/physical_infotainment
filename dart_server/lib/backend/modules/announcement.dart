@@ -22,15 +22,15 @@ class AnnouncementModule extends InfoModule {
     // When using some bluetooth modules, the start of the audio is cut off.
     // This is a workaround to mitigate that.
     // We will play quiet noise on a loop to keep the audio channel open.
-    Future.delayed(Duration.zero).then((value) async {
-      while (true) {
-        if (Platform.isLinux) {
-          await noisePlayer.playFromFile(File("dart_server/assets/audio/noise.mp3"), volume: 0.01, loop: true);
-        } else {
-          await noisePlayer.playFromFile(File("assets/audio/noise.mp3"), volume: 0.01, loop: true);
-        }
-      }
-    });
+    // Future.delayed(Duration.zero).then((value) async {
+    //   while (true) {
+    //     if (Platform.isLinux) {
+    //       await noisePlayer.playFromFile(File("dart_server/assets/audio/noise.mp3"), volume: 0.01, loop: true);
+    //     } else {
+    //       await noisePlayer.playFromFile(File("assets/audio/noise.mp3"), volume: 0.01, loop: true);
+    //     }
+    //   }
+    // }); THIS S... IT IS THE MOST ANNOYING THING
 
   }
 
@@ -41,6 +41,9 @@ class AnnouncementModule extends InfoModule {
   DateTime? currentAnnouncementTimeStamp;
   String defaultText = "*** NO MESSAGE ***";
   bool isPlaying = false;
+  DateTime? lastAnnouncementTime;
+
+  bool bluetoothMode = true; // Some bluetooth speakers go into sleep, we need to play a sound to wake it up or else it will cut off a second of our announcement.
 
   // Audio
   FFplayAudioPlayer announcementPlayer = FFplayAudioPlayer();
@@ -53,43 +56,52 @@ class AnnouncementModule extends InfoModule {
   // Timer
   Timer refreshTimer() => Timer.periodic(const Duration(milliseconds: 10), (timer) async {
 
-    if (!isPlaying) {
+    if (!isPlaying && queue.isNotEmpty) { // If nothift is playing and there is an announcement in the queue
 
-      if (queue.isNotEmpty) {
-        isPlaying = true;
-        AnnouncementQueueEntry nextAnnouncement = queue.first;
+      double secondsSinceLastAnnouncement = lastAnnouncementTime != null ? DateTime.now().difference(lastAnnouncementTime!).inSeconds.toDouble() : 0;
 
-        currentAnnouncement = nextAnnouncement;
-        currentAnnouncementTimeStamp = DateTime.now(); // todo: replace this with the rtc module or gps module
+      if (secondsSinceLastAnnouncement >= 2) {
+        // If the last announcement was more than 2 seconds ago...
+        // We need to play a sound to wake up the bluetooth speaker
 
-        backend.matrixDisplay.topLine = currentAnnouncement!.displayText;
-
-        onAnnouncement.trigger(currentAnnouncement!);
-
-        if (currentAnnouncement!.audioBytes.isNotEmpty) {
-
-          // Prime all of the audio sources to be ready to play
-          for (Uint8List source in currentAnnouncement!.audioBytes) {
-            // await playSoundFromBytes(source);
-            await announcementPlayer.playFromUint8List(source);
-            ConsoleLog("Playing audio");
-          }
-
-        } else {
-          if (queue.isNotEmpty) {
-            // await Future.delayed(const Duration(seconds: 2));
+        if (bluetoothMode) {
+          if (Platform.isLinux) {
+            await noisePlayer.playFromFile(File("dart_server/assets/audio/noise.mp3"), volume: 0.01, loop: true);
+          } else {
+            await noisePlayer.playFromFile(File("assets/audio/noise.mp3"), volume: 0.01, loop: true);
           }
         }
-
-        isPlaying = false;
-        queue.removeAt(0);
-
       }
 
+      isPlaying = true;
+      AnnouncementQueueEntry nextAnnouncement = queue.first;
 
+      currentAnnouncement = nextAnnouncement;
+      currentAnnouncementTimeStamp = DateTime.now(); // todo: replace this with the rtc module or gps module
 
+      backend.matrixDisplay.topLine = currentAnnouncement!.displayText;
+
+      onAnnouncement.trigger(currentAnnouncement!);
+
+      if (currentAnnouncement!.audioBytes.isNotEmpty) {
+
+        // Prime all of the audio sources to be ready to play
+        for (Uint8List source in currentAnnouncement!.audioBytes) {
+          // await playSoundFromBytes(source);
+          await announcementPlayer.playFromUint8List(source);
+          ConsoleLog("Playing audio");
+        }
+
+      } else {
+        if (queue.isNotEmpty) {
+          // await Future.delayed(const Duration(seconds: 2));
+        }
+      }
+
+      isPlaying = false;
+      queue.removeAt(0);
+      lastAnnouncementTime = DateTime.now();
     }
-
 
   });
 
@@ -125,6 +137,9 @@ class AnnouncementModule extends InfoModule {
   // Methods
   Future<void> queueAnnouncement(AnnouncementQueueEntry announcement) async {
     ConsoleLog("Announcement queued: ${announcement.displayText}, with audio: ${announcement.audioBytes.length}");
+
+
+
     queue.add(announcement);
   }
 

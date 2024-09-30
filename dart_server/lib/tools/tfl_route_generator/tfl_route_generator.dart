@@ -84,6 +84,11 @@ void sanitiseRoute(BusRoute busRoute, Map<String, String> indexedAudios, Map<Str
   busRoute.routeNumber = busRoute.routeNumber.split(",")[0];
 
   String routeNumberAudio = "R_${busRoute.routeNumber}_001.mp3";
+
+  if (busRoute.routeNumber.toLowerCase().contains("ul")) {
+    routeNumberAudio = "Piccadilly Line Replacement.mp3";
+  }
+
   File routeNumberAudioFile = File(indexedAudios[routeNumberAudio.toLowerCase()]!);
   busRoute.routeAudio = routeNumberAudioFile.readAsBytesSync();
 
@@ -149,6 +154,15 @@ void main() {
 
   ];
 
+  routeAllowlist = [
+    // Rail Replacement Routes
+    "UL5",
+    "UL8"
+  ];
+
+  // Convert all of the allow list entries to lowercase
+  routeAllowlist = routeAllowlist.map((e) => e.toLowerCase()).toList();
+
   Map<String, String> indexedAudios = {};
 
   Directory audioDirectory = Directory("lib/tools/tfl_route_generator/audios");
@@ -186,7 +200,7 @@ void main() {
     String northing = row[8] as String;
     String heading = row[9] as String;
 
-    if (!routeAllowlist.contains(route)) {
+    if (!routeAllowlist.contains(route.toLowerCase())) {
       continue;
     }
 

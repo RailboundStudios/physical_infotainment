@@ -75,7 +75,7 @@ class GpsTracker {
         if (decoded.contains("GPGGA")) {
           List<String> parts = decoded.split(",");
           if (parts[6] == "0") { // 0:unpositioned 1:SPS mode, position valid 2:Differential, SPS mode, position valid, 3:PPS mode, position valid
-            ConsoleLog("No GPS fix");
+            // ConsoleLog("No GPS fix");
             _isFixed = false;
             return;
           }
@@ -113,19 +113,19 @@ class GpsTracker {
           _isFixed = true;
           _hasEverFixed = true;
 
-          ConsoleLog("GpsTracker: Fixed at $_latitude, $_longitude");
-          ConsoleLog("GpsTracker: UTC time: $utcTime");
+          // ConsoleLog("GpsTracker: Fixed at $_latitude, $_longitude");
+          // ConsoleLog("GpsTracker: UTC time: $utcTime");
 
           return;
         }
         if (decoded.contains("GPVTG")) {
           // Get the speed
           _speed = double.parse(decoded.split(",")[7]);
-          ConsoleLog("Speed: $_speed");
+          // ConsoleLog("Speed: $_speed");
           return;
         }
       } catch (e) {
-        ConsoleLog("Error parsing GPS data: $e");
+        // ConsoleLog("Error parsing GPS data: $e");
       }
 
     });

@@ -31,7 +31,7 @@ class MatrixDisplay {
         if (String.fromCharCodes(event).contains("exit # to quit") && !isReady) {
           _matrixServer = process;
 
-          Future.delayed(Duration(seconds: 1), () {
+          Future.delayed(Duration(milliseconds: 10), () {
             ConsoleLog("Matrix Server ready!!!");
             topLine = "IMBENJI.NET";
             bottomLine = "%time";

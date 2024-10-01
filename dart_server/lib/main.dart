@@ -54,6 +54,8 @@ Future<void> main(List<String> arguments) async {
       await Future.delayed(Duration(milliseconds: 100));
     }
 
+    await Future.delayed(Duration(seconds: 100));
+
     backend.matrixDisplay.topLine = "IP: $address";
 
     while (true) {

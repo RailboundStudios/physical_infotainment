@@ -218,9 +218,12 @@ class WebserverModule extends InfoModule {
 
       String scriptLoc = "/home/imbenji/AccessPopup/installconfig.sh";
 
+      Process? processOn = null;
+
       Process.start("/bin/bash", [scriptLoc],
         runInShell: true,
       ).then((process) {
+        processOn = process;
         process.stdout.listen((event) {
           webSocket.sink.add(String.fromCharCodes(event));
         });
@@ -231,6 +234,10 @@ class WebserverModule extends InfoModule {
           webSocket.sink.add("exit code: $value");
           webSocket.sink.close();
         });
+      });
+
+      webSocket.stream.listen((event) {
+        processOn!.stdin.writeln(event);
       });
 
     });

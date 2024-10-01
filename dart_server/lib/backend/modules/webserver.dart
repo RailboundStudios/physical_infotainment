@@ -247,7 +247,7 @@ class WebserverModule extends InfoModule {
       ConsoleLog("Websocket connection established");
     });
 
-    shelf_io.serve(handler, "localhost", 81).then((server) {
+    shelf_io.serve(handler, "localhost", 8080).then((server) {
       print('Serving at ws://${server.address.host}:${server.port}');
     });
 
@@ -411,8 +411,7 @@ class WebserverModule extends InfoModule {
 
 
     var server80   = shelf_io.serve(router, '0.0.0.0', 80);
-    var server8080 = shelf_io.serve(router, '0.0.0.0', 8080);
-    ConsoleLog("Listening on port 80 and 8080");
+    ConsoleLog("Listening on port 80");
 
   }
 

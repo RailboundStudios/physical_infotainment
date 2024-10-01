@@ -216,6 +216,8 @@ class WebserverModule extends InfoModule {
     // Websocket connection for "bash access-popup.sh"
     var handler = webSocketHandler((WebSocketChannel webSocket) async {
 
+      ConsoleLog("Websocket connection establishing");
+
       String scriptLoc = "/home/imbenji/AccessPopup/installconfig.sh";
 
       Process? processOn = null;
@@ -223,6 +225,7 @@ class WebserverModule extends InfoModule {
       Process.start("/bin/bash", [scriptLoc],
         runInShell: true,
       ).then((process) {
+        ConsoleLog("Process started");
         processOn = process;
         process.stdout.listen((event) {
           webSocket.sink.add(String.fromCharCodes(event));
@@ -234,12 +237,14 @@ class WebserverModule extends InfoModule {
           webSocket.sink.add("exit code: $value");
           webSocket.sink.close();
         });
+        ConsoleLog("Process started and listening");
       });
 
       webSocket.stream.listen((event) {
         processOn!.stdin.writeln(event);
       });
 
+      ConsoleLog("Websocket connection established");
     });
 
     shelf_io.serve(handler, "localhost", 81).then((server) {

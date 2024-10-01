@@ -50,7 +50,9 @@ Future<void> main(List<String> arguments) async {
       ConsoleLog("Error: $e");
     }
 
-    Future.delayed(Duration(seconds: 2));
+    while (backend.matrixDisplay.isReady == false) {
+      await Future.delayed(Duration(milliseconds: 100));
+    }
 
     backend.matrixDisplay.topLine = "IP: $address";
 

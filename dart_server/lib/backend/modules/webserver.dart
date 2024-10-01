@@ -12,6 +12,9 @@ import 'package:dart_server/route.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart';
+import 'package:shelf_web_socket/shelf_web_socket.dart';
+import 'package:shelf_web_socket/shelf_web_socket.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WebserverModule extends InfoModule {
 
@@ -210,6 +213,35 @@ class WebserverModule extends InfoModule {
       return Response.ok("Ringing bell");
     });
 
+    // Websocket connection for "bash access-popup.sh"
+    var handler = webSocketHandler((WebSocketChannel webSocket) async {
+
+      String scriptLoc = "/home/imbenji/AccessPopup/installconfig.sh";
+
+      Process process = await Process.start("/bin/bash", [scriptLoc],
+        runInShell: true,
+      );
+
+      // webSocket.stream.listen((message) {
+      //   webSocket.sink.add("echo: $message");
+      // });
+
+      process.stdout.listen((event) {
+        webSocket.sink.add(String.fromCharCodes(event));
+      });
+      process.stderr.listen((event) {
+        webSocket.sink.add(String.fromCharCodes(event));
+      });
+      process.exitCode.then((value) {
+        webSocket.sink.add("exit code: $value");
+        webSocket.sink.close();
+      });
+
+    });
+
+    shelf_io.serve(handler, "localhost", 81).then((server) {
+      print('Serving at ws://${server.address.host}:${server.port}');
+    });
 
 
     /*
@@ -367,6 +399,8 @@ class WebserverModule extends InfoModule {
     router.get("/testConnection", (Request request) {
       return Response.ok("Connection successful");
     });
+
+
 
     var server80   = shelf_io.serve(router, '0.0.0.0', 80);
     var server8080 = shelf_io.serve(router, '0.0.0.0', 8080);

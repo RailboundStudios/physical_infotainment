@@ -13,6 +13,7 @@ dependencies:
   vector_math: ^2.1.4
   proj4dart: ^2.1.0
   shelf_router: ^1.1.4
+  shelf_web_socket: ^2.0.0
   crypto: ^3.0.5
   image: ^3.0.1
   libserialport: ^0.3.0+1

@@ -180,7 +180,7 @@ new Thread(() =>
     while (running)
     {
         canvas.Clear();
-
+        
         if (mode == 0)
         {
             Color rainbowColor = fromHSB((DateTime.Now.Subtract(DateTime.MinValue.AddYears(1969)).TotalMilliseconds * 0.1) % 360, 1, 1);

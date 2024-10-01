@@ -59,21 +59,19 @@ class AnnouncementModule extends InfoModule {
     if (!isPlaying && queue.isNotEmpty) { // If nothift is playing and there is an announcement in the queue
 
       double secondsSinceLastAnnouncement = lastAnnouncementTime != null ? DateTime.now().difference(lastAnnouncementTime!).inSeconds.toDouble() : 0;
-
+      isPlaying = true;
       if (secondsSinceLastAnnouncement >= 2) {
         // If the last announcement was more than 2 seconds ago...
         // We need to play a sound to wake up the bluetooth speaker
 
         if (bluetoothMode) {
-          if (Platform.isLinux) {
-            await announcementPlayer.playFromFile(File("dart_server/assets/audio/noise.mp3"), volume: 0.01, loop: true);
-          } else {
-            await announcementPlayer.playFromFile(File("assets/audio/noise.mp3"), volume: 0.01, loop: true);
-          }
+          Uint8List noise = Platform.isLinux ? File("dart_server/assets/audio/noise.mp3").readAsBytesSync() : File("assets/audio/noise.mp3").readAsBytesSync();
+
+          await announcementPlayer.playFromUint8List(noise);
         }
       }
 
-      isPlaying = true;
+
       AnnouncementQueueEntry nextAnnouncement = queue.first;
 
       currentAnnouncement = nextAnnouncement;

@@ -141,27 +141,28 @@ void sanitiseRoute(BusRoute busRoute, Map<String, String> indexedAudios, Map<Str
 
 void main() {
 
-  List<String> routeAllowlist = [
-
-    // Walthamstow Routes
-    "20", "34", "55", "56", "58", "66", "69", "97", "123", "145", "158", "179",
-    "212", "215", "230", "257", "275", "308", "313", "357", "379", "385", "397",
-    "444", "N26", "N38", "N55", "N69", "N73", "N8", "SL4", "W11", "W12", "W13",
-    "W14", "W15", "W16", "W19", "SL1", "SL2"
-
-    // Tonys Routes
-    "D8", "108", "277", "135", "425", "155", "15", "25", "188",
-
-  ];
-
-  routeAllowlist = [
-    // Rail Replacement Routes
-    "UL5",
-    "UL8"
-  ];
+  // List<String> routeAllowlist = [
+  //
+  //   // Walthamstow Routes
+  //   "20", "34", "55", "56", "58", "66", "69", "97", "123", "145", "158", "179",
+  //   "212", "215", "230", "257", "275", "308", "313", "357", "379", "385", "397",
+  //   "444", "N26", "N38", "N55", "N69", "N73", "N8", "SL4", "W11", "W12", "W13",
+  //   "W14", "W15", "W16", "W19", "SL1", "SL2"
+  //
+  //   // Tonys Routes
+  //   "D8", "108", "277", "135", "425", "155", "15", "25", "188",
+  //
+  // ];
+  //
+  // routeAllowlist = [
+  //   // Rail Replacement Routes
+  //   "UL5",
+  //   "UL8",
+  //   "UL12"
+  // ];
 
   // Convert all of the allow list entries to lowercase
-  routeAllowlist = routeAllowlist.map((e) => e.toLowerCase()).toList();
+  // routeAllowlist = routeAllowlist.map((e) => e.toLowerCase()).toList();
 
   Map<String, String> indexedAudios = {};
 
@@ -200,9 +201,9 @@ void main() {
     String northing = row[8] as String;
     String heading = row[9] as String;
 
-    if (!routeAllowlist.contains(route.toLowerCase())) {
-      continue;
-    }
+    // if (!routeAllowlist.contains(route.toLowerCase())) {
+    //   continue;
+    // }
 
     // Get the last bus route with the same route number
     BusRoute busRoute = busRoutes.lastWhere((element) => element.routeNumber == "$route, $run", orElse: () => BusRoute("$route, $run", ""));

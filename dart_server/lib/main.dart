@@ -37,26 +37,28 @@ Future<void> main(List<String> arguments) async {
     ConsoleLog("---======================================================================---");
 
     // Get the ip address of the server.
-    String? address;
-    try {
-      for (var interface in await NetworkInterface.list()) {
-        for (var addr in interface.addresses) {
-          if (addr.type.name == "IPv4") {
-            address = addr.address;
+    Future.delayed(Duration.zero).then((_) async {
+      String? address;
+      while (address == null) {
+        try {
+          for (var interface in await NetworkInterface.list()) {
+            for (var addr in interface.addresses) {
+              if (addr.type.name == "IPv4") {
+                address = addr.address;
+              }
+            }
           }
+        } catch (e) {
+          ConsoleLog("Error: $e");
         }
       }
-    } catch (e) {
-      ConsoleLog("Error: $e");
-    }
+
+      backend.matrixDisplay.topLine = "IP: $address";
+    });
 
     while (backend.matrixDisplay.isReady == false) {
       await Future.delayed(Duration(milliseconds: 100));
     }
-
-    await Future.delayed(Duration(seconds: 100));
-
-    backend.matrixDisplay.topLine = "IP: $address";
 
     while (true) {
       await Future.delayed(Duration(seconds: 1));

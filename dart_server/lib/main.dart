@@ -51,6 +51,7 @@ Future<void> main(List<String> arguments) async {
         } catch (e) {
           ConsoleLog("Error: $e");
         }
+        await Future.delayed(Duration(seconds: 1));
       }
 
       backend.matrixDisplay.topLine = "IP: $address";

@@ -1,6 +1,3 @@
-// Copyright 2024 IMBENJI.NET. All rights reserved.
-// For use of this source code, please see the LICENSE file.
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -37,42 +34,34 @@ Future<void> main(List<String> arguments) async {
     ConsoleLog("---======================================================================---");
 
     // Get the ip address of the server.
-    Future.delayed(Duration.zero).then((_) async {
-      String? address;
-      while (address == null) {
-        try {
-          for (var interface in await NetworkInterface.list()) {
-            for (var addr in interface.addresses) {
-              if (addr.type.name == "IPv4") {
-                address = addr.address;
-              }
+    String? address;
+    while (address == null) {
+      try {
+        for (var interface in await NetworkInterface.list()) {
+          for (var addr in interface.addresses) {
+            if (addr.type.name == "IPv4") {
+              address = addr.address;
             }
           }
-        } catch (e) {
-          ConsoleLog("Error: $e");
         }
-        await Future.delayed(Duration(seconds: 1));
+      } catch (e) {
+        ConsoleLog("Error: $e");
       }
-
-      backend.matrixDisplay.topLine = "IP: $address";
-    });
-
-    while (backend.matrixDisplay.isReady == false) {
+      await Future.delayed(Duration(seconds: 1));
+    }
+    
+    while (!backend.matrixDisplay.isReady) {
       await Future.delayed(Duration(milliseconds: 100));
     }
 
-    while (true) {
-      await Future.delayed(Duration(seconds: 1));
-    }
+    backend.matrixDisplay.topLine = "IP: $address";
+
   } catch (e) {
     ConsoleLog("Error: $e");
 
     backend.gpsTracker.dispose();
     backend.matrixDisplay.dispose();
   }
-
-
-
 }
 
 String getPrettyJSONString(jsonObject){
